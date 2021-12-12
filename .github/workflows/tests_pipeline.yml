@@ -1,0 +1,25 @@
+name: TestsPipeline
+on: [push]
+concurrency:
+  group: TestsPipeline
+  cancel-in-progress: true
+jobs:
+  Linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+      - run: mvn test
+
+  Windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'microsoft'
+          java-version: '17'
+      - run: mvn test
