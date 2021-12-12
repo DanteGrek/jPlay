@@ -14,6 +14,8 @@ jobs:
           java-version: '17'
       - name: Install Chrome and MSEdge
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge --with-deps"
+      - name: Install deps
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
 
@@ -25,7 +27,5 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '17'
-      - name: Install Chrome and MSEdge
-        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge --with-deps"
       - name: Run Tests
         run: mvn test
