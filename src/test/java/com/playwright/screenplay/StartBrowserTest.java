@@ -6,7 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import static com.playwright.screenplay.Actor.actor;
-import static com.playwright.screenplay.Actor.removeActor;
 import static com.playwright.screenplay.enums.BrowserName.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -21,12 +20,17 @@ public class StartBrowserTest {
     @ParameterizedTest
     @MethodSource("browsers")
     public void startBrowserTest(BrowserName browserName) {
-        actor().config().withBrowser(browserName).create();
+        actor()
+                .config()
+                .withBrowser(browserName)
+                .create();
         assertTrue(true);
     }
 
     @AfterEach
     public void clearActor() {
-        removeActor();
+        actor()
+                .closeBrowser()
+                .removeActor();
     }
 }
