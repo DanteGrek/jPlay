@@ -10,9 +10,14 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
-          distribution: 'microsoft'
+          distribution: 'zulu'
           java-version: '17'
-      - run: mvn test
+      - name: Install Chrome and MSEdge
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge"
+      - name: Install deps
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
+      - name: Run Tests
+        run: mvn test
 
   Windows:
     runs-on: windows-latest
@@ -20,6 +25,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
-          distribution: 'microsoft'
+          distribution: 'zulu'
           java-version: '17'
-      - run: mvn test
+      - name: Run Tests
+        run: mvn test

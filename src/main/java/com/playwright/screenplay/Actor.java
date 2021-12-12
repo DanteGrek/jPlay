@@ -13,8 +13,7 @@ public final class Actor {
         return actor.get();
     }
 
-    public static void removeActor() {
-        actor.get().browserManager.getBrowser().close();
+    public void removeActor() {
         actor.remove();
     }
 
@@ -22,5 +21,9 @@ public final class Actor {
         return browserManager;
     }
 
+    public Actor closeBrowser() {
+        this.browserManager.getBrowser().close();
+        return this;
+    }
 
 }
