@@ -1,57 +1,85 @@
 package com.playwright.screenplay;
 
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.Playwright;
+import com.microsoft.playwright.*;
 import com.playwright.screenplay.enums.BrowserName;
 
-class BrowserManager {
+import static com.playwright.screenplay.enums.BrowserName.CHROMIUM;
 
-    private Actor actor;
-    private Playwright playwright = Playwright.create();
-    private BrowserName browserName;
-    private String deviceName;
-    private BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions();
+public class BrowserManager {
+
+    private BrowserName browserName = CHROMIUM;
     private Browser browser;
+    private BrowserContext browserContext;
+    private Page page;
 
-    public BrowserManager(Actor actor) {
-        this.actor = actor;
+    void setBrowserName(BrowserName browserName) {
+        this.browserName = browserName;
+    }
+
+    BrowserName getBrowserName() {
+        return this.browserName;
+    }
+
+    void setBrowser(Browser browser) {
+        this.browser = browser;
+    }
+
+    void setBrowserContext(BrowserContext browserContext) {
+        this.browserContext = browserContext;
+    }
+
+    void setPage(Page page) {
+        this.page = page;
     }
 
     public Browser getBrowser() {
         return browser;
     }
 
-    public BrowserManager withBrowser(BrowserName browserName) {
-        this.browserName = browserName;
-        return this;
+    public BrowserContext getBrowserContext() {
+        return browserContext;
     }
 
-    public BrowserManager withDevice(String deviceName) {
-        this.deviceName = deviceName;
-        return this;
+    public Page getPage() {
+        return page;
     }
 
-    public BrowserManager withOptions(BrowserType.LaunchOptions launchOptions) {
-        this.launchOptions = launchOptions;
-        return this;
+    public void closeBrowser() {
+        browser.close();
     }
 
-    public Actor create() {
-        switch (browserName){
-            case CHROME -> browser = playwright.chromium()
-                    .launch(this.launchOptions
+    // Start browser methods
+    private Browser createBrowser(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
+        Playwright playwright = Playwright.create();
+        return switch (browserName) {
+            case CHROME -> playwright.chromium()
+                    .launch(launchOptions
                             .setChannel(BrowserName.CHROME.name));
-            case MSEDGE -> browser = playwright.chromium()
-                    .launch(this.launchOptions
+            case MSEDGE -> playwright.chromium()
+                    .launch(launchOptions
                             .setChannel(BrowserName.MSEDGE.name));
-            case WEBKIT -> browser = playwright.webkit()
-                    .launch(this.launchOptions);
-            case FIREFOX -> browser = playwright.firefox()
-                    .launch(this.launchOptions);
-            default -> browser = playwright.chromium()
-                    .launch(this.launchOptions);
-        }
-        return this.actor;
+            case WEBKIT -> playwright.webkit()
+                    .launch(launchOptions);
+            case FIREFOX -> playwright.firefox()
+                    .launch(launchOptions);
+            default -> playwright.chromium()
+                    .launch(launchOptions);
+        };
     }
+
+    void create(BrowserType.LaunchOptions launchOptions, Browser.NewContextOptions contextOptions) {
+        setBrowser(createBrowser(this.browserName, launchOptions));
+        setBrowserContext(getBrowser().newContext(contextOptions));
+        setPage(getBrowserContext().newPage());
+    }
+
+    void createBrowser(BrowserType.LaunchOptions launchOptions) {
+        setBrowser(createBrowser(this.browserName, launchOptions));
+    }
+
+    void createContextAndTab(Browser.NewContextOptions contextOptions) {
+        setBrowserContext(getBrowser().newContext(contextOptions));
+        setPage(getBrowserContext().newPage());
+    }
+
 }

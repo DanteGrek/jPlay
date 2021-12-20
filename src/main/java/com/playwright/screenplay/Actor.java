@@ -1,29 +1,169 @@
 package com.playwright.screenplay;
 
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.WaitUntilState;
 
-public final class Actor {
+import java.util.List;
 
-    private BrowserManager browserManager = new BrowserManager(this);
+public class Actor {
+
+    private Configuration configuration = new Configuration(this);
+    private BrowserManager browserManager = new BrowserManager();
 
     private static ThreadLocal<Actor> actor = ThreadLocal.withInitial(() -> new Actor());
 
-    private Actor() {}
+    private Actor() {
+    }
 
     public static Actor actor() {
         return actor.get();
     }
 
-    public void removeActor() {
-        actor.remove();
-    }
+    // Browser manager methods
 
-    public BrowserManager config() {
+    BrowserManager getBrowserManager() {
         return browserManager;
     }
 
+    // Config methods
+
+    public Configuration config() {
+        return configuration;
+    }
+
+    public Configuration cleanConfig() {
+        return configuration = new Configuration(this);
+    }
+
+    //Browser methods
+
+    public Actor create() {
+        this.getBrowserManager().create(this.configuration.getLaunchOptions(), this.configuration.getContextOptions());
+        return actor.get();
+    }
+
+    public Actor createBrowser() {
+        this.getBrowserManager().createBrowser(this.configuration.getLaunchOptions());
+        return actor.get();
+    }
+
     public Actor closeBrowser() {
-        this.browserManager.getBrowser().close();
+        this.getBrowserManager().closeBrowser();
         return this;
     }
 
+    // Context methods
+
+    public Actor createContextAndTab() {
+        this.getBrowserManager().createContextAndTab(this.configuration.getContextOptions());
+        return actor.get();
+    }
+
+    public Actor closeCurrentContext() {
+        this.getBrowserManager().getBrowserContext().close();
+        return this;
+    }
+
+    private List<BrowserContext> getContextsFromBrowser() {
+        List<BrowserContext> contexts = this.getBrowserManager().getBrowser().contexts();
+        if (contexts.isEmpty()) {
+            throw new RuntimeException("Browser does not have contexts, please start one with 'createContextAndTab()'" +
+                    " method or use method 'create()' to create browser with context and tab.");
+        }
+        return contexts;
+    }
+
+    public Actor switchContextByIndex(int index) {
+        BrowserContext context = this.getContextsFromBrowser().get(index);
+        this.getBrowserManager().setBrowserContext(context);
+        return this;
+    }
+
+    // Page methods
+
+    public Actor openNewTab() {
+        this.getBrowserManager().setPage(this.getBrowserManager().getBrowserContext().newPage());
+        return actor.get();
+    }
+
+    public Actor closeCurrentTab() {
+        this.getBrowserManager().getPage().close();
+        return actor.get();
+    }
+
+    private List<Page> getPagesFromCurrentContext() {
+        List<Page> pages = this.getBrowserManager().getPage().context().pages();
+        if (pages.isEmpty()) {
+            throw new RuntimeException("Current context does not have pages, " +
+                    "please start one with method 'openNewTab()' or change current context with 'switchContextByIndex()'" +
+                    "or create new context with tab using 'createContextAndTab()'.");
+        }
+        return pages;
+    }
+
+    public Actor switchTabByIndex(int index) {
+        Page page = this.getPagesFromCurrentContext().get(index);
+        this.getBrowserManager().setPage(page);
+        return actor.get();
+    }
+
+    public Actor switchTabByTitle(String title) {
+        List<Page> pages = this.getPagesFromCurrentContext().stream()
+                .filter(tab -> tab.title().equals(title)).toList();
+        if (pages.size() > 1) {
+            throw new RuntimeException("More then one tab in current context has title '" + title +
+                    "', in such cases better to use switchTabByIndex(int index).");
+        }
+        this.getBrowserManager().setPage(pages.get(0));
+        return actor.get();
+    }
+
+    // Actions
+
+    public Actor navigateTo(String url) {
+        this.getBrowserManager().getPage()
+                .navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        return this;
+    }
+
+    // Execute actions and tasks methods
+
+    protected final <T extends Action> T executeAction(T action) {
+        action.setActor(this);
+        action.setPage(this.browserManager.getPage());
+        return action;
+    }
+
+    protected final Actor executeTask(Task task) {
+        task.setActor(this);
+        task.setPage(this.browserManager.getPage());
+        task.perform();
+        return this;
+    }
+
+    // Execute syntax sugar
+    public <T extends Action> T attemptTo(T action) {
+        return this.executeAction(action);
+    }
+
+    public Actor attemptTo(Task task) {
+        return this.executeTask(task);
+    }
+
+    public <T extends Action> T does(T action) {
+        return this.executeAction(action);
+    }
+
+    public Actor does(Task task) {
+        return this.executeTask(task);
+    }
+
+    public <T extends Action> T expectThat(T action) {
+        return this.executeAction(action);
+    }
+
+    public Actor expectThat(Task task) {
+        return this.executeTask(task);
+    }
 }
