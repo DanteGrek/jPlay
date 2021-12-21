@@ -1,9 +1,9 @@
-package com.playwright.screenplay;
+package com.jplay.screenplay;
 
 import com.microsoft.playwright.*;
-import com.playwright.screenplay.enums.BrowserName;
+import com.jplay.enums.BrowserName;
 
-import static com.playwright.screenplay.enums.BrowserName.CHROMIUM;
+import static com.jplay.enums.BrowserName.CHROMIUM;
 
 public class BrowserManager {
 

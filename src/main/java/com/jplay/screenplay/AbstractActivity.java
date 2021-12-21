@@ -1,4 +1,4 @@
-package com.playwright.screenplay;
+package com.jplay.screenplay;
 
 import com.microsoft.playwright.Page;
 

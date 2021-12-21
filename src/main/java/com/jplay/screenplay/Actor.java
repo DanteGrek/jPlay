@@ -1,4 +1,4 @@
-package com.playwright.screenplay;
+package com.jplay.screenplay;
 
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
@@ -38,18 +38,21 @@ public class Actor {
 
     //Browser methods
 
-    public Actor create() {
+    public Actor createBrowser() {
         this.getBrowserManager().create(this.configuration.getLaunchOptions(), this.configuration.getContextOptions());
         return actor.get();
     }
 
-    public Actor createBrowser() {
+    public Actor createPureBrowser() {
         this.getBrowserManager().createBrowser(this.configuration.getLaunchOptions());
         return actor.get();
     }
 
     public Actor closeBrowser() {
         this.getBrowserManager().closeBrowser();
+        this.getBrowserManager().setBrowser(null);
+        this.getBrowserManager().setBrowserContext(null);
+        this.getBrowserManager().setPage(null);
         return this;
     }
 
@@ -68,8 +71,8 @@ public class Actor {
     private List<BrowserContext> getContextsFromBrowser() {
         List<BrowserContext> contexts = this.getBrowserManager().getBrowser().contexts();
         if (contexts.isEmpty()) {
-            throw new RuntimeException("Browser does not have contexts, please start one with 'createContextAndTab()'" +
-                    " method or use method 'create()' to create browser with context and tab.");
+            throw new RuntimeException("Browser does not have contexts, please start one using method " +
+                    "'createContextAndTab()' or use 'createBrowser()' to create browser with context and tab.");
         }
         return contexts;
     }
@@ -83,7 +86,13 @@ public class Actor {
     // Page methods
 
     public Actor openNewTab() {
-        this.getBrowserManager().setPage(this.getBrowserManager().getBrowserContext().newPage());
+        BrowserContext context = this.getBrowserManager().getBrowserContext();
+        if (context == null) {
+            throw new RuntimeException("You can not open new tab without context. " +
+                    "Please use 'createContextAndTab()' instead of 'openNewTab()' " +
+                    "or 'createBrowser()' instead of 'createPureBrowser()', it will create browser with tab.");
+        }
+        this.getBrowserManager().setPage(context.newPage());
         return actor.get();
     }
 
@@ -105,6 +114,7 @@ public class Actor {
     public Actor switchTabByIndex(int index) {
         Page page = this.getPagesFromCurrentContext().get(index);
         this.getBrowserManager().setPage(page);
+        page.bringToFront();
         return actor.get();
     }
 
@@ -114,6 +124,8 @@ public class Actor {
         if (pages.size() > 1) {
             throw new RuntimeException("More then one tab in current context has title '" + title +
                     "', in such cases better to use switchTabByIndex(int index).");
+        } else if (pages.size() == 0) {
+            throw new RuntimeException("None of tabs in current context has title '" + title +"'");
         }
         this.getBrowserManager().setPage(pages.get(0));
         return actor.get();

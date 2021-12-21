@@ -1,6 +1,6 @@
-package com.playwright.screenplay.enums;
+package com.jplay.enums;
 
-import com.playwright.screenplay.interfaces.Device;
+import com.jplay.interfaces.Device;
 
 public enum Devices implements Device {
     IPHONE_8(

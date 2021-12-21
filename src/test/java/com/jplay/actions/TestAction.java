@@ -1,13 +1,28 @@
-package com.playwright.screenplay.unit.actor.actions;
+package com.jplay.actions;
 
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
+import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.ViewportSize;
-import com.playwright.screenplay.Action;
+import com.jplay.screenplay.Action;
 
 public class TestAction extends Action {
 
+    public Page getPage() {
+        return this.page;
+    }
+
+    public BrowserContext getCurrentContext() {
+        return this.page.context();
+    }
+
     public Browser getBrowser() {
         return this.page.context().browser();
+    }
+
+    public TestAction renderHtml(String html) {
+        this.page.setContent(html);
+        return this;
     }
 
     public String getUserAgent() {
