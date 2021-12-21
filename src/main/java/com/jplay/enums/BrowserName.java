@@ -1,4 +1,4 @@
-package com.playwright.screenplay.enums;
+package com.jplay.enums;
 
 public enum BrowserName {
     CHROME("chrome"),

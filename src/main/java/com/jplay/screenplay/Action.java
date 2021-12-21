@@ -1,6 +1,6 @@
-package com.playwright.screenplay;
+package com.jplay.screenplay;
 
-import com.playwright.screenplay.interfaces.IAction;
+import com.jplay.interfaces.IAction;
 
 public abstract class Action extends AbstractActivity implements IAction {
 

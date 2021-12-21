@@ -1,6 +1,6 @@
-package com.playwright.screenplay.unit.actor.tasks;
+package com.jplay.tasks;
 
-import com.playwright.screenplay.Task;
+import com.jplay.screenplay.Task;
 
 public class TestTask extends Task {
 

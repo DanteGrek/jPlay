@@ -1,9 +1,9 @@
-package com.playwright.screenplay;
+package com.jplay.screenplay;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.*;
-import com.playwright.screenplay.enums.BrowserName;
-import com.playwright.screenplay.interfaces.Device;
+import com.jplay.enums.BrowserName;
+import com.jplay.interfaces.Device;
 
 import java.nio.file.Path;
 import java.util.List;

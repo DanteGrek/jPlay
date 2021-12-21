@@ -1,17 +1,17 @@
-package com.playwright.screenplay.unit.actor;
+package com.jplay;
 
 import com.microsoft.playwright.options.ViewportSize;
-import com.playwright.screenplay.enums.BrowserName;
-import com.playwright.screenplay.interfaces.Device;
+import com.jplay.enums.BrowserName;
+import com.jplay.interfaces.Device;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 
-import static com.playwright.screenplay.Actor.actor;
-import static com.playwright.screenplay.enums.BrowserName.*;
-import static com.playwright.screenplay.enums.Devices.IPHONE_12;
-import static com.playwright.screenplay.unit.actor.actions.TestAction.testAction;
+import static com.jplay.screenplay.Actor.actor;
+import static com.jplay.enums.BrowserName.*;
+import static com.jplay.enums.Devices.IPHONE_12;
+import static com.jplay.actions.TestAction.testAction;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class StartBrowserTest {
@@ -50,7 +50,7 @@ public class StartBrowserTest {
                 .config()
                 .withBrowser(browserName)
                 .configIsFinished()
-                .create()
+                .createBrowser()
                 .does(testAction())
                 .getUserAgent();
         assertTrue(userAgent.contains(expectedUserAgent),
@@ -65,7 +65,7 @@ public class StartBrowserTest {
                 .withBrowser(browserName)
                 .withDevice(device)
                 .configIsFinished()
-                .create()
+                .createBrowser()
                 .does(testAction())
                 .getUserAgent();
         ViewportSize viewportSize = actor()

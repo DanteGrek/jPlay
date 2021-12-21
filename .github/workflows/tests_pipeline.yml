@@ -1,5 +1,11 @@
 name: TestsPipeline
-on: [push]
+on:
+  push:
+    branches:
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
 concurrency:
   group: TestsPipeline
   cancel-in-progress: true

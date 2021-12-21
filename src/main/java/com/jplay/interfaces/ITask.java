@@ -1,4 +1,4 @@
-package com.playwright.screenplay.interfaces;
+package com.jplay.interfaces;
 
 public interface ITask {
     void perform();
