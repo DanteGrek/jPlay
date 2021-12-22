@@ -9,11 +9,16 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
+import static com.jplay.enums.BrowserName.CHROMIUM;
+
 public final class Configuration {
 
     private Actor actor;
     private BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions();
     private Browser.NewContextOptions contextOptions = new Browser.NewContextOptions();
+    private BrowserName browserName = CHROMIUM;
+    private double defaultNavigationTimeout = 20000;
+    private double defaultWaitTimeout = 20000;
 
     Configuration(Actor actor) {
         this.actor = actor;
@@ -27,23 +32,83 @@ public final class Configuration {
         return this.contextOptions;
     }
 
-    //Builder methods
-    public Configuration withBrowser(BrowserName browserName) {
-        this.actor.getBrowserManager().setBrowserName(browserName);
+    double getDefaultNavigationTimeout() {
+        return this.defaultNavigationTimeout;
+    }
+
+    double getDefaultTimeout() {
+        return this.defaultWaitTimeout;
+    }
+
+    BrowserName getBrowserName() {
+        return this.browserName;
+    }
+
+    // Custom options
+
+    /**
+     * timeout <double> Maximum navigation time in milliseconds
+     * This setting will change the default maximum navigation time for the following methods and related shortcuts:
+     * <p>
+     * page.goBack([options])
+     * page.goForward([options])
+     * page.navigate(url[, options])
+     * page.reload([options])
+     * page.setContent(html[, options])
+     * page.waitForNavigation([options], callback)
+     * page.waitForURL(url[, options])
+     *
+     * @param timeout
+     * @return Configuration
+     */
+    public Configuration withDefaultNavigationTimeout(double timeout) {
+        this.defaultNavigationTimeout = timeout;
         return this;
     }
 
+    /**
+     * timeout <double> Maximum time in milliseconds
+     * This setting will change the default maximum time for all the methods accepting timeout option.
+     *
+     * @param timeout
+     * @return Configuration
+     */
+    public Configuration withDefaultTimeout(double timeout) {
+        this.defaultWaitTimeout = timeout;
+        return this;
+    }
+
+    /**
+     * Sets browser to be used by actor.
+     *
+     * @param browserName
+     * @return Configuration
+     */
+    public Configuration withBrowser(BrowserName browserName) {
+        this.browserName = browserName;
+        return this;
+    }
+
+    /**
+     * Emulate device user agent, view port, device scale factor, sets is touch to true if browser support
+     * such argument, and sets is mobile to true.
+     *
+     * @param device
+     * @return Configuration
+     */
     public Configuration withDevice(Device device) {
         this.contextOptions.setUserAgent(device.getUserAgent());
         this.contextOptions.setViewportSize(device.getViewportWidth(), device.getViewportHeight());
         this.contextOptions.setDeviceScaleFactor(device.getDeviceScaleFactor());
         this.contextOptions.setHasTouch(device.hasTouch());
         // firefox does not support flag isMobile
-        if (!this.actor.getBrowserManager().getBrowserName().equals(BrowserName.FIREFOX)) {
+        if (!this.browserName.equals(BrowserName.FIREFOX)) {
             this.contextOptions.setIsMobile(device.isMobile());
         }
         return this;
     }
+
+    // Launch options
 
     /**
      * Additional arguments to pass to the browser instance.
@@ -209,6 +274,8 @@ public final class Configuration {
         this.launchOptions.setTracesDir(path);
         return this;
     }
+
+    // Context options
 
     /**
      * Whether to automatically download all the attachments. Defaults to false where all the downloads are canceled.

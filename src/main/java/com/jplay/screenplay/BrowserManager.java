@@ -3,22 +3,11 @@ package com.jplay.screenplay;
 import com.microsoft.playwright.*;
 import com.jplay.enums.BrowserName;
 
-import static com.jplay.enums.BrowserName.CHROMIUM;
-
 public class BrowserManager {
 
-    private BrowserName browserName = CHROMIUM;
     private Browser browser;
     private BrowserContext browserContext;
     private Page page;
-
-    void setBrowserName(BrowserName browserName) {
-        this.browserName = browserName;
-    }
-
-    BrowserName getBrowserName() {
-        return this.browserName;
-    }
 
     void setBrowser(Browser browser) {
         this.browser = browser;
@@ -32,19 +21,19 @@ public class BrowserManager {
         this.page = page;
     }
 
-    public Browser getBrowser() {
+    Browser getBrowser() {
         return browser;
     }
 
-    public BrowserContext getBrowserContext() {
+    BrowserContext getBrowserContext() {
         return browserContext;
     }
 
-    public Page getPage() {
+    Page getPage() {
         return page;
     }
 
-    public void closeBrowser() {
+    void closeBrowser() {
         browser.close();
     }
 
@@ -67,19 +56,25 @@ public class BrowserManager {
         };
     }
 
-    void create(BrowserType.LaunchOptions launchOptions, Browser.NewContextOptions contextOptions) {
-        setBrowser(createBrowser(this.browserName, launchOptions));
-        setBrowserContext(getBrowser().newContext(contextOptions));
-        setPage(getBrowserContext().newPage());
+    void create(Configuration configuration) {
+        setBrowser(createBrowser(configuration.getBrowserName(), configuration.getLaunchOptions()));
+        setBrowserContext(getBrowser().newContext(configuration.getContextOptions()));
+        Page page = getBrowserContext().newPage();
+        page.setDefaultNavigationTimeout(configuration.getDefaultNavigationTimeout());
+        page.setDefaultTimeout(configuration.getDefaultTimeout());
+        setPage(page);
     }
 
-    void createBrowser(BrowserType.LaunchOptions launchOptions) {
-        setBrowser(createBrowser(this.browserName, launchOptions));
+    void createBrowser(Configuration configuration) {
+        setBrowser(createBrowser(configuration.getBrowserName(), configuration.getLaunchOptions()));
     }
 
-    void createContextAndTab(Browser.NewContextOptions contextOptions) {
-        setBrowserContext(getBrowser().newContext(contextOptions));
-        setPage(getBrowserContext().newPage());
+    void createContextAndTab(Configuration configuration) {
+        setBrowserContext(getBrowser().newContext(configuration.getContextOptions()));
+        Page page = getBrowserContext().newPage();
+        page.setDefaultNavigationTimeout(configuration.getDefaultNavigationTimeout());
+        page.setDefaultTimeout(configuration.getDefaultTimeout());
+        setPage(page);
     }
 
 }

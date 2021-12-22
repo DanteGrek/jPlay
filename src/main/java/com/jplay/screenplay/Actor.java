@@ -2,6 +2,7 @@ package com.jplay.screenplay;
 
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
+import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.WaitUntilState;
 
 import java.util.List;
@@ -39,12 +40,12 @@ public class Actor {
     //Browser methods
 
     public Actor createBrowser() {
-        this.getBrowserManager().create(this.configuration.getLaunchOptions(), this.configuration.getContextOptions());
+        this.getBrowserManager().create(this.configuration);
         return actor.get();
     }
 
     public Actor createPureBrowser() {
-        this.getBrowserManager().createBrowser(this.configuration.getLaunchOptions());
+        this.getBrowserManager().createBrowser(this.configuration);
         return actor.get();
     }
 
@@ -59,7 +60,7 @@ public class Actor {
     // Context methods
 
     public Actor createContextAndTab() {
-        this.getBrowserManager().createContextAndTab(this.configuration.getContextOptions());
+        this.getBrowserManager().createContextAndTab(this.configuration);
         return actor.get();
     }
 
@@ -125,17 +126,106 @@ public class Actor {
             throw new RuntimeException("More then one tab in current context has title '" + title +
                     "', in such cases better to use switchTabByIndex(int index).");
         } else if (pages.size() == 0) {
-            throw new RuntimeException("None of tabs in current context has title '" + title +"'");
+            throw new RuntimeException("None of tabs in current context has title '" + title + "'");
         }
         this.getBrowserManager().setPage(pages.get(0));
         return actor.get();
     }
 
-    // Actions
+    // Waits
 
+    /**
+     * Waits till network activity will be still 500 milliseconds.
+     * @return Actor
+     */
+    public Actor waitTillNetworkIdle() {
+        this.getBrowserManager().getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        return this;
+    }
+
+    /**
+     * Waits till HTML document will be loaded.
+     * @return Actor
+     */
+    public Actor waitTillDocumentLoaded() {
+        this.getBrowserManager().getPage().waitForLoadState(LoadState.DOMCONTENTLOADED);
+        return this;
+    }
+
+    // Navigations
+
+    /**
+     * Navigates to url and wait till document loaded.
+     * @param url
+     * @return Actor
+     */
     public Actor navigateTo(String url) {
         this.getBrowserManager().getPage()
                 .navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        return this;
+    }
+
+    /**
+     * Click back browser button and wait till document loaded.
+     * @return Actor
+     */
+    public Actor goBack() {
+        this.getBrowserManager().getPage()
+                .goBack(new Page.GoBackOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        return this;
+    }
+
+    /**
+     * Click forward browser button and wait till document loaded.
+     * @return Actor
+     */
+    public Actor goForward() {
+        this.getBrowserManager().getPage()
+                .goForward(new Page.GoForwardOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        return this;
+    }
+
+    // Actions
+
+    /**
+     * Click on element.
+     * @param selector
+     * @return Actor
+     */
+    public Actor click(String selector) {
+        this.getBrowserManager().getPage().click(selector);
+        return this;
+    }
+
+    /**
+     * Check checkbox.
+     * @param selector
+     * @return Actor
+     */
+    public Actor check(String selector) {
+        this.getBrowserManager().getPage().check(selector);
+        return this;
+    }
+
+    /**
+     * Uncheck checkbox.
+     * @param selector
+     * @return Actor
+     */
+    public Actor uncheck(String selector) {
+        this.getBrowserManager().getPage().uncheck(selector);
+        return this;
+    }
+
+    // Helpers
+
+    /**
+     * Set content in tab
+     * @param html
+     * @return
+     */
+    public Actor setContent(String html) {
+        this.getBrowserManager().getPage().setContent(html);
         return this;
     }
 
