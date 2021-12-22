@@ -2,7 +2,7 @@ name: TestsPipeline
 on:
   push:
     branches:
-      - 'feature/**'
+      - 'test/**'
   pull_request:
     branches:
       - main
