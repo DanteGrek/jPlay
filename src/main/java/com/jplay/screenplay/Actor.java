@@ -3,6 +3,7 @@ package com.jplay.screenplay;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
+import com.microsoft.playwright.options.MouseButton;
 import com.microsoft.playwright.options.WaitUntilState;
 
 import java.util.List;
@@ -85,6 +86,10 @@ public class Actor {
     }
 
     // Page methods
+
+    public Page currentPage() {
+        return this.getBrowserManager().getPage();
+    }
 
     public Actor openNewTab() {
         BrowserContext context = this.getBrowserManager().getBrowserContext();
@@ -198,6 +203,36 @@ public class Actor {
     }
 
     /**
+     * Right button click on element.
+     * @param selector
+     * @return Actor
+     */
+    public Actor rightClick(String selector) {
+        this.getBrowserManager().getPage().click(selector, new Page.ClickOptions().setButton(MouseButton.RIGHT));
+        return this;
+    }
+
+    /**
+     * Double button click on element.
+     * @param selector
+     * @return Actor
+     */
+    public Actor doubleClick(String selector) {
+        this.getBrowserManager().getPage().dblclick(selector);
+        return this;
+    }
+
+    /**
+     * Drag and drop element to another element.
+     * @param sourceSelector
+     * @return Actor
+     */
+    public Actor dragAndDrop(String sourceSelector, String targetSelector) {
+        this.getBrowserManager().getPage().dragAndDrop(sourceSelector, targetSelector);
+        return this;
+    }
+
+    /**
      * Check checkbox.
      * @param selector
      * @return Actor
@@ -233,13 +268,11 @@ public class Actor {
 
     protected final <T extends Action> T executeAction(T action) {
         action.setActor(this);
-        action.setPage(this.browserManager.getPage());
         return action;
     }
 
     protected final Actor executeTask(Task task) {
         task.setActor(this);
-        task.setPage(this.browserManager.getPage());
         task.perform();
         return this;
     }
