@@ -9,32 +9,32 @@ import com.jplay.screenplay.Action;
 public class TestAction extends Action {
 
     public Page getPage() {
-        return this.page;
+        return this.actor.currentPage();
     }
 
     public BrowserContext getCurrentContext() {
-        return this.page.context();
+        return this.actor.currentPage().context();
     }
 
     public Browser getBrowser() {
-        return this.page.context().browser();
+        return this.actor.currentPage().context().browser();
     }
 
     public TestAction renderHtml(String html) {
-        this.page.setContent(html);
+        this.actor.currentPage().setContent(html);
         return this;
     }
 
     public String getUserAgent() {
-        return (String) this.page.evaluate("window.navigator.userAgent");
+        return (String) this.actor.currentPage().evaluate("window.navigator.userAgent");
     }
 
     public ViewportSize getViewportSize() {
-        return this.page.viewportSize();
+        return this.actor.currentPage().viewportSize();
     }
 
     public int getDeviceScaleFactor() {
-        return (int) this.page.evaluate("window.devicePixelRatio");
+        return (int) this.actor.currentPage().evaluate("window.devicePixelRatio");
     }
 
     public static TestAction testAction() {

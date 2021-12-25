@@ -4,13 +4,11 @@ import com.microsoft.playwright.Page;
 
 class AbstractActivity {
     protected Actor actor;
-    protected Page page;
+    protected Page p;
 
     void setActor(Actor actor) {
         this.actor = actor;
+        this.p = this.actor.currentPage();
     }
 
-    void setPage(Page page) {
-        this.page = page;
-    }
 }
