@@ -1,10 +1,10 @@
-package com.jplay.actions;
+package io.github.dantegrek.actions;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.ViewportSize;
-import com.jplay.screenplay.Action;
+import io.github.dantegrek.screenplay.Action;
 
 public class TestAction extends Action {
 

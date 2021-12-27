@@ -1,10 +1,11 @@
-package com.jplay;
+package io.github.dantegrek;
 
 import com.microsoft.playwright.TimeoutError;
+import io.github.dantegrek.screenplay.Actor;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static com.jplay.screenplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WaitTest {
@@ -13,7 +14,7 @@ public class WaitTest {
 
     @AfterEach
     public void clearActor() {
-        actor()
+        Actor.actor()
                 .closeBrowser()
                 .cleanConfig();
     }
@@ -21,7 +22,7 @@ public class WaitTest {
     @Test
     public void negativeNavigationWaitTimeoutTest() {
         TimeoutError error = assertThrows(TimeoutError.class, () ->
-                actor()
+                Actor.actor()
                 .config()
                 .withDefaultNavigationTimeout(10)
                 .andActor()
@@ -42,8 +43,8 @@ public class WaitTest {
                 </html>
                 """;
 
-        assertDoesNotThrow(() ->
-                actor()
+        Assertions.assertDoesNotThrow(() ->
+                Actor.actor()
                         .config()
                         .withDefaultTimeout(1000)
                         .andActor()
@@ -65,7 +66,7 @@ public class WaitTest {
                 """;
 
         TimeoutError error = assertThrows(TimeoutError.class, () ->
-                actor()
+                Actor.actor()
                 .config()
                 .withDefaultTimeout(2)
                 .andActor()

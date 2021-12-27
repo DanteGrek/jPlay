@@ -1,7 +1,7 @@
-package com.jplay.screenplay;
+package io.github.dantegrek.screenplay;
 
 import com.microsoft.playwright.*;
-import com.jplay.enums.BrowserName;
+import io.github.dantegrek.enums.BrowserName;
 
 public class BrowserManager {
 

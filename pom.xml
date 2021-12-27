@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.jplay</groupId>
+    <groupId>io.github.dantegrek</groupId>
     <artifactId>jplay</artifactId>
     <version>0.1.0-alpha</version>
 
@@ -25,8 +25,7 @@
             <email>solomin60@gmain.com</email>
         </developer>
     </developers>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://dantegrek.github.io/jPlay</url>
     <scm>
         <connection>scm:git:https://github.com/DanteGrek/jPlay.git</connection>
         <url>https://github.com/DanteGrek/jPlay/tree/main</url>

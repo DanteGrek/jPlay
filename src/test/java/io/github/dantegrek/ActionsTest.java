@@ -1,10 +1,10 @@
-package com.jplay;
+package io.github.dantegrek;
 
-import com.jplay.actions.TestAction;
+import io.github.dantegrek.actions.TestAction;
 import org.junit.jupiter.api.Test;
 
-import static com.jplay.screenplay.Actor.actor;
-import static com.jplay.tasks.TestTask.testTask;
+import static io.github.dantegrek.screenplay.Actor.actor;
+import static io.github.dantegrek.tasks.TestTask.testTask;
 
 public class ActionsTest {
 

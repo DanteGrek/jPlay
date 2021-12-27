@@ -1,6 +1,6 @@
-package com.jplay.enums;
+package io.github.dantegrek.enums;
 
-import com.jplay.interfaces.Device;
+import io.github.dantegrek.interfaces.Device;
 
 public enum Devices implements Device {
     IPHONE_8(

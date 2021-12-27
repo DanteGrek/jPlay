@@ -1,4 +1,4 @@
-package com.jplay.enums;
+package io.github.dantegrek.enums;
 
 public enum BrowserName {
     CHROME("chrome"),

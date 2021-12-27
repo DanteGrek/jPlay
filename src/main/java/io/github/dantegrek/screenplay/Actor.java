@@ -1,4 +1,4 @@
-package com.jplay.screenplay;
+package io.github.dantegrek.screenplay;
 
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;

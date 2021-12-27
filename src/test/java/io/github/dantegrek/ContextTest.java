@@ -1,12 +1,12 @@
-package com.jplay;
+package io.github.dantegrek;
 
-import com.jplay.actions.TestAction;
+import io.github.dantegrek.actions.TestAction;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.PlaywrightException;
+import io.github.dantegrek.screenplay.Actor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static com.jplay.screenplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,19 +18,19 @@ public class ContextTest {
 
     @AfterEach
     public void closeBrowser() {
-        actor()
+        Actor.actor()
                 .closeBrowser();
     }
 
     @Test
     public void startContextAndTabTest() {
-        actor()
+        Actor.actor()
                 .createPureBrowser();
-        actor()
+        Actor.actor()
                 .createContextAndTab();
-        actor()
+        Actor.actor()
                 .createContextAndTab();
-        Browser browser = actor()
+        Browser browser = Actor.actor()
                 .does(TestAction.testAction())
                 .getBrowser();
         assertEquals(2, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
@@ -38,14 +38,14 @@ public class ContextTest {
 
     @Test
     public void closeSecondContextAndTabTest() {
-        actor()
+        Actor.actor()
                 .createPureBrowser();
-        actor()
+        Actor.actor()
                 .createContextAndTab();
-        actor()
+        Actor.actor()
                 .createContextAndTab()
                 .closeCurrentContext();
-        Browser browser = actor()
+        Browser browser = Actor.actor()
                 .does(TestAction.testAction())
                 .getBrowser();
         assertEquals(1, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
@@ -53,10 +53,10 @@ public class ContextTest {
 
     @Test
     public void closeContextAndTabTest() {
-        actor()
+        Actor.actor()
                 .createBrowser()
                 .closeCurrentContext();
-        Browser browser = actor()
+        Browser browser = Actor.actor()
                 .does(TestAction.testAction())
                 .getBrowser();
         assertEquals(0, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
@@ -65,7 +65,7 @@ public class ContextTest {
     @Test
     public void switchContextWithoutAnyContextTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            actor()
+            Actor.actor()
                     .createPureBrowser()
                     .switchContextByIndex(1);
 
@@ -78,7 +78,7 @@ public class ContextTest {
     @Test
     public void switchContextWithToBigIndexTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            actor()
+            Actor.actor()
                     .createPureBrowser()
                     .createContextAndTab()
                     .switchContextByIndex(2);
@@ -90,7 +90,7 @@ public class ContextTest {
     @Test
     public void tryToOpenTabInClosedContext() {
         PlaywrightException exception = assertThrows(PlaywrightException.class, () ->
-            actor()
+            Actor.actor()
                     .createBrowser()
                     .closeCurrentContext()
                     .openNewTab()

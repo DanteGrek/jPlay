@@ -1,22 +1,20 @@
-package com.jplay.screenplay;
+package io.github.dantegrek.screenplay;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.*;
-import com.jplay.enums.BrowserName;
-import com.jplay.interfaces.Device;
+import io.github.dantegrek.enums.BrowserName;
+import io.github.dantegrek.interfaces.Device;
 
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
-
-import static com.jplay.enums.BrowserName.CHROMIUM;
 
 public final class Configuration {
 
     private Actor actor;
     private BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions();
     private Browser.NewContextOptions contextOptions = new Browser.NewContextOptions();
-    private BrowserName browserName = CHROMIUM;
+    private BrowserName browserName = BrowserName.CHROMIUM;
     private double defaultNavigationTimeout = 20000;
     private double defaultWaitTimeout = 20000;
 
