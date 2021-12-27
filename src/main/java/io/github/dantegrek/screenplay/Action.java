@@ -1,6 +1,6 @@
-package com.jplay.screenplay;
+package io.github.dantegrek.screenplay;
 
-import com.jplay.interfaces.IAction;
+import io.github.dantegrek.interfaces.IAction;
 
 public abstract class Action extends AbstractActivity implements IAction {
 

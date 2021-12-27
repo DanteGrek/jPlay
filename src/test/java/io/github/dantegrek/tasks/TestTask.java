@@ -1,6 +1,6 @@
-package com.jplay.tasks;
+package io.github.dantegrek.tasks;
 
-import com.jplay.screenplay.Task;
+import io.github.dantegrek.screenplay.Task;
 
 public class TestTask extends Task {
 

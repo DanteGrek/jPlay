@@ -1,13 +1,13 @@
-package com.jplay;
+package io.github.dantegrek;
 
-import com.jplay.actions.TestAction;
+import io.github.dantegrek.actions.TestAction;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static com.jplay.screenplay.Actor.actor;
+import static io.github.dantegrek.screenplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TabTest {
