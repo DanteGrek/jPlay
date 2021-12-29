@@ -3,6 +3,9 @@ package io.github.dantegrek.screenplay;
 import com.microsoft.playwright.*;
 import io.github.dantegrek.enums.BrowserName;
 
+/**
+ * This class is browser, context and page keeper.
+ */
 public class BrowserManager {
 
     private Browser browser;
@@ -40,20 +43,25 @@ public class BrowserManager {
     // Start browser methods
     private Browser createBrowser(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
         Playwright playwright = Playwright.create();
-        return switch (browserName) {
-            case CHROME -> playwright.chromium()
-                    .launch(launchOptions
-                            .setChannel(BrowserName.CHROME.name));
-            case MSEDGE -> playwright.chromium()
-                    .launch(launchOptions
+         switch (browserName) {
+            case CHROME:
+                return playwright.chromium()
+                        .launch(launchOptions
+                                .setChannel(BrowserName.CHROME.name));
+             case MSEDGE:
+                 return playwright.chromium()
+                         .launch(launchOptions
                             .setChannel(BrowserName.MSEDGE.name));
-            case WEBKIT -> playwright.webkit()
+             case WEBKIT:
+                 return playwright.webkit()
                     .launch(launchOptions);
-            case FIREFOX -> playwright.firefox()
+             case FIREFOX:
+                 return playwright.firefox()
                     .launch(launchOptions);
-            default -> playwright.chromium()
+             default:
+                 return playwright.chromium()
                     .launch(launchOptions);
-        };
+        }
     }
 
     void create(Configuration configuration) {

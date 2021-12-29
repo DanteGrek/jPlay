@@ -44,14 +44,14 @@ public class TabTest {
     @Test
     public void openNewTabWithoutContextTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
-                    actor()
-                            .createPureBrowser()
-                            .openNewTab()
-                );
+                actor()
+                        .createPureBrowser()
+                        .openNewTab()
+        );
 
         assertEquals("You can not open new tab without context. " +
-                "Please use 'createContextAndTab()' instead of 'openNewTab()' " +
-                "or 'createBrowser()' instead of 'createPureBrowser()', it will create browser with tab.",
+                        "Please use 'createContextAndTab()' instead of 'openNewTab()' " +
+                        "or 'createBrowser()' instead of 'createPureBrowser()', it will create browser with tab.",
                 exception.getMessage(),
                 UNEXPECTED_EXCEPTION_MESSAGE);
     }
@@ -84,14 +84,13 @@ public class TabTest {
 
     @Test
     public void switchTabByTitleTest() {
-        String html = """
-                <!DOCTYPE html>
-                <html>                  
-                    <head>
-                        <title>jPlay</title>
-                    </head>         
-                </html>
-                """;
+        String html =
+                "<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "<title>jPlay</title>" +
+                        "</head>" +
+                        "</html>";
         Page page1 = actor()
                 .createBrowser()
                 .does(TestAction.testAction())
@@ -107,42 +106,40 @@ public class TabTest {
 
     @Test
     public void switchTabByDuplicatedTitleTest() {
-        String html = """
-                <!DOCTYPE html>
-                <html>                  
-                    <head>
-                        <title>jPlay</title>
-                    </head>         
-                </html>
-                """;
+        String html =
+                "<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "<title>jPlay</title>" +
+                        "</head>" +
+                        "</html>";
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
-        actor()
-                .createBrowser()
-                .does(TestAction.testAction())
-                .renderHtml(html)
-                .and()
-                .openNewTab()
-                .does(TestAction.testAction())
-                .renderHtml(html)
-                .then()
-                .switchTabByTitle("jPlay")
+                actor()
+                        .createBrowser()
+                        .does(TestAction.testAction())
+                        .renderHtml(html)
+                        .and()
+                        .openNewTab()
+                        .does(TestAction.testAction())
+                        .renderHtml(html)
+                        .then()
+                        .switchTabByTitle("jPlay")
         );
 
         assertEquals("More then one tab in current context has title 'jPlay', " +
-                "in such cases better to use switchTabByIndex(int index).",
+                        "in such cases better to use switchTabByIndex(int index).",
                 exception.getMessage(), UNEXPECTED_EXCEPTION_MESSAGE);
     }
 
     @Test
     public void switchTabByAbsentTitleTest() {
-        String html = """
-                <!DOCTYPE html>
-                <html>                  
-                    <head>
-                        <title>jPlay</title>
-                    </head>         
-                </html>
-                """;
+        String html =
+                "<!DOCTYPE html>" +
+                        "<html>" +
+                        "<head>" +
+                        "<title>jPlay</title>" +
+                        "</head>" +
+                        "</html>";
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 actor()
                         .createBrowser()

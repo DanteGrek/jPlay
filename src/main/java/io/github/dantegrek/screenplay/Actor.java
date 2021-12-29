@@ -8,7 +8,10 @@ import com.microsoft.playwright.options.WaitUntilState;
 
 import java.util.List;
 
-public class Actor {
+/**
+ * This is main class in project. Ir represents actor which act with system under test.
+ */
+public final class Actor {
 
     private Configuration configuration = new Configuration(this);
     private BrowserManager browserManager = new BrowserManager();
@@ -18,6 +21,12 @@ public class Actor {
     private Actor() {
     }
 
+    /**
+     * This static function allows you to access actor in different methods in your project without
+     * creating pointer for this object. It simply cals thread local collection.
+     *
+     * @return instance of Actor if already exists and creates new if not.
+     */
     public static Actor actor() {
         return actor.get();
     }
@@ -30,26 +39,47 @@ public class Actor {
 
     // Config methods
 
+    /**
+     * This method point user to configuration chain.
+     *
+     * @return instance of Configuration
+     */
     public Configuration config() {
         return configuration;
     }
 
+    /**
+     * This method creates new and clear configuration instance.
+     * @return instance of Configuration
+     */
     public Configuration cleanConfig() {
         return configuration = new Configuration(this);
     }
 
     //Browser methods
 
+    /**
+     * This method starts browser with new context and tab.
+     * @return instance of Actor
+     */
     public Actor createBrowser() {
         this.getBrowserManager().create(this.configuration);
         return actor.get();
     }
 
+    /**
+     * This method start browser without context and tab.
+     * @return instance of Actor
+     */
     public Actor createPureBrowser() {
         this.getBrowserManager().createBrowser(this.configuration);
         return actor.get();
     }
 
+    /**
+     * This method closes browser with context and tab.
+     * @return instance of Actor
+     */
     public Actor closeBrowser() {
         this.getBrowserManager().closeBrowser();
         this.getBrowserManager().setBrowser(null);
@@ -60,16 +90,29 @@ public class Actor {
 
     // Context methods
 
+    /**
+     * This method creates new context and tab. Can be used after 'createPureBrowser()'
+     * or to create new incognito tab.
+     * @return instance of Actor
+     */
     public Actor createContextAndTab() {
         this.getBrowserManager().createContextAndTab(this.configuration);
         return actor.get();
     }
 
+    /**
+     * This method closes current context with tab.
+     * @return instance of Actor
+     */
     public Actor closeCurrentContext() {
         this.getBrowserManager().getBrowserContext().close();
         return this;
     }
 
+    /**
+     * This method allow user to access all contexts.
+     * @return List of BrowserContexts.
+     */
     private List<BrowserContext> getContextsFromBrowser() {
         List<BrowserContext> contexts = this.getBrowserManager().getBrowser().contexts();
         if (contexts.isEmpty()) {
@@ -79,6 +122,11 @@ public class Actor {
         return contexts;
     }
 
+    /**
+     * This method switch focus between contexts.
+     * @param index of context in list.
+     * @return instance of Actor
+     */
     public Actor switchContextByIndex(int index) {
         BrowserContext context = this.getContextsFromBrowser().get(index);
         this.getBrowserManager().setBrowserContext(context);
@@ -87,10 +135,19 @@ public class Actor {
 
     // Page methods
 
+    /**
+     * This method get access to current page/tab.
+     * @return instance of active tab.
+     */
     public Page currentPage() {
         return this.getBrowserManager().getPage();
     }
 
+    /**
+     * This method opens new tab in scope of the same context, such tab will have common localstorage,
+     * session storage and cookies with previous one.
+     * @return instance of Actor
+     */
     public Actor openNewTab() {
         BrowserContext context = this.getBrowserManager().getBrowserContext();
         if (context == null) {
@@ -102,6 +159,10 @@ public class Actor {
         return actor.get();
     }
 
+    /**
+     * This method closes tab in focus.
+     * @return instance of Actor
+     */
     public Actor closeCurrentTab() {
         this.getBrowserManager().getPage().close();
         return actor.get();
@@ -117,6 +178,11 @@ public class Actor {
         return pages;
     }
 
+    /**
+     * This method switch tab in current context.
+     * @param index of tab in current context
+     * @return instance of Actor
+     */
     public Actor switchTabByIndex(int index) {
         Page page = this.getPagesFromCurrentContext().get(index);
         this.getBrowserManager().setPage(page);
@@ -124,6 +190,11 @@ public class Actor {
         return actor.get();
     }
 
+    /**
+     * This method switch tab in current context.
+     * @param title of tab.
+     * @return instance of Actor
+     */
     public Actor switchTabByTitle(String title) {
         List<Page> pages = this.getPagesFromCurrentContext().stream()
                 .filter(tab -> tab.title().equals(title)).toList();
@@ -141,7 +212,8 @@ public class Actor {
 
     /**
      * Waits till network activity will be still 500 milliseconds.
-     * @return Actor
+     *
+     * @return instance of Actor
      */
     public Actor waitTillNetworkIdle() {
         this.getBrowserManager().getPage().waitForLoadState(LoadState.NETWORKIDLE);
@@ -150,7 +222,8 @@ public class Actor {
 
     /**
      * Waits till HTML document will be loaded.
-     * @return Actor
+     *
+     * @return instance of Actor
      */
     public Actor waitTillDocumentLoaded() {
         this.getBrowserManager().getPage().waitForLoadState(LoadState.DOMCONTENTLOADED);
@@ -161,8 +234,9 @@ public class Actor {
 
     /**
      * Navigates to url and wait till document loaded.
-     * @param url
-     * @return Actor
+     *
+     * @param url String.
+     * @return instance of Actor
      */
     public Actor navigateTo(String url) {
         this.getBrowserManager().getPage()
@@ -172,7 +246,8 @@ public class Actor {
 
     /**
      * Click back browser button and wait till document loaded.
-     * @return Actor
+     *
+     * @return instance of Actor
      */
     public Actor goBack() {
         this.getBrowserManager().getPage()
@@ -182,7 +257,8 @@ public class Actor {
 
     /**
      * Click forward browser button and wait till document loaded.
-     * @return Actor
+     *
+     * @return instance of Actor
      */
     public Actor goForward() {
         this.getBrowserManager().getPage()
@@ -194,8 +270,9 @@ public class Actor {
 
     /**
      * Click on element.
-     * @param selector
-     * @return Actor
+     *
+     * @param selector css or xpath.
+     * @return instance of Actor
      */
     public Actor click(String selector) {
         this.getBrowserManager().getPage().click(selector);
@@ -204,8 +281,9 @@ public class Actor {
 
     /**
      * Right button click on element.
-     * @param selector
-     * @return Actor
+     *
+     * @param selector css or xpath
+     * @return instance of Actor
      */
     public Actor rightClick(String selector) {
         this.getBrowserManager().getPage().click(selector, new Page.ClickOptions().setButton(MouseButton.RIGHT));
@@ -214,8 +292,9 @@ public class Actor {
 
     /**
      * Double button click on element.
-     * @param selector
-     * @return Actor
+     *
+     * @param selector css or xpath
+     * @return instance of Actor
      */
     public Actor doubleClick(String selector) {
         this.getBrowserManager().getPage().dblclick(selector);
@@ -224,8 +303,10 @@ public class Actor {
 
     /**
      * Drag and drop element to another element.
-     * @param sourceSelector
-     * @return Actor
+     *
+     * @param sourceSelector css or xpath
+     * @param targetSelector css of xpath
+     * @return instance of Actor
      */
     public Actor dragAndDrop(String sourceSelector, String targetSelector) {
         this.getBrowserManager().getPage().dragAndDrop(sourceSelector, targetSelector);
@@ -234,8 +315,9 @@ public class Actor {
 
     /**
      * Check checkbox.
-     * @param selector
-     * @return Actor
+     *
+     * @param selector css or xpath
+     * @return instance of Actor
      */
     public Actor check(String selector) {
         this.getBrowserManager().getPage().check(selector);
@@ -244,8 +326,9 @@ public class Actor {
 
     /**
      * Uncheck checkbox.
-     * @param selector
-     * @return Actor
+     *
+     * @param selector css or xpath
+     * @return instance of Actor
      */
     public Actor uncheck(String selector) {
         this.getBrowserManager().getPage().uncheck(selector);
@@ -256,8 +339,9 @@ public class Actor {
 
     /**
      * Set content in tab
-     * @param html
-     * @return
+     *
+     * @param html document
+     * @return instance of Actor
      */
     public Actor setContent(String html) {
         this.getBrowserManager().getPage().setContent(html);
@@ -266,38 +350,72 @@ public class Actor {
 
     // Execute actions and tasks methods
 
-    protected final <T extends Action> T executeAction(T action) {
+    private <T extends Action> T executeAction(T action) {
         action.setActor(this);
         return action;
     }
 
-    protected final Actor executeTask(Task task) {
+    private Actor executeTask(Task task) {
         task.setActor(this);
         task.perform();
         return this;
     }
 
     // Execute syntax sugar
+
+    /**
+     * This method allows user to put his implementation in to invocation chain
+     * @param action instance of class which is child of Action class.
+     * @param <T> any type which is a child of Action class.
+     * @return instance of Action
+     */
     public <T extends Action> T attemptTo(T action) {
         return this.executeAction(action);
     }
 
+    /**
+     * This method perform users task.
+     * @param task instance of class which is child of Task class.
+     * @return instance of Action
+     */
     public Actor attemptTo(Task task) {
         return this.executeTask(task);
     }
 
+    /**
+     * This method allows user to put his implementation in to invocation chain
+     * @param action instance of class which is child of Action class.
+     * @param <T> any type which is a child of Action class.
+     * @return instance of Action
+     */
     public <T extends Action> T does(T action) {
         return this.executeAction(action);
     }
 
+    /**
+     * This method perform users task.
+     * @param task instance of class which is child of Task class.
+     * @return instance of Action
+     */
     public Actor does(Task task) {
         return this.executeTask(task);
     }
 
+    /**
+     * This method allows user to put his implementation in to invocation chain
+     * @param action instance of class which is child of Action class.
+     * @param <T> any type which is a child of Action class.
+     * @return instance of Action
+     */
     public <T extends Action> T expectThat(T action) {
         return this.executeAction(action);
     }
 
+    /**
+     * This method perform users task.
+     * @param task instance of class which is child of Task class.
+     * @return instance of Action
+     */
     public Actor expectThat(Task task) {
         return this.executeTask(task);
     }
