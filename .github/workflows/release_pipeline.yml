@@ -29,8 +29,9 @@ jobs:
           PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
       - name: Install Chrome and MSEdge
-        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge --with-deps"
-
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge"
+      - name: Install deps
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Publish to GitHub Packages Apache Maven
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
