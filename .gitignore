@@ -46,3 +46,8 @@ local.properties
 .classpath
 .settings/
 .loadpath
+
+# additional
+*.gpg
+*.pub
+settings.xml

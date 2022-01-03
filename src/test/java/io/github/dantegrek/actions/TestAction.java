@@ -1,28 +1,12 @@
 package io.github.dantegrek.actions;
-
-import com.microsoft.playwright.Browser;
-import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.ViewportSize;
-import io.github.dantegrek.screenplay.Action;
+import io.github.dantegrek.jplay.Action;
 
 public class TestAction extends Action {
 
     public Page getPage() {
         return this.actor.currentPage();
-    }
-
-    public BrowserContext getCurrentContext() {
-        return this.actor.currentPage().context();
-    }
-
-    public Browser getBrowser() {
-        return this.actor.currentPage().context().browser();
-    }
-
-    public TestAction renderHtml(String html) {
-        this.actor.currentPage().setContent(html);
-        return this;
     }
 
     public String getUserAgent() {
@@ -39,5 +23,13 @@ public class TestAction extends Action {
 
     public static TestAction testAction() {
         return new TestAction();
+    }
+
+    public String getRating() {
+       return this.getPseudoElementContent(".star-rating", "after");
+    }
+
+    public String getNegativeRating() {
+        return this.getPseudoElementContent("#check_rating", "before");
     }
 }

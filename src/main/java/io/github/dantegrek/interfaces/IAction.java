@@ -1,6 +1,7 @@
 package io.github.dantegrek.interfaces;
 
-import io.github.dantegrek.screenplay.Actor;
+
+import io.github.dantegrek.jplay.Actor;
 
 public interface IAction {
     public Actor then();

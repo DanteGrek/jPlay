@@ -2,7 +2,13 @@ package io.github.dantegrek.enums;
 
 import io.github.dantegrek.interfaces.Device;
 
+/**
+ * This enum contains presets of mobile devices.
+ */
 public enum Devices implements Device {
+    /**
+     *
+     */
     IPHONE_8(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
             375,
@@ -12,6 +18,9 @@ public enum Devices implements Device {
             true,
             "iPhone 8"
     ),
+    /**
+     *
+     */
     IPHONE_8_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
             667,
@@ -21,6 +30,9 @@ public enum Devices implements Device {
             true,
             "iPhone 8 landscape"
     ),
+    /**
+     *
+     */
     IPHONE_8_PLUS(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
             414,
@@ -30,6 +42,9 @@ public enum Devices implements Device {
             true,
             "iPhone 8 Plus"
     ),
+    /**
+     *
+     */
     IPHONE_8_PLUS_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
             736,
@@ -39,6 +54,9 @@ public enum Devices implements Device {
             true,
             "iPhone 8 Plus landscape"
     ),
+    /**
+     *
+     */
     IPHONE_SE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
             320,
@@ -48,6 +66,9 @@ public enum Devices implements Device {
             true,
             "iPhone SE"
     ),
+    /**
+     *
+     */
     IPHONE_SE_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3_1 like Mac OS X) AppleWebKit/603.1.30 (KHTML, like Gecko) Version/10.0 Mobile/14E304 Safari/602.1",
             568,
@@ -57,6 +78,9 @@ public enum Devices implements Device {
             true,
             "iPhone SE landscape"
     ),
+    /**
+     *
+     */
     IPHONE_X(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
             375,
@@ -66,6 +90,9 @@ public enum Devices implements Device {
             true,
             "iPhone X"
     ),
+    /**
+     *
+     */
     IPHONE_X_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
             812,
@@ -75,6 +102,9 @@ public enum Devices implements Device {
             true,
             "iPhone X landscape"
     ),
+    /**
+     *
+     */
     IPHONE_XR(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1",
             414,
@@ -84,6 +114,9 @@ public enum Devices implements Device {
             true,
             "iPhone XR"
     ),
+    /**
+     *
+     */
     IPHONE_XR_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1",
             896,
@@ -93,6 +126,9 @@ public enum Devices implements Device {
             true,
             "iPhone XR landscape"
     ),
+    /**
+     *
+     */
     IPHONE_11(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1",
             414,
@@ -102,6 +138,9 @@ public enum Devices implements Device {
             true,
             "iPhone 11"
     ),
+    /**
+     *
+     */
     IPHONE_11_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1",
             715,
@@ -111,6 +150,9 @@ public enum Devices implements Device {
             true,
             "iPhone 11 landscape"
     ),
+    /**
+     *
+     */
     IPHONE_11_PRO(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1",
             375,
@@ -120,6 +162,9 @@ public enum Devices implements Device {
             true,
             "iPhone 11 Pro"
     ),
+    /**
+     *
+     */
     IPHONE_11_PRO_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1",
             724,
@@ -129,6 +174,9 @@ public enum Devices implements Device {
             true,
             "iPhone 11 Pro landscape"
     ),
+    /**
+     *
+     */
     IPHONE_11_PRO_MAX(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1",
             414,
@@ -138,6 +186,9 @@ public enum Devices implements Device {
             true,
             "iPhone 11 Pro Max"
     ),
+    /**
+     *
+     */
     IPHONE_11_PRO_MAX_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Mobile/15E148 Safari/604.1",
             808,
@@ -147,6 +198,9 @@ public enum Devices implements Device {
             true,
             "iPhone 11 Pro Max landscape"
     ),
+    /**
+     *
+     */
     IPHONE_12(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
             390,
@@ -156,6 +210,9 @@ public enum Devices implements Device {
             true,
             "iPhone 12"
     ),
+    /**
+     *
+     */
     IPHONE_12_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
             664,
@@ -165,6 +222,9 @@ public enum Devices implements Device {
             true,
             "iPhone 12 landscape"
     ),
+    /**
+     *
+     */
     IPHONE_12_PRO(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
             390,
@@ -174,6 +234,9 @@ public enum Devices implements Device {
             true,
             "iPhone 12 Pro"
     ),
+    /**
+     *
+     */
     IPHONE_12_PRO_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
             750,
@@ -183,6 +246,9 @@ public enum Devices implements Device {
             true,
             "iPhone 12 Pro landscape"
     ),
+    /**
+     *
+     */
     IPHONE_12_PRO_MAX(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
             428,
@@ -192,6 +258,9 @@ public enum Devices implements Device {
             true,
             "iPhone 12 Pro"
     ),
+    /**
+     *
+     */
     IPHONE_12_PRO_MAX_LANDSCAPE(
             "Mozilla/5.0 (iPhone; CPU iPhone OS 14_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1",
             832,
