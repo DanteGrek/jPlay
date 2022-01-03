@@ -21,16 +21,13 @@ jobs:
           server-id: ossrh
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
+          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-passphrase: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
 
       - name: Install Chrome and MSEdge
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge"
       - name: Install deps
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
-      - id: install-secret-key
-        name: Install gpg secret key
-        run: |
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
       - name: Publish to GitHub Packages Apache Maven
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
