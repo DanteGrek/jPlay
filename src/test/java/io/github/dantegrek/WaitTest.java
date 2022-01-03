@@ -1,11 +1,11 @@
 package io.github.dantegrek;
 
 import com.microsoft.playwright.TimeoutError;
-import io.github.dantegrek.screenplay.Actor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static io.github.dantegrek.jplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WaitTest {
@@ -14,7 +14,7 @@ public class WaitTest {
 
     @AfterEach
     public void clearActor() {
-        Actor.actor()
+        actor()
                 .closeBrowser()
                 .cleanConfig();
     }
@@ -22,11 +22,11 @@ public class WaitTest {
     @Test
     public void negativeNavigationWaitTimeoutTest() {
         TimeoutError error = assertThrows(TimeoutError.class, () ->
-                Actor.actor()
+                actor()
                         .config()
                         .withDefaultNavigationTimeout(10)
                         .andActor()
-                        .createBrowser()
+                        .startBrowser()
                         .navigateTo("https://www.google.com")
         );
         assertTrue(error.getMessage().contains("message='Timeout 10ms exceeded."), UNEXPECTED_ERROR_MESSAGE);
@@ -43,11 +43,11 @@ public class WaitTest {
                 "</html>";
 
         Assertions.assertDoesNotThrow(() ->
-                Actor.actor()
+                actor()
                         .config()
                         .withDefaultTimeout(1000)
                         .andActor()
-                        .createBrowser()
+                        .startBrowser()
                         .setContent(html)
                         .click("button")
         );
@@ -64,11 +64,11 @@ public class WaitTest {
                 "</html>";
 
         TimeoutError error = assertThrows(TimeoutError.class, () ->
-                Actor.actor()
+                actor()
                         .config()
                         .withDefaultTimeout(2)
                         .andActor()
-                        .createBrowser()
+                        .startBrowser()
                         .setContent(html)
                         .click("button")
         );

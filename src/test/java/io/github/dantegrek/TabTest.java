@@ -1,13 +1,12 @@
 package io.github.dantegrek;
 
-import io.github.dantegrek.actions.TestAction;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-import static io.github.dantegrek.screenplay.Actor.actor;
+import static io.github.dantegrek.jplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TabTest {
@@ -24,20 +23,20 @@ public class TabTest {
     @Test
     public void openNewTabTest() {
         BrowserContext context = actor()
-                .createBrowser()
+                .startBrowser()
                 .openNewTab()
-                .does(TestAction.testAction())
-                .getCurrentContext();
+                .currentPage()
+                .context();
         assertEquals(2, context.pages().size(), UNEXPECTED_AMOUNT_OF_PAGES);
     }
 
     @Test
     public void createContextAndTabTest() {
         BrowserContext context = actor()
-                .createBrowser()
+                .startBrowser()
                 .createContextAndTab()
-                .does(TestAction.testAction())
-                .getCurrentContext();
+                .currentPage()
+                .context();
         assertEquals(1, context.pages().size(), UNEXPECTED_AMOUNT_OF_PAGES);
     }
 
@@ -45,13 +44,13 @@ public class TabTest {
     public void openNewTabWithoutContextTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 actor()
-                        .createPureBrowser()
+                        .startPureBrowser()
                         .openNewTab()
         );
 
         assertEquals("You can not open new tab without context. " +
                         "Please use 'createContextAndTab()' instead of 'openNewTab()' " +
-                        "or 'createBrowser()' instead of 'createPureBrowser()', it will create browser with tab.",
+                        "or 'startBrowser()' instead of 'startPureBrowser()', it will create browser with tab.",
                 exception.getMessage(),
                 UNEXPECTED_EXCEPTION_MESSAGE);
     }
@@ -59,14 +58,12 @@ public class TabTest {
     @Test
     public void switchTabByIndexTest() {
         Page page1 = actor()
-                .createBrowser()
-                .does(TestAction.testAction())
-                .getPage();
+                .startBrowser()
+                .currentPage();
         Page page2 = actor()
                 .openNewTab()
                 .switchTabByIndex(0)
-                .does(TestAction.testAction())
-                .getPage();
+                .currentPage();
         assertSame(page1, page2, "switchTabByIndex(int index) switched to unexpected tab.");
     }
 
@@ -74,7 +71,7 @@ public class TabTest {
     public void switchTabWithToBigIndexTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 actor()
-                        .createBrowser()
+                        .startBrowser()
                         .switchTabByIndex(1)
         );
 
@@ -92,15 +89,13 @@ public class TabTest {
                         "</head>" +
                         "</html>";
         Page page1 = actor()
-                .createBrowser()
-                .does(TestAction.testAction())
-                .renderHtml(html)
-                .getPage();
+                .startBrowser()
+                .setContent(html)
+                .currentPage();
         Page page2 = actor()
                 .openNewTab()
                 .switchTabByTitle("jPlay")
-                .does(TestAction.testAction())
-                .getPage();
+                .currentPage();
         assertSame(page1, page2, "switchTabByTitle(String title) switched to unexpected tab.");
     }
 
@@ -115,14 +110,10 @@ public class TabTest {
                         "</html>";
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 actor()
-                        .createBrowser()
-                        .does(TestAction.testAction())
-                        .renderHtml(html)
-                        .and()
+                        .startBrowser()
+                        .setContent(html)
                         .openNewTab()
-                        .does(TestAction.testAction())
-                        .renderHtml(html)
-                        .then()
+                        .setContent(html)
                         .switchTabByTitle("jPlay")
         );
 
@@ -142,14 +133,10 @@ public class TabTest {
                         "</html>";
         RuntimeException exception = assertThrows(RuntimeException.class, () ->
                 actor()
-                        .createBrowser()
-                        .does(TestAction.testAction())
-                        .renderHtml(html)
-                        .and()
+                        .startBrowser()
+                        .setContent(html)
                         .openNewTab()
-                        .does(TestAction.testAction())
-                        .renderHtml(html)
-                        .then()
+                        .setContent(html)
                         .switchTabByTitle("jWright")
         );
 
@@ -160,10 +147,10 @@ public class TabTest {
     @Test
     public void closeTabTest() {
         BrowserContext context = actor()
-                .createBrowser()
+                .startBrowser()
                 .closeCurrentTab()
-                .attemptTo(TestAction.testAction())
-                .getCurrentContext();
+                .currentPage()
+                .context();
         assertAll("Context",
                 () -> assertNotNull(context, "Context pointer is null after closing last tab."),
                 () -> assertEquals(0, context.pages().size(), "Expected 0 pages in context.")
@@ -174,10 +161,9 @@ public class TabTest {
     public void tryToWorkWithClosedTabTest() {
         PlaywrightException exception = assertThrows(PlaywrightException.class, () -> {
             actor()
-                    .createBrowser()
+                    .startBrowser()
                     .closeCurrentTab()
-                    .attemptTo(TestAction.testAction())
-                    .renderHtml("Hello world!");
+                    .setContent("Hello world!");
         });
 
         assertTrue(exception.getMessage().contains("message='Navigation failed because page was closed!")

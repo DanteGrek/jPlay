@@ -1,6 +1,5 @@
-package io.github.dantegrek.screenplay;
+package io.github.dantegrek.jplay;
 
-import io.github.dantegrek.interfaces.ITask;
 
 /**
  * This abstract class should be used by end users to create tasks to actor.

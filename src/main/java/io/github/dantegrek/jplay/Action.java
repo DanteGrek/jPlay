@@ -1,6 +1,4 @@
-package io.github.dantegrek.screenplay;
-
-import io.github.dantegrek.interfaces.IAction;
+package io.github.dantegrek.jplay;
 
 /**
  * This class should be used as parent for all custom actions user wants to create, and(), then() methods

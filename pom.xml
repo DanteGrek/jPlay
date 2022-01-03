@@ -6,7 +6,7 @@
 
     <groupId>io.github.dantegrek</groupId>
     <artifactId>jplay</artifactId>
-    <version>0.1.0-alpha</version>
+    <version>0.1.1-alpha</version>
 
     <name>jPlay</name>
 
@@ -63,6 +63,11 @@
             <groupId>com.microsoft.playwright</groupId>
             <artifactId>playwright</artifactId>
             <version>1.17.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.playwright</groupId>
+            <artifactId>assertions</artifactId>
+            <version>1.17.0</version>
         </dependency>
     </dependencies>
 

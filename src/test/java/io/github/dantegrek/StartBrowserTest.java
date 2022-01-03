@@ -5,7 +5,7 @@ import io.github.dantegrek.enums.BrowserName;
 import io.github.dantegrek.interfaces.Device;
 import io.github.dantegrek.actions.TestAction;
 import io.github.dantegrek.enums.Devices;
-import io.github.dantegrek.screenplay.Actor;
+import io.github.dantegrek.jplay.Actor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -49,7 +49,7 @@ public class StartBrowserTest {
                 .config()
                 .withBrowser(browserName)
                 .configIsFinished()
-                .createBrowser()
+                .startBrowser()
                 .does(TestAction.testAction())
                 .getUserAgent();
         assertTrue(userAgent.contains(expectedUserAgent),
@@ -64,7 +64,7 @@ public class StartBrowserTest {
                 .withBrowser(browserName)
                 .withDevice(device)
                 .configIsFinished()
-                .createBrowser()
+                .startBrowser()
                 .does(TestAction.testAction())
                 .getUserAgent();
         ViewportSize viewportSize = Actor.actor()

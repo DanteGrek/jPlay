@@ -1,12 +1,11 @@
 package io.github.dantegrek;
 
-import io.github.dantegrek.actions.TestAction;
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.PlaywrightException;
-import io.github.dantegrek.screenplay.Actor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import static io.github.dantegrek.jplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -18,68 +17,72 @@ public class ContextTest {
 
     @AfterEach
     public void closeBrowser() {
-        Actor.actor()
+        actor()
                 .closeBrowser();
     }
 
     @Test
     public void startContextAndTabTest() {
-        Actor.actor()
-                .createPureBrowser();
-        Actor.actor()
+        actor()
+                .startPureBrowser();
+        actor()
                 .createContextAndTab();
-        Actor.actor()
+        actor()
                 .createContextAndTab();
-        Browser browser = Actor.actor()
-                .does(TestAction.testAction())
-                .getBrowser();
+        Browser browser = actor()
+                .currentPage()
+                .context()
+                .browser();
+
         assertEquals(2, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
     }
 
     @Test
     public void closeSecondContextAndTabTest() {
-        Actor.actor()
-                .createPureBrowser();
-        Actor.actor()
+        actor()
+                .startPureBrowser();
+        actor()
                 .createContextAndTab();
-        Actor.actor()
+        actor()
                 .createContextAndTab()
                 .closeCurrentContext();
-        Browser browser = Actor.actor()
-                .does(TestAction.testAction())
-                .getBrowser();
+        Browser browser = actor()
+                .currentPage()
+                .context()
+                .browser();
         assertEquals(1, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
     }
 
     @Test
     public void closeContextAndTabTest() {
-        Actor.actor()
-                .createBrowser()
+        actor()
+                .startBrowser()
                 .closeCurrentContext();
-        Browser browser = Actor.actor()
-                .does(TestAction.testAction())
-                .getBrowser();
+        Browser browser = actor()
+                .currentPage()
+                .context()
+                .browser();
         assertEquals(0, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
     }
 
     @Test
     public void switchContextWithoutAnyContextTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            Actor.actor()
-                    .createPureBrowser()
+            actor()
+                    .startPureBrowser()
                     .switchContextByIndex(1);
 
         });
         assertEquals("Browser does not have contexts, please start one using method 'createContextAndTab()'" +
-                        " or use 'createBrowser()' to create browser with context and tab.",
+                        " or use 'startBrowser()' to create browser with context and tab.",
                 exception.getMessage(), UNEXPECTED_EXCEPTION_MESSAGE);
     }
 
     @Test
     public void switchContextWithToBigIndexTest() {
         RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-            Actor.actor()
-                    .createPureBrowser()
+            actor()
+                    .startPureBrowser()
                     .createContextAndTab()
                     .switchContextByIndex(2);
         });
@@ -90,8 +93,8 @@ public class ContextTest {
     @Test
     public void tryToOpenTabInClosedContext() {
         PlaywrightException exception = assertThrows(PlaywrightException.class, () ->
-            Actor.actor()
-                    .createBrowser()
+            actor()
+                    .startBrowser()
                     .closeCurrentContext()
                     .openNewTab()
         );

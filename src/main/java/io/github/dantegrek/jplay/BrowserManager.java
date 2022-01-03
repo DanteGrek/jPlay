@@ -1,4 +1,4 @@
-package io.github.dantegrek.screenplay;
+package io.github.dantegrek.jplay;
 
 import com.microsoft.playwright.*;
 import io.github.dantegrek.enums.BrowserName;
@@ -11,6 +11,7 @@ public class BrowserManager {
     private Browser browser;
     private BrowserContext browserContext;
     private Page page;
+    private Frame frame;
 
     void setBrowser(Browser browser) {
         this.browser = browser;
@@ -22,6 +23,14 @@ public class BrowserManager {
 
     void setPage(Page page) {
         this.page = page;
+    }
+
+    void setFrame(Frame frame) {
+        this.frame = frame;
+    }
+
+    Frame getFrame() {
+        return this.frame;
     }
 
     Browser getBrowser() {
@@ -41,7 +50,7 @@ public class BrowserManager {
     }
 
     // Start browser methods
-    private Browser createBrowser(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
+    private Browser startBrowserOnly(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
         Playwright playwright = Playwright.create();
          switch (browserName) {
             case CHROME:
@@ -64,25 +73,23 @@ public class BrowserManager {
         }
     }
 
-    void create(Configuration configuration) {
-        setBrowser(createBrowser(configuration.getBrowserName(), configuration.getLaunchOptions()));
-        setBrowserContext(getBrowser().newContext(configuration.getContextOptions()));
-        Page page = getBrowserContext().newPage();
-        page.setDefaultNavigationTimeout(configuration.getDefaultNavigationTimeout());
-        page.setDefaultTimeout(configuration.getDefaultTimeout());
-        setPage(page);
+    void startBrowserOnly(Configuration configuration) {
+        setBrowser(startBrowserOnly(configuration.getBrowserName(), configuration.getLaunchOptions()));
     }
 
-    void createBrowser(Configuration configuration) {
-        setBrowser(createBrowser(configuration.getBrowserName(), configuration.getLaunchOptions()));
+    void startBrowserContextAndTab(Configuration configuration) {
+        setBrowser(startBrowserOnly(configuration.getBrowserName(), configuration.getLaunchOptions()));
+        setBrowserContext(getBrowser().newContext(configuration.getContextOptions()));
+        setPage(getBrowserContext().newPage());
+        getPage().setDefaultNavigationTimeout(configuration.getDefaultNavigationTimeout());
+        getPage().setDefaultTimeout(configuration.getDefaultTimeout());
     }
 
-    void createContextAndTab(Configuration configuration) {
+    void createContextWithTab(Configuration configuration) {
         setBrowserContext(getBrowser().newContext(configuration.getContextOptions()));
-        Page page = getBrowserContext().newPage();
-        page.setDefaultNavigationTimeout(configuration.getDefaultNavigationTimeout());
-        page.setDefaultTimeout(configuration.getDefaultTimeout());
-        setPage(page);
+        setPage(getBrowserContext().newPage());
+        getPage().setDefaultNavigationTimeout(configuration.getDefaultNavigationTimeout());
+        getPage().setDefaultTimeout(configuration.getDefaultTimeout());
     }
 
 }

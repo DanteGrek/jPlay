@@ -1,4 +1,4 @@
-package io.github.dantegrek.screenplay;
+package io.github.dantegrek.jplay;
 
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.*;
@@ -20,6 +20,7 @@ public final class Configuration {
     private BrowserName browserName = BrowserName.CHROMIUM;
     private double defaultNavigationTimeout = 20000;
     private double defaultWaitTimeout = 20000;
+    private double exceptTimeout = 5000;
 
     Configuration(Actor actor) {
         this.actor = actor;
@@ -55,6 +56,14 @@ public final class Configuration {
      */
     double getDefaultTimeout() {
         return this.defaultWaitTimeout;
+    }
+
+    /**
+     * Getter
+     * @return double represents value in milliseconds.
+     */
+    double getExceptTimeout() {
+        return this.exceptTimeout;
     }
 
     /**
@@ -95,6 +104,16 @@ public final class Configuration {
      */
     public Configuration withDefaultTimeout(double timeout) {
         this.defaultWaitTimeout = timeout;
+        return this;
+    }
+
+    /**
+     * @param timeout Maximum time in milliseconds
+     * This setting will change the default maximum time for all asserts in thread.
+     * @return instance of Configuration
+     */
+    public Configuration withExpectTimeout(double timeout) {
+        this.exceptTimeout = timeout;
         return this;
     }
 
