@@ -50,6 +50,7 @@ public class ContextTest {
                 .currentPage()
                 .context()
                 .browser();
+
         assertEquals(1, browser.contexts().size(), UNEXPECTED_AMOUNT_OF_CONTEXTS);
     }
 
