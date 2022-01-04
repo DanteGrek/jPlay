@@ -16,7 +16,7 @@ import static io.github.dantegrek.jplay.JsStrings.JS_PSEUDO_ELEMENT_PROPERTY;
 /**
  * This class represents JS style asserts.
  */
-public class Expect {
+public final class Expect {
 
     private Actor actor;
     private double timeout = 5000;

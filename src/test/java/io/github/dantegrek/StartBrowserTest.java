@@ -46,7 +46,7 @@ public class StartBrowserTest {
     @MethodSource("browsers")
     public void startBrowserTest(BrowserName browserName, String expectedUserAgent) {
         String userAgent = Actor.actor()
-                .config()
+                .browserConfig()
                 .withBrowser(browserName)
                 .configIsFinished()
                 .startBrowser()
@@ -60,8 +60,9 @@ public class StartBrowserTest {
     @MethodSource("devices")
     public void startDeviceTest(BrowserName browserName, Device device) {
         String userAgent = Actor.actor()
-                .config()
+                .browserConfig()
                 .withBrowser(browserName)
+                .contextConfig()
                 .withDevice(device)
                 .configIsFinished()
                 .startBrowser()

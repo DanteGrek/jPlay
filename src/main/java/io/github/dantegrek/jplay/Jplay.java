@@ -1,6 +1,4 @@
-package io.github.dantegrek;
-
-import io.github.dantegrek.jplay.Actor;
+package io.github.dantegrek.jplay;
 
 import static io.github.dantegrek.jplay.Actor.actor;
 

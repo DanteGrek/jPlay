@@ -18,7 +18,7 @@ public class PseudoElementApiTest {
     @BeforeAll
     public void startBrowser() {
         actor()
-                .config()
+                .timeoutConfig()
                 .withExpectTimeout(1000)
                 .and()
                 .startPureBrowser();
@@ -27,7 +27,8 @@ public class PseudoElementApiTest {
     @AfterAll
     public void closeBrowser() {
         actor()
-                .closeBrowser();
+                .closeBrowser()
+                .cleanConfig();
     }
 
     @BeforeEach
