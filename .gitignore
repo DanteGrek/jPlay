@@ -50,4 +50,5 @@ local.properties
 # additional
 *.gpg
 *.pub
+secret.txt
 settings.xml
