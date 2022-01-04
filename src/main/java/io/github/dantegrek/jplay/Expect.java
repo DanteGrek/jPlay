@@ -766,6 +766,7 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with the given input value. You can use regular expressions for the value as well.
      *
+     * @param expectedValue expected result
      * @return instance of Expect
      */
     public Expect hasValue(String expectedValue) {
@@ -776,6 +777,7 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with the given input value. You can use regular expressions for the value as well.
      *
+     * @param expectedValue expected result
      * @return instance of Expect
      */
     public Expect value(String expectedValue) {
@@ -785,6 +787,7 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with the given input value. You can use regular expressions for the value as well.
      *
+     * @param pattern of expected result
      * @return instance of Expect
      */
     public Expect hasValuePattern(Pattern pattern) {
@@ -795,6 +798,7 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with the given input value. You can use regular expressions for the value as well.
      *
+     * @param pattern of expected result
      * @return instance of Expect
      */
     public Expect valuePattern(Pattern pattern) {
@@ -825,6 +829,8 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with given attribute.
      *
+     * @param name  of attribute
+     * @param value expected value
      * @return instance of Expect
      */
     public Expect hasAttribute(String name, String value) {
@@ -835,6 +841,8 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with given attribute.
      *
+     * @param name  of attribute
+     * @param value expected value
      * @return instance of Expect
      */
     public Expect attribute(String name, String value) {
@@ -844,6 +852,8 @@ public class Expect {
     /**
      * Ensures the Locator points to an element with given attribute.
      *
+     * @param name of attribute
+     * @param pattern of expected value
      * @return instance of Expect
      */
     public Expect hasAttributePattern(String name, Pattern pattern) {
@@ -853,7 +863,8 @@ public class Expect {
 
     /**
      * Ensures the Locator points to an element with given attribute.
-     *
+     * @param name of attribute
+     * @param pattern of expected value
      * @return instance of Expect
      */
     public Expect attributePattern(String name, Pattern pattern) {
@@ -1044,7 +1055,7 @@ public class Expect {
     /**
      * Ensures the Locator resolves to an exact number of DOM nodes.
      *
-     * @param count
+     * @param count of elements in list
      * @return instance of Expect
      */
     public Expect hasCount(int count) {
@@ -1055,7 +1066,7 @@ public class Expect {
     /**
      * Ensures the Locator resolves to an exact number of DOM nodes.
      *
-     * @param count
+     * @param count of elements in list
      * @return instance of Expect
      */
     public Expect count(int count) {
@@ -1090,10 +1101,11 @@ public class Expect {
 
     /**
      * Ensures the cssSelector is visible and pseudo-element has property with value.
-     * @param cssSelector css selector which points on element with ::after or ::before
+     *
+     * @param cssSelector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
-     * @param property property name
-     * @param value expected property value
+     * @param property      property name
+     * @param value         expected property value
      * @return instance of Expect
      */
     public Expect visiblePseudoElementHasPropertyWithValue(String cssSelector, String pseudoElement, String property, String value) {
@@ -1107,9 +1119,10 @@ public class Expect {
 
     /**
      * Ensures the cssSelector is visible and pseudo-element do not have property.
-     * @param cssSelector css selector which points on element with ::after or ::before
+     *
+     * @param cssSelector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
-     * @param property property name
+     * @param property      property name
      * @return instance of Expect
      */
     public Expect visiblePseudoElementHasNotProperty(String cssSelector, String pseudoElement, String property) {
@@ -1123,10 +1136,11 @@ public class Expect {
 
     /**
      * Ensures the cssSelector is visible and pseudo-element has property which contains value.
-     * @param cssSelector css selector which points on element with ::after or ::before
+     *
+     * @param cssSelector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
-     * @param property property name
-     * @param value expected property value
+     * @param property      property name
+     * @param value         expected property value
      * @return instance of Expect
      */
     public Expect visiblePseudoElementPropertyContains(String cssSelector, String pseudoElement, String property, String value) {
@@ -1140,10 +1154,11 @@ public class Expect {
 
     /**
      * Ensures the cssSelector is visible and pseudo-element has property which not contains value.
-     * @param cssSelector css selector which points on element with ::after or ::before
+     *
+     * @param cssSelector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
-     * @param property property name
-     * @param value expected property value
+     * @param property      property name
+     * @param value         expected property value
      * @return instance of Expect
      */
     public Expect visiblePseudoElementPropertyNotContains(String cssSelector, String pseudoElement, String property, String value) {

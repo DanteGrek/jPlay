@@ -464,10 +464,18 @@ public final class Actor {
 
     // Expect
 
+    /**
+     * Opens assert functionality.
+     * @return new instance of Expect
+     */
     public Expect expectThat() {
         return new Expect(this).withTimeout(this.configuration.getExceptTimeout());
     }
 
+    /**
+     * Opens assert functionality.
+     * @return new instance of Expect
+     */
     public Expect softExpectThat() {
         return new Expect(this).withSoftExpect(true).withTimeout(this.configuration.getExceptTimeout());
     }
