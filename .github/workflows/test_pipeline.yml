@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
+        #  distribution: 'zulu'
           java-version: ${{ matrix.Java }}
       - name: Install Chrome and MSEdge
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge"
@@ -40,7 +40,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v2
         with:
-          distribution: 'zulu'
+      #    distribution: 'zulu'
           java-version: ${{ matrix.Java }}
       - name: Run Tests
         run: mvn test
