@@ -13,8 +13,8 @@ jobs:
   test:
     strategy:
       matrix:
-        platform: [ubuntu-latest, windows-latest, macos-latest]
-        java: [ '11', '17' ]
+        platform: [ubuntu-latest, macos-latest]
+        java: [ '8', '11', '17' ]
     name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
     runs-on: ${{ matrix.platform }}
     steps:
