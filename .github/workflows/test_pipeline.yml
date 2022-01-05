@@ -10,7 +10,7 @@ concurrency:
   group: TestsPipeline
   cancel-in-progress: true
 jobs:
-  test:
+  linux-macosx-test:
     strategy:
       matrix:
         platform: [ubuntu-latest, windows-latest, macos-latest]
@@ -27,5 +27,20 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge"
       - name: Install deps
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
+      - name: Run Tests
+        run: mvn test
+  windows-test:
+    strategy:
+      matrix:
+        platform: [windows-latest]
+        java: [ '8', '11', '17' ]
+    name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: ${{ matrix.Java }}
       - name: Run Tests
         run: mvn test
