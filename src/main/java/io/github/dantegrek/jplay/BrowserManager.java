@@ -6,7 +6,7 @@ import io.github.dantegrek.enums.BrowserName;
 /**
  * This class is browser, context and page keeper.
  */
-public class BrowserManager {
+class BrowserManager {
 
     private Browser browser;
     private BrowserContext browserContext;

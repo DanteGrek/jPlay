@@ -23,7 +23,7 @@ public class WaitTest {
     public void negativeNavigationWaitTimeoutTest() {
         TimeoutError error = assertThrows(TimeoutError.class, () ->
                 actor()
-                        .config()
+                        .timeoutConfig()
                         .withDefaultNavigationTimeout(10)
                         .andActor()
                         .startBrowser()
@@ -44,7 +44,7 @@ public class WaitTest {
 
         Assertions.assertDoesNotThrow(() ->
                 actor()
-                        .config()
+                        .timeoutConfig()
                         .withDefaultTimeout(1000)
                         .andActor()
                         .startBrowser()
@@ -65,7 +65,7 @@ public class WaitTest {
 
         TimeoutError error = assertThrows(TimeoutError.class, () ->
                 actor()
-                        .config()
+                        .timeoutConfig()
                         .withDefaultTimeout(2)
                         .andActor()
                         .startBrowser()

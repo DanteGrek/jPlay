@@ -20,8 +20,6 @@ public class UploadFileTest {
     @BeforeAll
     public void startBrowser() {
         actor()
-                .config()
-                .configIsFinished()
                 .startPureBrowser();
     }
 

@@ -18,7 +18,8 @@ public class ContextTest {
     @AfterEach
     public void closeBrowser() {
         actor()
-                .closeBrowser();
+                .closeBrowser()
+                .cleanConfig();
     }
 
     @Test

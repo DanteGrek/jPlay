@@ -15,7 +15,7 @@ public class SwitchFameTest {
     @BeforeAll
     public void startBrowser() {
         actor()
-                .config()
+                .timeoutConfig()
                 .withExpectTimeout(1000)
                 .and()
                 .startPureBrowser();
@@ -24,7 +24,8 @@ public class SwitchFameTest {
     @AfterAll
     public void closeBrowser() {
         actor()
-                .closeBrowser();
+                .closeBrowser()
+                .cleanConfig();
     }
 
     @BeforeEach

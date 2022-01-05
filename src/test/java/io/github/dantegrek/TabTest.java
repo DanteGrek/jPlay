@@ -17,7 +17,8 @@ public class TabTest {
     @AfterEach
     public void closeBrowser() {
         actor()
-                .closeBrowser();
+                .closeBrowser()
+                .cleanConfig();
     }
 
     @Test

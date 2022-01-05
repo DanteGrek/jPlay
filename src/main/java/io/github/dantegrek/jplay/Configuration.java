@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Configuration class is responsible for collecting launch and context options.
  */
-public final class Configuration {
+public final class Configuration implements IBrowserConfiguration, IContextConfiguration, ITimeoutConfig {
 
     private Actor actor;
     private BrowserType.LaunchOptions launchOptions = new BrowserType.LaunchOptions();
@@ -28,6 +28,7 @@ public final class Configuration {
 
     /**
      * Getter
+     *
      * @return browser options.
      */
     BrowserType.LaunchOptions getLaunchOptions() {
@@ -36,6 +37,7 @@ public final class Configuration {
 
     /**
      * Getter
+     *
      * @return context options
      */
     Browser.NewContextOptions getContextOptions() {
@@ -44,6 +46,16 @@ public final class Configuration {
 
     /**
      * Getter
+     *
+     * @return enum value of browser name.
+     */
+    BrowserName getBrowserName() {
+        return this.browserName;
+    }
+
+    /**
+     * Getter
+     *
      * @return double represents wait in milliseconds.
      */
     double getDefaultNavigationTimeout() {
@@ -52,6 +64,7 @@ public final class Configuration {
 
     /**
      * Getter
+     *
      * @return double represents value in milliseconds.
      */
     double getDefaultTimeout() {
@@ -60,18 +73,11 @@ public final class Configuration {
 
     /**
      * Getter
+     *
      * @return double represents value in milliseconds.
      */
     double getExceptTimeout() {
         return this.exceptTimeout;
-    }
-
-    /**
-     * Getter
-     * @return enum value of browser name.
-     */
-    BrowserName getBrowserName() {
-        return this.browserName;
     }
 
     // Custom options
@@ -92,48 +98,49 @@ public final class Configuration {
      * @param timeout wait on all navigation actions.
      * @return instance of Configuration
      */
-    public Configuration withDefaultNavigationTimeout(double timeout) {
+    public ITimeoutConfig withDefaultNavigationTimeout(double timeout) {
         this.defaultNavigationTimeout = timeout;
         return this;
     }
 
     /**
      * @param timeout Maximum time in milliseconds
-     * This setting will change the default maximum time for all the methods accepting timeout option.
+     *                This setting will change the default maximum time for all the methods accepting timeout option.
      * @return instance of Configuration
      */
-    public Configuration withDefaultTimeout(double timeout) {
+    public ITimeoutConfig withDefaultTimeout(double timeout) {
         this.defaultWaitTimeout = timeout;
         return this;
     }
 
     /**
      * @param timeout Maximum time in milliseconds
-     * This setting will change the default maximum time for all asserts in thread.
+     *                This setting will change the default maximum time for all asserts in thread.
      * @return instance of Configuration
      */
-    public Configuration withExpectTimeout(double timeout) {
+    public ITimeoutConfig withExpectTimeout(double timeout) {
         this.exceptTimeout = timeout;
         return this;
     }
 
     /**
      * Sets browser to be used by actor.
+     *
      * @param browserName all supported browsers defined in enum {@link io.github.dantegrek.enums.BrowserName}
      * @return instance of Configuration
      */
-    public Configuration withBrowser(BrowserName browserName) {
+    public IBrowserConfiguration withBrowser(BrowserName browserName) {
         this.browserName = browserName;
         return this;
     }
 
     /**
      * @param device Emulate device user agent, view port, device scale factor, sets is touch to true if browser support
-     * such argument, and sets is mobile to true.
-     * Predefined devices: {@link io.github.dantegrek.enums.Devices}
+     *               such argument, and sets is mobile to true.
+     *               Predefined devices: {@link io.github.dantegrek.enums.Devices}
      * @return instance of Configuration
      */
-    public Configuration withDevice(Device device) {
+    public IContextConfiguration withDevice(Device device) {
         this.contextOptions.setUserAgent(device.getUserAgent());
         this.contextOptions.setViewportSize(device.getViewportWidth(), device.getViewportHeight());
         this.contextOptions.setDeviceScaleFactor(device.getDeviceScaleFactor());
@@ -150,11 +157,10 @@ public final class Configuration {
     /**
      * Additional arguments to pass to the browser instance.
      *
-     *
      * @param args The list of Chromium flags can be found "https://peter.sh/experiments/chromium-command-line-switches"
      * @return instance of Configuration
      */
-    public Configuration withBrowserArgs(List<String> args) {
+    public IBrowserConfiguration withBrowserArgs(List<String> args) {
         this.launchOptions.setArgs(args);
         return this;
     }
@@ -165,7 +171,7 @@ public final class Configuration {
      * @param isHeadless boolean primitive.
      * @return instance of Configuration
      */
-    public Configuration withHeadless(boolean isHeadless) {
+    public IBrowserConfiguration withHeadless(boolean isHeadless) {
         this.launchOptions.setHeadless(isHeadless);
         return this;
     }
@@ -176,7 +182,7 @@ public final class Configuration {
      * @param isWithSandbox boolean primitive
      * @return instance if Configuration
      */
-    public Configuration withChromiumSandbox(boolean isWithSandbox) {
+    public IBrowserConfiguration withChromiumSandbox(boolean isWithSandbox) {
         this.launchOptions.setChromiumSandbox(isWithSandbox);
         return this;
     }
@@ -188,7 +194,7 @@ public final class Configuration {
      * @param isDevTools boolean primitive
      * @return instance of Configuration
      */
-    public Configuration withChromiumDevTools(boolean isDevTools) {
+    public IBrowserConfiguration withChromiumDevTools(boolean isDevTools) {
         this.launchOptions.setDevtools(isDevTools);
         return this;
     }
@@ -201,7 +207,7 @@ public final class Configuration {
      * @param path boolean primitive
      * @return instance of Configuration
      */
-    public Configuration withDownloadsPath(Path path) {
+    public IBrowserConfiguration withDownloadsPath(Path path) {
         this.launchOptions.setDownloadsPath(path);
         return this;
     }
@@ -212,7 +218,7 @@ public final class Configuration {
      * @param environmentVariables map of values where key should follow MAP_KEY pattern as name for constant in java.
      * @return instance of Configuration
      */
-    public Configuration withEnvironmentVariables(Map<String, String> environmentVariables) {
+    public IBrowserConfiguration withEnvironmentVariables(Map<String, String> environmentVariables) {
         this.launchOptions.setEnv(environmentVariables);
         return this;
     }
@@ -225,7 +231,7 @@ public final class Configuration {
      * @param path you can use Paths.get("path/to/your/browser/executable/file.exe");
      * @return instance of Configuration
      */
-    public Configuration withExecutablePath(Path path) {
+    public IBrowserConfiguration withExecutablePath(Path path) {
         this.launchOptions.setExecutablePath(path);
         return this;
     }
@@ -236,7 +242,7 @@ public final class Configuration {
      * @param prefs Learn more about the Firefox user preferences at "https://support.mozilla.org/en-US/kb/about-config-editor-firefox"
      * @return instance of Configuration
      */
-    public Configuration withFirefoxUserPrefs(Map<String, Object> prefs) {
+    public IBrowserConfiguration withFirefoxUserPrefs(Map<String, Object> prefs) {
         this.launchOptions.setFirefoxUserPrefs(prefs);
         return this;
     }
@@ -247,7 +253,7 @@ public final class Configuration {
      * @param isIgnoreAllDefaultArgs Dangerous option; use with care. Defaults to false.
      * @return instance of Configuration
      */
-    public Configuration withIgnoreAllDefaultArgs(boolean isIgnoreAllDefaultArgs) {
+    public IBrowserConfiguration withIgnoreAllDefaultArgs(boolean isIgnoreAllDefaultArgs) {
         this.launchOptions.setIgnoreAllDefaultArgs(isIgnoreAllDefaultArgs);
         return this;
     }
@@ -258,7 +264,7 @@ public final class Configuration {
      * @param args Dangerous option; use with care.
      * @return instance of Configuration
      */
-    public Configuration withIgnoreDefaultArgs(List<String> args) {
+    public IBrowserConfiguration withIgnoreDefaultArgs(List<String> args) {
         this.launchOptions.setIgnoreDefaultArgs(args);
         return this;
     }
@@ -269,7 +275,7 @@ public final class Configuration {
      * @param proxy {@link com.microsoft.playwright.options.Proxy}
      * @return instance of Configuration
      */
-    public Configuration withProxy(Proxy proxy) {
+    public IBrowserConfiguration withProxy(Proxy proxy) {
         this.launchOptions.setProxy(proxy);
         return this;
     }
@@ -281,7 +287,7 @@ public final class Configuration {
      * @param milliseconds to wait between all playwright actions
      * @return instance of Configuration
      */
-    public Configuration withSlowMo(double milliseconds) {
+    public IBrowserConfiguration withSlowMo(double milliseconds) {
         this.launchOptions.setSlowMo(milliseconds);
         return this;
     }
@@ -292,7 +298,7 @@ public final class Configuration {
      * @param milliseconds Defaults to 30000 (30 seconds). Pass 0 to disable timeout.
      * @return instance of Configuration
      */
-    public Configuration withTimeoutWaitOnBrowserToStart(double milliseconds) {
+    public IBrowserConfiguration withTimeoutWaitOnBrowserToStart(double milliseconds) {
         this.launchOptions.setTimeout(milliseconds);
         return this;
     }
@@ -303,7 +309,7 @@ public final class Configuration {
      * @param path you can use Paths.get("path/to/your/trace.zip");
      * @return instance of Configuration
      */
-    public Configuration withTrace(Path path) {
+    public IBrowserConfiguration withTrace(Path path) {
         this.launchOptions.setTracesDir(path);
         return this;
     }
@@ -316,7 +322,7 @@ public final class Configuration {
      * @param acceptDownloads Defaults to false where all the downloads are canceled.
      * @return instance of Configuration
      */
-    public Configuration withAcceptDownloads(boolean acceptDownloads) {
+    public IContextConfiguration withAcceptDownloads(boolean acceptDownloads) {
         this.contextOptions.setAcceptDownloads(acceptDownloads);
         return this;
     }
@@ -332,7 +338,7 @@ public final class Configuration {
      * @param baseUrl: http://localhost:3000/foo/ and navigating to ./bar.html results in http://localhost:3000/foo/bar.html
      * @return instance of Configuration
      */
-    public Configuration withBaseURL(String baseUrl) {
+    public IContextConfiguration withBaseURL(String baseUrl) {
         this.contextOptions.setBaseURL(baseUrl);
         return this;
     }
@@ -343,7 +349,7 @@ public final class Configuration {
      * @param bypassCSP default false.
      * @return instance of Configuration
      */
-    public Configuration withBypassCSP(boolean bypassCSP) {
+    public IContextConfiguration withBypassCSP(boolean bypassCSP) {
         this.contextOptions.setBypassCSP(bypassCSP);
         return this;
     }
@@ -355,7 +361,7 @@ public final class Configuration {
      * @param colorScheme supported values are 'light', 'dark', 'no-preference'.
      * @return instance of Configuration
      */
-    public Configuration withColorScheme(ColorScheme colorScheme) {
+    public IContextConfiguration withColorScheme(ColorScheme colorScheme) {
         this.contextOptions.setColorScheme(colorScheme);
         return this;
     }
@@ -364,7 +370,7 @@ public final class Configuration {
      * @param scaleFactor Specify device scale factor (can be thought of as dpr). Defaults to 1.
      * @return instance of Configuration
      */
-    public Configuration withDeviceScaleFactor(double scaleFactor) {
+    public IContextConfiguration withDeviceScaleFactor(double scaleFactor) {
         this.contextOptions.setDeviceScaleFactor(scaleFactor);
         return this;
     }
@@ -373,41 +379,39 @@ public final class Configuration {
      * @param httpHeaders An object containing additional HTTP headers to be sent with every request.
      * @return instance of Configuration
      */
-    public Configuration withExtraHTTPHeaders(Map<String, String> httpHeaders) {
+    public IContextConfiguration withExtraHTTPHeaders(Map<String, String> httpHeaders) {
         this.contextOptions.setExtraHTTPHeaders(httpHeaders);
         return this;
     }
 
     /**
      * @param forcedColors ForcedColors { ACTIVE, NONE } Emulates 'forced-colors' media feature,
-     * supported values are 'active', 'none'.
-     * See "https://playwright.dev/java/docs/api/class-page#page-emulate-media" for more details. Defaults to 'none'.
+     *                     supported values are 'active', 'none'.
+     *                     See "https://playwright.dev/java/docs/api/class-page#page-emulate-media" for more details. Defaults to 'none'.
      * @return instance of Configuration
      */
-    public Configuration withForcedColors(ForcedColors forcedColors) {
+    public IContextConfiguration withForcedColors(ForcedColors forcedColors) {
         this.contextOptions.setForcedColors(forcedColors);
         return this;
     }
 
     /**
-     * @param geolocation
-     * setLatitude double Latitude between -90 and 90.
-     * setLongitude double Longitude between -180 and 180.
-     * setAccuracy double Non-negative accuracy value. Defaults to 0.
-     *
+     * @param geolocation setLatitude double Latitude between -90 and 90.
+     *                    setLongitude double Longitude between -180 and 180.
+     *                    setAccuracy double Non-negative accuracy value. Defaults to 0.
      * @return instance of Configuration
      */
-    public Configuration withGeolocation(Geolocation geolocation) {
+    public IContextConfiguration withGeolocation(Geolocation geolocation) {
         this.contextOptions.setGeolocation(geolocation);
         return this;
     }
 
     /**
-     * @param latitude setLatitude double Latitude between -90 and 90.
+     * @param latitude  setLatitude double Latitude between -90 and 90.
      * @param longitude setLongitude double Longitude between -180 and 180.
      * @return instance of Configuration
      */
-    public Configuration withGeolocation(double latitude, double longitude) {
+    public IContextConfiguration withGeolocation(double latitude, double longitude) {
         this.contextOptions.setGeolocation(latitude, longitude);
         return this;
     }
@@ -416,7 +420,7 @@ public final class Configuration {
      * @param hasTouch Specifies if viewport supports touch events. Defaults to false.
      * @return instance of Configuration
      */
-    public Configuration withHasTouch(boolean hasTouch) {
+    public IContextConfiguration withHasTouch(boolean hasTouch) {
         this.contextOptions.setHasTouch(hasTouch);
         return this;
     }
@@ -425,7 +429,7 @@ public final class Configuration {
      * @param httpCredentials Credentials for "https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication"
      * @return instance of Configuration
      */
-    public Configuration withHttpCredentials(HttpCredentials httpCredentials) {
+    public IContextConfiguration withHttpCredentials(HttpCredentials httpCredentials) {
         this.contextOptions.setHttpCredentials(httpCredentials);
         return this;
     }
@@ -434,17 +438,17 @@ public final class Configuration {
      * @param ignoreHTTPSErrors Whether to ignore HTTPS errors when sending network requests. Defaults to false.
      * @return instance of Configuration
      */
-    public Configuration withIgnoreHTTPSErrors(boolean ignoreHTTPSErrors) {
+    public IContextConfiguration withIgnoreHTTPSErrors(boolean ignoreHTTPSErrors) {
         this.contextOptions.setIgnoreHTTPSErrors(ignoreHTTPSErrors);
         return this;
     }
 
     /**
      * @param isMobile Whether the meta viewport tag is taken into account and touch events are enabled.
-     * Defaults to false. Not supported in Firefox.
+     *                 Defaults to false. Not supported in Firefox.
      * @return instance of Configuration
      */
-    public Configuration withIsMobile(boolean isMobile) {
+    public IContextConfiguration withIsMobile(boolean isMobile) {
         this.contextOptions.setIsMobile(isMobile);
         return this;
     }
@@ -453,17 +457,17 @@ public final class Configuration {
      * @param javaScriptEnabled Whether or not to enable JavaScript in the context. Defaults to true.
      * @return instance of Configuration
      */
-    public Configuration withJavaScriptEnabled(boolean javaScriptEnabled) {
+    public IContextConfiguration withJavaScriptEnabled(boolean javaScriptEnabled) {
         this.contextOptions.setJavaScriptEnabled(javaScriptEnabled);
         return this;
     }
 
     /**
      * @param locale Specify user locale, for example en-GB, de-DE, etc. Locale will affect navigator.language value,
-     * Accept-Language request header value as well as number and date formatting rules.
+     *               Accept-Language request header value as well as number and date formatting rules.
      * @return instance of Configuration
      */
-    public Configuration withLocale(String locale) {
+    public IContextConfiguration withLocale(String locale) {
         this.contextOptions.setLocale(locale);
         return this;
     }
@@ -472,96 +476,92 @@ public final class Configuration {
      * @param offline Whether to emulate network being offline. Defaults to false.
      * @return instance of Configuration
      */
-    public Configuration withOffline(boolean offline) {
+    public IContextConfiguration withOffline(boolean offline) {
         this.contextOptions.setOffline(offline);
         return this;
     }
 
     /**
-     * @param permissions
-     * A list of permissions to grant to all pages in this context.
-     * A permission or an array of permissions to grant. Permissions can be one of the following values:
-     * 'geolocation'
-     * 'midi'
-     * 'midi-sysex' (system-exclusive midi)
-     * 'notifications'
-     * 'push'
-     * 'camera'
-     * 'microphone'
-     * 'background-sync'
-     * 'ambient-light-sensor'
-     * 'accelerometer'
-     * 'gyroscope'
-     * 'magnetometer'
-     * 'accessibility-events'
-     * 'clipboard-read'
-     * 'clipboard-write'
-     * 'payment-handler'
+     * @param permissions A list of permissions to grant to all pages in this context.
+     *                    A permission or an array of permissions to grant. Permissions can be one of the following values:
+     *                    'geolocation'
+     *                    'midi'
+     *                    'midi-sysex' (system-exclusive midi)
+     *                    'notifications'
+     *                    'push'
+     *                    'camera'
+     *                    'microphone'
+     *                    'background-sync'
+     *                    'ambient-light-sensor'
+     *                    'accelerometer'
+     *                    'gyroscope'
+     *                    'magnetometer'
+     *                    'accessibility-events'
+     *                    'clipboard-read'
+     *                    'clipboard-write'
+     *                    'payment-handler'
      * @return instance of Configuration
      */
-    public Configuration withPermissions(List<String> permissions) {
+    public IContextConfiguration withPermissions(List<String> permissions) {
         this.contextOptions.setPermissions(permissions);
         return this;
     }
 
     /**
-     * @param proxy  Network proxy settings to use with this context.
-     * setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
-     * for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
-     * setBypass String Optional comma-separated domains to bypass proxy, for example ".com, chromium.org, .domain.com".
-     * setUsername String Optional username to use if HTTP proxy requires authentication.
-     * setPassword String Optional password to use if HTTP proxy requires authentication.
+     * @param proxy Network proxy settings to use with this context.
+     *              setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
+     *              for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
+     *              setBypass String Optional comma-separated domains to bypass proxy, for example ".com, chromium.org, .domain.com".
+     *              setUsername String Optional username to use if HTTP proxy requires authentication.
+     *              setPassword String Optional password to use if HTTP proxy requires authentication.
      * @return instance of Configuration
      */
-    public Configuration setContextProxy(Proxy proxy) {
+    public IContextConfiguration setContextProxy(Proxy proxy) {
         this.contextOptions.setProxy(proxy);
         return this;
     }
 
     /**
-     * @param server  Network proxy settings to use with this context.
-     * setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
-     * for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
+     * @param server Network proxy settings to use with this context.
+     *               setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
+     *               for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
      * @return instance of Configuration
      */
-    public Configuration setContextProxy(String server) {
+    public IContextConfiguration setContextProxy(String server) {
         this.contextOptions.setProxy(server);
         return this;
     }
 
     /**
-     * @param path
-     * Enables HAR recording for all pages into the specified HAR file on the filesystem.
-     * If not specified, the HAR is not recorded. Make sure to call BrowserContext.close() for the HAR to be saved.
-     * use with Paths.get("path/to/your/log.har");
+     * @param path Enables HAR recording for all pages into the specified HAR file on the filesystem.
+     *             If not specified, the HAR is not recorded. Make sure to call BrowserContext.close() for the HAR to be saved.
+     *             use with Paths.get("path/to/your/log.har");
      * @return instance of Configuration
      */
-    public Configuration withRecordHarPath(Path path) {
+    public IContextConfiguration withRecordHarPath(Path path) {
         this.contextOptions.setRecordHarPath(path);
         return this;
     }
 
     /**
-     * @param path
-     * Enables video recording for all pages into the specified directory.
-     * If not specified videos are not recorded. Make sure to call BrowserContext.close() for videos to be saved.#
-     * use with Paths.get("path/to/your/videoDirectory");
+     * @param path Enables video recording for all pages into the specified directory.
+     *             If not specified videos are not recorded. Make sure to call BrowserContext.close() for videos to be saved.#
+     *             use with Paths.get("path/to/your/videoDirectory");
      * @return instance of Configuration
      */
-    public Configuration withRecordVideoDir(Path path) {
+    public IContextConfiguration withRecordVideoDir(Path path) {
         this.contextOptions.setRecordVideoDir(path);
         return this;
     }
 
     /**
-     * @param recordVideoSize
-     * RecordVideoSize Dimensions of the recorded videos.
-     * If not specified the size will be equal to viewport scaled down to fit into 800x800.
-     * If viewport is not configured explicitly the video size defaults to 800x450.
-     * Actual picture of each page will be scaled down if necessary to fit the specified size.
+     * @param recordVideoSize RecordVideoSize Dimensions of the recorded videos.
+     *                        If not specified the size will be equal to viewport scaled down to fit into 800x800.
+     *                        If viewport is not configured explicitly the video size defaults to 800x450.
+     *                        Actual picture of each page will be scaled down if necessary to fit the specified size.
      * @return instance of Configuration
      */
-    public Configuration withRecordVideoSize(RecordVideoSize recordVideoSize) {
+    public IContextConfiguration withRecordVideoSize(RecordVideoSize recordVideoSize) {
         this.contextOptions.setRecordVideoSize(recordVideoSize);
         return this;
     }
@@ -571,31 +571,32 @@ public final class Configuration {
      * If not specified the size will be equal to viewport scaled down to fit into 800x800.
      * If viewport is not configured explicitly the video size defaults to 800x450.
      * Actual picture of each page will be scaled down if necessary to fit the specified size.
-     * @param width setWidth int Video frame width.
+     *
+     * @param width  setWidth int Video frame width.
      * @param height setHeight int Video frame height.
      * @return instance of Configuration
      */
-    public Configuration withRecordVideoSize(int width, int height) {
+    public IContextConfiguration withRecordVideoSize(int width, int height) {
         this.contextOptions.setRecordVideoSize(width, height);
         return this;
     }
 
     /**
      * @param reducedMotion ReducedMotion { REDUCE, NO_PREFERENCE }
-     * Emulates 'prefers-reduced-motion' media feature, supported values are 'reduce', 'no-preference'.
+     *                      Emulates 'prefers-reduced-motion' media feature, supported values are 'reduce', 'no-preference'.
      * @return instance of Configuration
      */
-    public Configuration setReducedMotion(ReducedMotion reducedMotion) {
+    public IContextConfiguration setReducedMotion(ReducedMotion reducedMotion) {
         this.contextOptions.setReducedMotion(reducedMotion);
         return this;
     }
 
     /**
      * @param screenSize Emulates consistent window screen size available inside web page via window.screen.
-     * Is only used when the viewport is set.
+     *                   Is only used when the viewport is set.
      * @return instance of Configuration
      */
-    public Configuration withScreenSize(ScreenSize screenSize) {
+    public IContextConfiguration withScreenSize(ScreenSize screenSize) {
         this.contextOptions.setScreenSize(screenSize);
         return this;
     }
@@ -603,53 +604,54 @@ public final class Configuration {
     /**
      * Emulates consistent window screen size available inside web page via window.screen.
      * Is only used when the viewport is set.
-     * @param width int value
+     *
+     * @param width  int value
      * @param height int value
      * @return instance of Configuration
      */
-    public Configuration withScreenSize(int width, int height) {
+    public IContextConfiguration withScreenSize(int width, int height) {
         this.contextOptions.setScreenSize(width, height);
         return this;
     }
 
     /**
      * @param state Populates context with given storage state.
-     * This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
+     *              This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
      * @return instance of Configuration
      */
-    public Configuration withStorageState(String state) {
+    public IContextConfiguration withStorageState(String state) {
         this.contextOptions.setStorageState(state);
         return this;
     }
 
     /**
      * @param path Populates context with given storage state.
-     * This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
-     * Path to the file with saved storage state.
+     *             This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
+     *             Path to the file with saved storage state.
      * @return instance of Configuration
      */
-    public Configuration withStorageStatePath(Path path) {
+    public IContextConfiguration withStorageStatePath(Path path) {
         this.contextOptions.setStorageStatePath(path);
         return this;
     }
 
     /**
      * @param isStrict It specified, enables strict selectors mode for this context.
-     * In the strict selectors mode all operations on selectors that imply single target DOM element
-     * will throw when more than one element matches the selector. See Locator to learn more about the strict mode.
+     *                 In the strict selectors mode all operations on selectors that imply single target DOM element
+     *                 will throw when more than one element matches the selector. See Locator to learn more about the strict mode.
      * @return instance of Configuration
      */
-    public Configuration withStrictSelectors(boolean isStrict) {
+    public IContextConfiguration withStrictSelectors(boolean isStrict) {
         this.contextOptions.setStrictSelectors(isStrict);
         return this;
     }
 
     /**
      * @param timezoneId Changes the timezone of the context.
-     * See ICU's metaZones.txt for a list of supported timezone IDs.
+     *                   See ICU's metaZones.txt for a list of supported timezone IDs.
      * @return instance of Configuration
      */
-    public Configuration withTimezoneId(String timezoneId) {
+    public IContextConfiguration withTimezoneId(String timezoneId) {
         this.contextOptions.setTimezoneId(timezoneId);
         return this;
     }
@@ -658,7 +660,7 @@ public final class Configuration {
      * @param userAgent Specific user agent to use in this context.
      * @return instance of Configuration
      */
-    public Configuration withUserAgent(String userAgent) {
+    public IContextConfiguration withUserAgent(String userAgent) {
         this.contextOptions.setUserAgent(userAgent);
         return this;
     }
@@ -667,24 +669,52 @@ public final class Configuration {
      * @param viewportSize Emulates consistent viewport for each page. Defaults to an 1280x720 viewport. null disables the default viewport.
      * @return instance of Configuration
      */
-    public Configuration withViewportSize(ViewportSize viewportSize) {
+    public IContextConfiguration withViewportSize(ViewportSize viewportSize) {
         this.contextOptions.setViewportSize(viewportSize);
         return this;
     }
 
     /**
      * Emulates consistent viewport for each page. Defaults to an 1280x720 viewport. null disables the default viewport.
-     * @param width setWidth int page width in pixels.
+     *
+     * @param width  setWidth int page width in pixels.
      * @param height setHeight int page height in pixels.
      * @return instance of Configuration
      */
-    public Configuration withViewportSize(int width, int height) {
+    public IContextConfiguration withViewportSize(int width, int height) {
         this.contextOptions.setViewportSize(width, height);
         return this;
     }
 
     /**
+     * Return you to IBrowserConfiguration
+     *
+     * @return instance of IBrowserConfiguration
+     */
+    public IBrowserConfiguration browserConfig() {
+        return this;
+    }
+
+    /**
+     * Return you to IContextConfiguration
+     *
+     * @return instance of IContextConfiguration
+     */
+    public IContextConfiguration contextConfig() {
+        return this;
+    }
+
+    /**
+     * Return you to ITimeoutConfig
+     * @return instance of ITimeoutConfig
+     */
+    public ITimeoutConfig timeoutConfig() {
+        return this;
+    }
+
+    /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor finished() {
@@ -693,6 +723,7 @@ public final class Configuration {
 
     /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor configIsFinished() {
@@ -701,6 +732,7 @@ public final class Configuration {
 
     /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor and() {
@@ -709,6 +741,7 @@ public final class Configuration {
 
     /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor andActor() {

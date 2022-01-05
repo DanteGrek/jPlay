@@ -42,11 +42,29 @@ public final class Actor {
     // Config methods
 
     /**
-     * This method point user to configuration chain.
+     * This method point user to timeout configuration chain.
      *
-     * @return instance of Configuration
+     * @return instance of ITimeoutConfig
      */
-    public Configuration config() {
+    public ITimeoutConfig timeoutConfig() {
+        return configuration;
+    }
+
+    /**
+     * This method point user to browser configuration chain.
+     *
+     * @return instance of IBrowserConfiguration
+     */
+    public IBrowserConfiguration browserConfig() {
+        return configuration;
+    }
+
+    /**
+     * This method point user to context configuration chain.
+     *
+     * @return instance of IContextConfiguration
+     */
+    public IContextConfiguration contextConfig() {
         return configuration;
     }
 
@@ -271,7 +289,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor waitTillNetworkIdle() {
-        this.getBrowserManager().getPage().waitForLoadState(LoadState.NETWORKIDLE);
+        this.currentPage().waitForLoadState(LoadState.NETWORKIDLE);
         return this;
     }
 
@@ -281,7 +299,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor waitTillDocumentLoaded() {
-        this.getBrowserManager().getPage().waitForLoadState(LoadState.DOMCONTENTLOADED);
+        this.currentPage().waitForLoadState(LoadState.DOMCONTENTLOADED);
         return this;
     }
 
@@ -294,7 +312,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor navigateTo(String url) {
-        this.getBrowserManager().getPage()
+        this.currentPage()
                 .navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         return this;
     }
@@ -305,7 +323,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor goBack() {
-        this.getBrowserManager().getPage()
+        this.currentPage()
                 .goBack(new Page.GoBackOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         return this;
     }
@@ -316,8 +334,17 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor goForward() {
-        this.getBrowserManager().getPage()
+        this.currentPage()
                 .goForward(new Page.GoForwardOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        return this;
+    }
+
+    /**
+     * Click browser button refresh tab.
+     * @return instance of Actor
+     */
+    public Actor reloadTab() {
+        this.currentPage().reload(new Page.ReloadOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         return this;
     }
 
@@ -462,12 +489,30 @@ public final class Actor {
         return this;
     }
 
+    // Dialog
+
+    /**
+     * Opens chain to handle dialogs like: alert, beforeunload, confirm or prompt.
+     * @return instance of dialog.
+     */
+    public DialogHandler dialog() {
+        return new DialogHandler(this);
+    }
+
     // Expect
 
+    /**
+     * Opens assert functionality.
+     * @return new instance of Expect
+     */
     public Expect expectThat() {
         return new Expect(this).withTimeout(this.configuration.getExceptTimeout());
     }
 
+    /**
+     * Opens assert functionality.
+     * @return new instance of Expect
+     */
     public Expect softExpectThat() {
         return new Expect(this).withSoftExpect(true).withTimeout(this.configuration.getExceptTimeout());
     }
@@ -482,6 +527,17 @@ public final class Actor {
      */
     public Actor setContent(String html) {
         this.currentFrame().setContent(html);
+        return this;
+    }
+
+    /**
+     * Evaluate
+     *
+     * @param jsScript java script injection
+     * @return instance of Actor
+     */
+    public Actor evaluate(String jsScript) {
+        this.currentFrame().evaluate(jsScript);
         return this;
     }
 
