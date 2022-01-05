@@ -13,7 +13,7 @@ jobs:
   test:
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest]
+        platform: [ubuntu-latest, windows-latest, macos-latest]
         java: [ '8', '11', '17' ]
     name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
     runs-on: ${{ matrix.platform }}
