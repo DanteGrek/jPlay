@@ -431,7 +431,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect hasTexts(List<String> expectedTexts) {
-        this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedTexts.stream().toArray(String[]::new), new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
+        this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedTexts.toArray(String[]::new), new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
     }
 
@@ -473,7 +473,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect hasTextPatterns(List<Pattern> patterns) {
-        this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns.stream().toArray(String[]::new), new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
+        this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns.toArray(String[]::new), new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
     }
 
@@ -563,7 +563,7 @@ public final class Expect {
         this.executeLocatorAssert(new IExpect() {
             @Override
             public void doAssert() {
-                locatorAssertions.hasText(expectedInnerTexts.stream().toArray(String[]::new),
+                locatorAssertions.hasText(expectedInnerTexts.toArray(String[]::new),
                         new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout));
             }
         });
@@ -609,7 +609,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect hasInnerTextPatterns(List<Pattern> patterns) {
-        this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns.stream().toArray(String[]::new),
+        this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns.toArray(String[]::new),
                 new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout)));
         return this;
     }
@@ -665,7 +665,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect containsTexts(List<String> expectedTexts) {
-        this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedTexts.stream().toArray(String[]::new), new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
+        this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedTexts.toArray(String[]::new), new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
     }
 
@@ -687,7 +687,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect containsTextPatterns(List<Pattern> patterns) {
-        this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns.stream().toArray(String[]::new), new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
+        this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns.toArray(String[]::new), new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
     }
 
@@ -734,7 +734,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect containsInnerTexts(List<String> expectedInnerTexts) {
-        this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedInnerTexts.stream().toArray(String[]::new),
+        this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedInnerTexts.toArray(String[]::new),
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
         return this;
     }
@@ -758,7 +758,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect containsInnerTextPatterns(List<Pattern> patterns) {
-        this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns.stream().toArray(String[]::new),
+        this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns.toArray(String[]::new),
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
         return this;
     }
@@ -900,7 +900,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect hasAllClasses(List<String> classes) {
-        this.executeLocatorAssert(() -> locatorAssertions.hasClass(classes.stream().toArray(String[]::new), new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
+        this.executeLocatorAssert(() -> locatorAssertions.hasClass(classes.toArray(String[]::new), new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
     }
 
@@ -933,7 +933,7 @@ public final class Expect {
      * @return instance of Expect
      */
     public Expect hasAllClassPatterns(List<Pattern> patterns) {
-        this.executeLocatorAssert(() -> locatorAssertions.hasClass(patterns.stream().toArray(Pattern[]::new), new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
+        this.executeLocatorAssert(() -> locatorAssertions.hasClass(patterns.toArray(Pattern[]::new), new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
     }
 

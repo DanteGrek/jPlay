@@ -498,7 +498,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor uploadFiles(String selector, List<Path> files) {
-        this.currentFrame().setInputFiles(selector, files.stream().toArray(Path[]::new));
+        this.currentFrame().setInputFiles(selector, files.toArray(Path[]::new));
         return this;
     }
 
