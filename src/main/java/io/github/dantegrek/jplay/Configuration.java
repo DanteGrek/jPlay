@@ -28,6 +28,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Getter
+     *
      * @return browser options.
      */
     BrowserType.LaunchOptions getLaunchOptions() {
@@ -36,6 +37,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Getter
+     *
      * @return context options
      */
     Browser.NewContextOptions getContextOptions() {
@@ -44,6 +46,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Getter
+     *
      * @return enum value of browser name.
      */
     BrowserName getBrowserName() {
@@ -52,6 +55,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Getter
+     *
      * @return double represents wait in milliseconds.
      */
     double getDefaultNavigationTimeout() {
@@ -60,6 +64,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Getter
+     *
      * @return double represents value in milliseconds.
      */
     double getDefaultTimeout() {
@@ -68,6 +73,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Getter
+     *
      * @return double represents value in milliseconds.
      */
     double getExceptTimeout() {
@@ -99,7 +105,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param timeout Maximum time in milliseconds
-     * This setting will change the default maximum time for all the methods accepting timeout option.
+     *                This setting will change the default maximum time for all the methods accepting timeout option.
      * @return instance of Configuration
      */
     public ITimeoutConfig withDefaultTimeout(double timeout) {
@@ -109,7 +115,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param timeout Maximum time in milliseconds
-     * This setting will change the default maximum time for all asserts in thread.
+     *                This setting will change the default maximum time for all asserts in thread.
      * @return instance of Configuration
      */
     public ITimeoutConfig withExpectTimeout(double timeout) {
@@ -119,6 +125,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Sets browser to be used by actor.
+     *
      * @param browserName all supported browsers defined in enum {@link io.github.dantegrek.enums.BrowserName}
      * @return instance of Configuration
      */
@@ -129,8 +136,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param device Emulate device user agent, view port, device scale factor, sets is touch to true if browser support
-     * such argument, and sets is mobile to true.
-     * Predefined devices: {@link io.github.dantegrek.enums.Devices}
+     *               such argument, and sets is mobile to true.
+     *               Predefined devices: {@link io.github.dantegrek.enums.Devices}
      * @return instance of Configuration
      */
     public IContextConfiguration withDevice(Device device) {
@@ -149,7 +156,6 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Additional arguments to pass to the browser instance.
-     *
      *
      * @param args The list of Chromium flags can be found "https://peter.sh/experiments/chromium-command-line-switches"
      * @return instance of Configuration
@@ -380,8 +386,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param forcedColors ForcedColors { ACTIVE, NONE } Emulates 'forced-colors' media feature,
-     * supported values are 'active', 'none'.
-     * See "https://playwright.dev/java/docs/api/class-page#page-emulate-media" for more details. Defaults to 'none'.
+     *                     supported values are 'active', 'none'.
+     *                     See "https://playwright.dev/java/docs/api/class-page#page-emulate-media" for more details. Defaults to 'none'.
      * @return instance of Configuration
      */
     public IContextConfiguration withForcedColors(ForcedColors forcedColors) {
@@ -390,11 +396,9 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param geolocation
-     * setLatitude double Latitude between -90 and 90.
-     * setLongitude double Longitude between -180 and 180.
-     * setAccuracy double Non-negative accuracy value. Defaults to 0.
-     *
+     * @param geolocation setLatitude double Latitude between -90 and 90.
+     *                    setLongitude double Longitude between -180 and 180.
+     *                    setAccuracy double Non-negative accuracy value. Defaults to 0.
      * @return instance of Configuration
      */
     public IContextConfiguration withGeolocation(Geolocation geolocation) {
@@ -403,7 +407,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param latitude setLatitude double Latitude between -90 and 90.
+     * @param latitude  setLatitude double Latitude between -90 and 90.
      * @param longitude setLongitude double Longitude between -180 and 180.
      * @return instance of Configuration
      */
@@ -441,7 +445,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param isMobile Whether the meta viewport tag is taken into account and touch events are enabled.
-     * Defaults to false. Not supported in Firefox.
+     *                 Defaults to false. Not supported in Firefox.
      * @return instance of Configuration
      */
     public IContextConfiguration withIsMobile(boolean isMobile) {
@@ -460,7 +464,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param locale Specify user locale, for example en-GB, de-DE, etc. Locale will affect navigator.language value,
-     * Accept-Language request header value as well as number and date formatting rules.
+     *               Accept-Language request header value as well as number and date formatting rules.
      * @return instance of Configuration
      */
     public IContextConfiguration withLocale(String locale) {
@@ -478,25 +482,24 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param permissions
-     * A list of permissions to grant to all pages in this context.
-     * A permission or an array of permissions to grant. Permissions can be one of the following values:
-     * 'geolocation'
-     * 'midi'
-     * 'midi-sysex' (system-exclusive midi)
-     * 'notifications'
-     * 'push'
-     * 'camera'
-     * 'microphone'
-     * 'background-sync'
-     * 'ambient-light-sensor'
-     * 'accelerometer'
-     * 'gyroscope'
-     * 'magnetometer'
-     * 'accessibility-events'
-     * 'clipboard-read'
-     * 'clipboard-write'
-     * 'payment-handler'
+     * @param permissions A list of permissions to grant to all pages in this context.
+     *                    A permission or an array of permissions to grant. Permissions can be one of the following values:
+     *                    'geolocation'
+     *                    'midi'
+     *                    'midi-sysex' (system-exclusive midi)
+     *                    'notifications'
+     *                    'push'
+     *                    'camera'
+     *                    'microphone'
+     *                    'background-sync'
+     *                    'ambient-light-sensor'
+     *                    'accelerometer'
+     *                    'gyroscope'
+     *                    'magnetometer'
+     *                    'accessibility-events'
+     *                    'clipboard-read'
+     *                    'clipboard-write'
+     *                    'payment-handler'
      * @return instance of Configuration
      */
     public IContextConfiguration withPermissions(List<String> permissions) {
@@ -505,12 +508,12 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param proxy  Network proxy settings to use with this context.
-     * setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
-     * for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
-     * setBypass String Optional comma-separated domains to bypass proxy, for example ".com, chromium.org, .domain.com".
-     * setUsername String Optional username to use if HTTP proxy requires authentication.
-     * setPassword String Optional password to use if HTTP proxy requires authentication.
+     * @param proxy Network proxy settings to use with this context.
+     *              setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
+     *              for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
+     *              setBypass String Optional comma-separated domains to bypass proxy, for example ".com, chromium.org, .domain.com".
+     *              setUsername String Optional username to use if HTTP proxy requires authentication.
+     *              setPassword String Optional password to use if HTTP proxy requires authentication.
      * @return instance of Configuration
      */
     public IContextConfiguration setContextProxy(Proxy proxy) {
@@ -519,9 +522,9 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param server  Network proxy settings to use with this context.
-     * setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
-     * for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
+     * @param server Network proxy settings to use with this context.
+     *               setServer String Proxy to be used for all requests. HTTP and SOCKS proxies are supported,
+     *               for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
      * @return instance of Configuration
      */
     public IContextConfiguration setContextProxy(String server) {
@@ -530,10 +533,9 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param path
-     * Enables HAR recording for all pages into the specified HAR file on the filesystem.
-     * If not specified, the HAR is not recorded. Make sure to call BrowserContext.close() for the HAR to be saved.
-     * use with Paths.get("path/to/your/log.har");
+     * @param path Enables HAR recording for all pages into the specified HAR file on the filesystem.
+     *             If not specified, the HAR is not recorded. Make sure to call BrowserContext.close() for the HAR to be saved.
+     *             use with Paths.get("path/to/your/log.har");
      * @return instance of Configuration
      */
     public IContextConfiguration withRecordHarPath(Path path) {
@@ -542,10 +544,9 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param path
-     * Enables video recording for all pages into the specified directory.
-     * If not specified videos are not recorded. Make sure to call BrowserContext.close() for videos to be saved.#
-     * use with Paths.get("path/to/your/videoDirectory");
+     * @param path Enables video recording for all pages into the specified directory.
+     *             If not specified videos are not recorded. Make sure to call BrowserContext.close() for videos to be saved.#
+     *             use with Paths.get("path/to/your/videoDirectory");
      * @return instance of Configuration
      */
     public IContextConfiguration withRecordVideoDir(Path path) {
@@ -554,11 +555,10 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
-     * @param recordVideoSize
-     * RecordVideoSize Dimensions of the recorded videos.
-     * If not specified the size will be equal to viewport scaled down to fit into 800x800.
-     * If viewport is not configured explicitly the video size defaults to 800x450.
-     * Actual picture of each page will be scaled down if necessary to fit the specified size.
+     * @param recordVideoSize RecordVideoSize Dimensions of the recorded videos.
+     *                        If not specified the size will be equal to viewport scaled down to fit into 800x800.
+     *                        If viewport is not configured explicitly the video size defaults to 800x450.
+     *                        Actual picture of each page will be scaled down if necessary to fit the specified size.
      * @return instance of Configuration
      */
     public IContextConfiguration withRecordVideoSize(RecordVideoSize recordVideoSize) {
@@ -571,7 +571,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * If not specified the size will be equal to viewport scaled down to fit into 800x800.
      * If viewport is not configured explicitly the video size defaults to 800x450.
      * Actual picture of each page will be scaled down if necessary to fit the specified size.
-     * @param width setWidth int Video frame width.
+     *
+     * @param width  setWidth int Video frame width.
      * @param height setHeight int Video frame height.
      * @return instance of Configuration
      */
@@ -582,7 +583,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param reducedMotion ReducedMotion { REDUCE, NO_PREFERENCE }
-     * Emulates 'prefers-reduced-motion' media feature, supported values are 'reduce', 'no-preference'.
+     *                      Emulates 'prefers-reduced-motion' media feature, supported values are 'reduce', 'no-preference'.
      * @return instance of Configuration
      */
     public IContextConfiguration setReducedMotion(ReducedMotion reducedMotion) {
@@ -592,7 +593,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param screenSize Emulates consistent window screen size available inside web page via window.screen.
-     * Is only used when the viewport is set.
+     *                   Is only used when the viewport is set.
      * @return instance of Configuration
      */
     public IContextConfiguration withScreenSize(ScreenSize screenSize) {
@@ -603,7 +604,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     /**
      * Emulates consistent window screen size available inside web page via window.screen.
      * Is only used when the viewport is set.
-     * @param width int value
+     *
+     * @param width  int value
      * @param height int value
      * @return instance of Configuration
      */
@@ -614,7 +616,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param state Populates context with given storage state.
-     * This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
+     *              This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
      * @return instance of Configuration
      */
     public IContextConfiguration withStorageState(String state) {
@@ -624,8 +626,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param path Populates context with given storage state.
-     * This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
-     * Path to the file with saved storage state.
+     *             This option can be used to initialize context with logged-in information obtained via BrowserContext.storageState([options]).
+     *             Path to the file with saved storage state.
      * @return instance of Configuration
      */
     public IContextConfiguration withStorageStatePath(Path path) {
@@ -635,8 +637,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param isStrict It specified, enables strict selectors mode for this context.
-     * In the strict selectors mode all operations on selectors that imply single target DOM element
-     * will throw when more than one element matches the selector. See Locator to learn more about the strict mode.
+     *                 In the strict selectors mode all operations on selectors that imply single target DOM element
+     *                 will throw when more than one element matches the selector. See Locator to learn more about the strict mode.
      * @return instance of Configuration
      */
     public IContextConfiguration withStrictSelectors(boolean isStrict) {
@@ -646,7 +648,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * @param timezoneId Changes the timezone of the context.
-     * See ICU's metaZones.txt for a list of supported timezone IDs.
+     *                   See ICU's metaZones.txt for a list of supported timezone IDs.
      * @return instance of Configuration
      */
     public IContextConfiguration withTimezoneId(String timezoneId) {
@@ -674,7 +676,8 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Emulates consistent viewport for each page. Defaults to an 1280x720 viewport. null disables the default viewport.
-     * @param width setWidth int page width in pixels.
+     *
+     * @param width  setWidth int page width in pixels.
      * @param height setHeight int page height in pixels.
      * @return instance of Configuration
      */
@@ -702,7 +705,16 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     }
 
     /**
+     * Return you to ITimeoutConfig
+     * @return instance of ITimeoutConfig
+     */
+    public ITimeoutConfig timeoutConfig() {
+        return this;
+    }
+
+    /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor finished() {
@@ -711,6 +723,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor configIsFinished() {
@@ -719,6 +732,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor and() {
@@ -727,6 +741,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Return you to actor invocation chain.
+     *
      * @return instance of Actor
      */
     public Actor andActor() {

@@ -9,7 +9,7 @@ import static io.github.dantegrek.jplay.Jplay.*;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class DialogTest {
 
-    private final String pathToAlertHtml = "file:" + Paths.get("src", "test", "resources", "playground/Alerts.html").toFile().getAbsolutePath();
+    private final String pathToIndexHtml = "file:" + Paths.get("src", "test", "resources", "playground/index.html").toFile().getAbsolutePath();
 
     @BeforeAll
     public void beforeAll() {
@@ -26,7 +26,7 @@ public class DialogTest {
 
     @BeforeEach
     public void beforeEach() {
-        given().createContextAndTab().navigateTo(pathToAlertHtml);
+        given().createContextAndTab().navigateTo(pathToIndexHtml);
     }
 
     @AfterEach
@@ -35,77 +35,85 @@ public class DialogTest {
     }
 
     @Test
-    public void acceptJsAlertTest() {
+    public void expectThatMessageEqualAndDismissJsDialogTest() {
         when()
                 .dialog()
-                .acceptOnce()
-                .click("button[onclick='jsAlert()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You successfully clicked an alert");
+                .expectThatMessageEqualAndDismiss("Are you here?")
+                .evaluate("window.result = confirm('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("false")
+                .evaluate("alert(window.result);");
     }
 
     @Test
-    public void acceptOnceJsConfirmTest() {
+    public void expectThatMessageEqualAndAcceptJsDialogTest() {
         when()
                 .dialog()
-                .acceptOnce()
-                .click("button[onclick='jsConfirm()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You clicked: Ok")
-                .andActor()
-                .click("button[onclick='jsConfirm()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You clicked: Cancel");
+                .expectThatMessageEqualAndAccept("Are you here?")
+                .evaluate("window.result = confirm('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("true")
+                .evaluate("alert(window.result);");
     }
 
     @Test
-    public void acceptAllJsConfirmTest() {
+    public void acceptOnceJsConfirmDialogTest() {
         when()
                 .dialog()
-                .acceptAll()
-                .click("button[onclick='jsConfirm()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You clicked: Ok")
-                .andActor()
-                .click("button[onclick='jsConfirm()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You clicked: Ok");
+                .acceptConfirmOnce()
+                .evaluate("window.result = confirm('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("true")
+                .evaluate("alert(window.result);")
+                .evaluate("window.result = confirm('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("false")
+                .evaluate("alert(window.result);");
     }
 
     @Test
-    public void acceptOnceJsPromptTest() {
+    public void acceptAllJsConfirmDialogsTest() {
         when()
                 .dialog()
-                .acceptOnce("jPlay")
-                .click("button[onclick='jsPrompt()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You entered: jPlay")
-                .andActor()
-                .click("button[onclick='jsPrompt()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You entered: null");
+                .acceptAllConfirms()
+                .evaluate("window.result = confirm('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("true")
+                .evaluate("alert(window.result);")
+                .evaluate("window.result = confirm('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("true")
+                .evaluate("alert(window.result);");
     }
 
     @Test
-    public void acceptAllJsPromptTest() {
+    public void acceptOnceJsPromptDialogTest() {
         when()
                 .dialog()
-                .acceptAll("jPlay")
-                .click("button[onclick='jsPrompt()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You entered: jPlay")
-                .andActor()
-                .click("button[onclick='jsPrompt()']")
-                .expectThat()
-                .selector("#result")
-                .hasText("You entered: jPlay");
+                .acceptPromptOnce("Yes")
+                .evaluate("window.result = prompt('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("Yes")
+                .evaluate("alert(window.result);")
+                .evaluate("window.result = prompt('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("null")
+                .evaluate("alert(window.result);");
     }
+
+    @Test
+    public void acceptAllJsPromptDialogsTest() {
+        when()
+                .dialog()
+                .acceptAllPrompts("Yes")
+                .evaluate("window.result = prompt('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("Yes")
+                .evaluate("alert(window.result);")
+                .evaluate("window.result = prompt('Are you here?');")
+                .dialog()
+                .expectThatMessageEqualAndDismiss("Yes")
+                .evaluate("alert(window.result);");
+    }
+
 }

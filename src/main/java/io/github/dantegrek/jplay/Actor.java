@@ -530,6 +530,17 @@ public final class Actor {
         return this;
     }
 
+    /**
+     * Evaluate
+     *
+     * @param jsScript java script injection
+     * @return instance of Actor
+     */
+    public Actor evaluate(String jsScript) {
+        this.currentFrame().evaluate(jsScript);
+        return this;
+    }
+
     // Execute actions and tasks methods
 
     private <T extends Action> T executeAction(T action) {

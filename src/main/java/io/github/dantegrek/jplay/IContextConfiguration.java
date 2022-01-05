@@ -1,13 +1,15 @@
 package io.github.dantegrek.jplay;
 
 import com.microsoft.playwright.options.*;
-import io.github.dantegrek.enums.BrowserName;
 import io.github.dantegrek.interfaces.Device;
 
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 public interface IContextConfiguration extends IConfigSwitcher {
 
     /**
@@ -16,6 +18,12 @@ public interface IContextConfiguration extends IConfigSwitcher {
      * @return instance of IBrowserConfiguration
      */
     IBrowserConfiguration browserConfig();
+
+    /**
+     * Return you to ITimeoutConfig
+     * @return instance of ITimeoutConfig
+     */
+    ITimeoutConfig timeoutConfig();
 
     /**
      * @param device Emulate device user agent, view port, device scale factor, sets is touch to true if browser support

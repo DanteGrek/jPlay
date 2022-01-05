@@ -1,6 +1,24 @@
 package io.github.dantegrek.jplay;
 
+/**
+ *
+ */
 public interface ITimeoutConfig extends IConfigSwitcher {
+
+    /**
+     * Return you to IBrowserConfiguration
+     *
+     * @return instance of IBrowserConfiguration
+     */
+    IBrowserConfiguration browserConfig();
+
+    /**
+     * Return you to IContextConfiguration
+     *
+     * @return instance of IContextConfiguration
+     */
+    IContextConfiguration contextConfig();
+
     /**
      * Maximum navigation time in milliseconds
      * This setting will change the default maximum navigation time for the following methods and related shortcuts:

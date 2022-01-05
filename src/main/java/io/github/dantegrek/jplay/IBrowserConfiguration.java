@@ -7,6 +7,9 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 public interface IBrowserConfiguration extends IConfigSwitcher {
 
     /**
@@ -15,6 +18,12 @@ public interface IBrowserConfiguration extends IConfigSwitcher {
      * @return instance of IContextConfiguration
      */
     IContextConfiguration contextConfig();
+
+    /**
+     * Return you to ITimeoutConfig
+     * @return instance of ITimeoutConfig
+     */
+    ITimeoutConfig timeoutConfig();
 
     /**
      * Sets browser to be used by actor.
