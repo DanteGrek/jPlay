@@ -2,10 +2,12 @@ package io.github.dantegrek.jplay;
 
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Frame;
+import com.microsoft.playwright.Keyboard;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.MouseButton;
 import com.microsoft.playwright.options.WaitUntilState;
+import io.github.dantegrek.enums.Key;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -341,6 +343,7 @@ public final class Actor {
 
     /**
      * Click browser button refresh tab.
+     *
      * @return instance of Actor
      */
     public Actor reloadTab() {
@@ -458,6 +461,16 @@ public final class Actor {
     }
 
     /**
+     * Mouse over.
+     * @param selector css or xpath
+     * @return instance of Actor
+     */
+    public Actor hover(String selector) {
+        this.currentFrame().hover(selector);
+        return this;
+    }
+
+    /**
      * This method expects selector to point to an input element.
      * <p>
      * Sets the value of the file input to these file paths or files.
@@ -489,10 +502,81 @@ public final class Actor {
         return this;
     }
 
+    // Keyboard
+
+    /**
+     * Shortcut for Keyboard.down(key) and Keyboard.up(key).
+     *
+     * @param key Key enum
+     * @return instance of Actor
+     */
+    public Actor key(Key key) {
+        this.currentPage().keyboard().press(key.keyCode);
+        return this;
+    }
+
+    /**
+     * Shortcut for Keyboard.down(key) and Keyboard.up(key).
+     *
+     * @param key          Key enum
+     * @param milliseconds dilay between down and up.
+     * @return instance of Actor
+     */
+    public Actor keyWithDelay(Key key, double milliseconds) {
+        this.currentPage().keyboard().press(key.keyCode, new Keyboard.PressOptions().setDelay(milliseconds));
+        return this;
+    }
+
+    /**
+     * Shortcut for Keyboard.down(key) and Keyboard.up(key).
+     *
+     * @param selector css pr xpath
+     * @param key      Key enum
+     * @return instance of Actor
+     */
+    public Actor key(String selector, Key key) {
+        this.currentPage().press(selector, key.keyCode);
+        return this;
+    }
+
+    /**
+     * Dispatches a keydown event.
+     *
+     * @param key Key enum
+     * @return instance of Actor
+     */
+    public Actor keyDown(Key key) {
+        this.currentPage().keyboard().down(key.keyCode);
+        return this;
+    }
+
+    /**
+     * Dispatches a keyup event.
+     *
+     * @param key Key enum
+     * @return instance of Actor
+     */
+    public Actor keyUp(Key key) {
+        this.currentPage().keyboard().up(key.keyCode);
+        return this;
+    }
+
+    /**
+     * Emulate exotic characters from keyboard like "嗨"
+     *
+     * @param text any String
+     * @return instance of Actor
+     */
+    public Actor insertText(String text) {
+        this.currentPage().keyboard().insertText(text);
+        return this;
+    }
+
     // Dialog
 
     /**
      * Opens chain to handle dialogs like: alert, beforeunload, confirm or prompt.
+     *
      * @return instance of dialog.
      */
     public DialogHandler dialog() {
@@ -503,6 +587,7 @@ public final class Actor {
 
     /**
      * Opens assert functionality.
+     *
      * @return new instance of Expect
      */
     public Expect expectThat() {
@@ -511,6 +596,7 @@ public final class Actor {
 
     /**
      * Opens assert functionality.
+     *
      * @return new instance of Expect
      */
     public Expect softExpectThat() {
