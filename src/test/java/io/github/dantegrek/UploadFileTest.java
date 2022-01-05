@@ -4,7 +4,7 @@ import org.junit.jupiter.api.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
+import java.util.Arrays;
 
 import static io.github.dantegrek.jplay.Actor.actor;
 
@@ -59,7 +59,7 @@ public class UploadFileTest {
     public void uploadMultipleFilesTest() {
         actor()
                 .navigateTo(pathToFormHtml)
-                .uploadFiles("#upload_files", List.of(uploadFilePath, uploadSecondFilePath))
+                .uploadFiles("#upload_files", Arrays.asList(uploadFilePath, uploadSecondFilePath))
                 .softExpectThat()
                 .selector("#validate_files")
                 .isVisible()
