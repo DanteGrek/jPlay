@@ -3,6 +3,8 @@ package io.github.dantegrek.jplay;
 import com.microsoft.playwright.*;
 import io.github.dantegrek.enums.BrowserName;
 
+import java.util.List;
+
 /**
  * This class is browser, context and page keeper.
  */
@@ -52,24 +54,28 @@ class BrowserManager {
     // Start browser methods
     private Browser startBrowserOnly(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
         Playwright playwright = Playwright.create();
-         switch (browserName) {
+        final String chromiumDisableDevShm = "--disable-dev-shm-usage";
+        switch (browserName) {
             case CHROME:
                 return playwright.chromium()
                         .launch(launchOptions
-                                .setChannel(BrowserName.CHROME.name));
-             case MSEDGE:
-                 return playwright.chromium()
-                         .launch(launchOptions
-                            .setChannel(BrowserName.MSEDGE.name));
-             case WEBKIT:
-                 return playwright.webkit()
-                    .launch(launchOptions);
-             case FIREFOX:
-                 return playwright.firefox()
-                    .launch(launchOptions);
-             default:
-                 return playwright.chromium()
-                    .launch(launchOptions);
+                                .setChannel(BrowserName.CHROME.name)
+                                .setArgs(List.of(chromiumDisableDevShm)));
+            case MSEDGE:
+                return playwright.chromium()
+                        .launch(launchOptions
+                                .setChannel(BrowserName.MSEDGE.name)
+                                .setArgs(List.of(chromiumDisableDevShm)));
+            case WEBKIT:
+                return playwright.webkit()
+                        .launch(launchOptions);
+            case FIREFOX:
+                return playwright.firefox()
+                        .launch(launchOptions);
+            default:
+                return playwright.chromium()
+                        .launch(launchOptions
+                                .setArgs(List.of(chromiumDisableDevShm)));
         }
     }
 
