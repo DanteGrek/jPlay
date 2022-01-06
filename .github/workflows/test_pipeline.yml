@@ -13,7 +13,7 @@ jobs:
   linux-macosx-test:
     strategy:
       matrix:
-        platform: [ubuntu-latest, macos-latest]
+        platform: [ ubuntu-latest, macos-latest ]
         java: [ '11', '17' ]
     name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
     runs-on: ${{ matrix.platform }}
@@ -29,10 +29,15 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
+      - name: Archive surfire-reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: surfire-reports
+          path: target/surfire-reports
   windows-test:
     strategy:
       matrix:
-        platform: [windows-latest]
+        platform: [ windows-latest ]
         java: [ '11', '17' ]
     name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
     runs-on: ${{ matrix.platform }}
@@ -44,3 +49,8 @@ jobs:
           java-version: ${{ matrix.Java }}
       - name: Run Tests
         run: mvn test
+      - name: Archive surfire-reports
+        uses: actions/upload-artifact@v2
+        with:
+          name: surfire-reports
+          path: target/surfire-reports
