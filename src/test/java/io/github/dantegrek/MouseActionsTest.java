@@ -11,7 +11,7 @@ import static io.github.dantegrek.jplay.Jplay.*;
 
 public class MouseActionsTest {
 
-    private final String pathToMouseActionsHtml = "file:" + Paths.get("src", "test", "resources", "playground/mouse_events.html").toFile().getAbsolutePath();
+    private final String pathToMouseActionsHtml = "https://dantegrek.github.io/testautomation-playground/mouse_events.html";//"file:" + Paths.get("src", "test", "resources", "playground/mouse_events.html").toFile().getAbsolutePath();
 
     @AfterEach
     public void afterEach() {

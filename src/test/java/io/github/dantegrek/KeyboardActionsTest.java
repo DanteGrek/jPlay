@@ -12,7 +12,7 @@ import static io.github.dantegrek.jplay.Jplay.*;
 
 public class KeyboardActionsTest {
 
-    private final String pathToKeyboardActionsHtml = "file:" + Paths.get("src", "test", "resources", "playground/keyboard_events.html").toFile().getAbsolutePath();
+    private final String pathToKeyboardActionsHtml = "https://dantegrek.github.io/testautomation-playground/keyboard_events.html";//"file:" + Paths.get("src", "test", "resources", "playground/keyboard_events.html").toFile().getAbsolutePath();
 
     @AfterEach
     public void afterEach() {

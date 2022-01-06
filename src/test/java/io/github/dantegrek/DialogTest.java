@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class DialogTest {
 
-    private final String pathToIndexHtml = "file:" + Paths.get("src", "test", "resources", "playground/index.html").toFile().getAbsolutePath();
+    private final String pathToIndexHtml = "https://dantegrek.github.io/testautomation-playground/index.html";//"file:" + Paths.get("src", "test", "resources", "playground/index.html").toFile().getAbsolutePath();
 
     @AfterEach
     public void afterEach() {
