@@ -1,67 +1,65 @@
 package io.github.dantegrek;
 
+import io.github.dantegrek.enums.BrowserName;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.nio.file.Paths;
 
 import static io.github.dantegrek.enums.Key.*;
 import static io.github.dantegrek.jplay.Jplay.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-
 public class KeyboardActionsTest {
 
     private final String pathToKeyboardActionsHtml = "file:" + Paths.get("src", "test", "resources", "playground/keyboard_events.html").toFile().getAbsolutePath();
 
-    @BeforeAll
-    public void beforeAll() {
-        given()
-                .startPureBrowser();
-    }
-
-    @AfterAll
-    public void afterAll() {
-        then()
-                .closeBrowser();
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        given()
-                .createContextAndTab()
-                .navigateTo(pathToKeyboardActionsHtml);
-    }
-
     @AfterEach
     public void afterEach() {
-        given()
-                .closeCurrentContext();
+        then()
+                .closeBrowser()
+                .cleanConfig();
     }
 
-    @Test
-    public void keyTest() {
+    public static Object[][] browsers() {
+        return new Object[][]{
+                {BrowserName.CHROMIUM},
+                {BrowserName.WEBKIT},
+                {BrowserName.FIREFOX}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void keyTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName);
+        and()
+                .startBrowser()
+                .navigateTo(pathToKeyboardActionsHtml);
         when()
                 .click("#area")
-                .key(DIGIT_0)
+                .key(DIGIT_0);
+        then()
                 .expectThat()
                 .selector("#key")
                 .hasText("0");
     }
 
-    @Test
-    public void keyWithSelectorTest() {
-        when()
-                .key("#area", F1)
-                .expectThat()
-                .selector("#key")
-                .hasText("F1");
-    }
-
-    @Test
-    public void keyDownKeyUpTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void keyDownKeyUpTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName);
+        and()
+                .startBrowser()
+                .navigateTo(pathToKeyboardActionsHtml);
         when()
                 .click("#area")
-                .keyDown(SHIFT)
+                .keyDown(SHIFT);
+        user()
                 .expectThat()
                 .selector("#key")
                 .hasText("Shift");
@@ -71,18 +69,26 @@ public class KeyboardActionsTest {
                 .expectThat()
                 .selector("#key")
                 .hasText("A");
-        and()
+        then()
                 .key(KEY_A)
                 .expectThat()
                 .selector("#key")
                 .hasText("a");
     }
 
-    @Test
-    public void insertTextTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void insertTextTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName);
+        and()
+                .startBrowser()
+                .navigateTo(pathToKeyboardActionsHtml);
         when()
                 .click("#area")
-                .insertText("嗨")
+                .insertText("嗨");
+        then()
                 .expectThat()
                 .selector("#area")
                 .hasValue("嗨");

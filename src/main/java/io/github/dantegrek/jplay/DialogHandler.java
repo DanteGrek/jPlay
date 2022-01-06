@@ -163,7 +163,7 @@ public final class DialogHandler {
     private void assertEqual(String actual, String expected) {
         if (!actual.equals(expected)) {
             throw new AssertionFailedError(
-                    String.format("Unexpected dialog message: Actual: %s\nExpected: %s", actual, expected));
+                    String.format("Unexpected dialog message:\nActual: %s\nExpected: %s", actual, expected));
         }
     }
 

@@ -26,10 +26,10 @@ public class TestAction extends Action {
     }
 
     public String getRating() {
-       return this.getPseudoElementContent(".star-rating", "after");
+       return this.getPseudoElementContent(".star-rating", "::after");
     }
 
-    public String getNegativeRating() {
-        return this.getPseudoElementContent("#check_rating", "before");
+    public String getNotExistingPseudoElement() {
+        return this.getPseudoElementContent("#check_rating", "::before");
     }
 }

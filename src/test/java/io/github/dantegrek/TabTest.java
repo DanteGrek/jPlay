@@ -3,8 +3,11 @@ package io.github.dantegrek;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.PlaywrightException;
+import io.github.dantegrek.enums.BrowserName;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static io.github.dantegrek.jplay.Actor.actor;
 import static org.junit.jupiter.api.Assertions.*;
@@ -21,9 +24,21 @@ public class TabTest {
                 .cleanConfig();
     }
 
-    @Test
-    public void openNewTabTest() {
+    public static Object[][] browsers() {
+        return new Object[][]{
+                {BrowserName.CHROMIUM},
+                {BrowserName.WEBKIT},
+                {BrowserName.FIREFOX}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void openNewTabTest(BrowserName browserName) {
         BrowserContext context = actor()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
                 .startBrowser()
                 .openNewTab()
                 .currentPage()
@@ -31,9 +46,13 @@ public class TabTest {
         assertEquals(2, context.pages().size(), UNEXPECTED_AMOUNT_OF_PAGES);
     }
 
-    @Test
-    public void createContextAndTabTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void createContextAndTabTest(BrowserName browserName) {
         BrowserContext context = actor()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
                 .startBrowser()
                 .createContextAndTab()
                 .currentPage()
@@ -56,9 +75,13 @@ public class TabTest {
                 UNEXPECTED_EXCEPTION_MESSAGE);
     }
 
-    @Test
-    public void switchTabByIndexTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void switchTabByIndexTest(BrowserName browserName) {
         Page page1 = actor()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
                 .startBrowser()
                 .currentPage();
         Page page2 = actor()
@@ -80,8 +103,9 @@ public class TabTest {
                 UNEXPECTED_EXCEPTION_MESSAGE);
     }
 
-    @Test
-    public void switchTabByTitleTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void switchTabByTitleTest(BrowserName browserName) {
         String html =
                 "<!DOCTYPE html>" +
                         "<html>" +
@@ -90,6 +114,9 @@ public class TabTest {
                         "</head>" +
                         "</html>";
         Page page1 = actor()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
                 .startBrowser()
                 .setContent(html)
                 .currentPage();

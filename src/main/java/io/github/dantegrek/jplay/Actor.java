@@ -1,11 +1,9 @@
 package io.github.dantegrek.jplay;
 
-import com.microsoft.playwright.BrowserContext;
-import com.microsoft.playwright.Frame;
-import com.microsoft.playwright.Keyboard;
-import com.microsoft.playwright.Page;
+import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.MouseButton;
+import com.microsoft.playwright.options.WaitForSelectorState;
 import com.microsoft.playwright.options.WaitUntilState;
 import io.github.dantegrek.enums.Key;
 
@@ -314,8 +312,8 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor navigateTo(String url) {
-        this.currentPage()
-                .navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
+        this.currentFrame()
+                .navigate(url, new Frame.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         return this;
     }
 
@@ -462,6 +460,7 @@ public final class Actor {
 
     /**
      * Mouse over.
+     *
      * @param selector css or xpath
      * @return instance of Actor
      */
@@ -471,8 +470,8 @@ public final class Actor {
     }
 
     /**
-     * This method expects selector to point to an input element.
-     * <p>
+     * This method wait till upload file input visible, then scroll into view if needed and sets value.
+     *
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -482,13 +481,33 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor uploadFile(String selector, Path file) {
-        this.currentFrame().setInputFiles(selector, file);
+        return this.uploadFile(selector, false, file);
+    }
+
+    /**
+     * This method wait till upload file input visible, then scroll into view if needed and sets value.
+     *
+     * Sets the value of the file input to these file paths or files.
+     * If some of the filePaths are relative paths, then they are resolved relative to
+     * the current working directory. For empty array, clears the selected files.
+     *
+     * @param selector css or xpath
+     * @param hiddenInput if false wait till input visible and scroll if needed, true wait till input attached to the dom.
+     * @param file     to upload
+     * @return instance of Actor
+     */
+    public Actor uploadFile(String selector, boolean hiddenInput, Path file) {
+        Locator locator = this.currentFrame().locator(selector);
+        if(!hiddenInput) {
+            locator.scrollIntoViewIfNeeded();
+        }
+        locator.setInputFiles(file);
         return this;
     }
 
     /**
-     * This method expects selector to point to an input element.
-     * <p>
+     * This method wait till upload file input visible, then scroll into view if needed and sets value.
+     *
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -498,7 +517,63 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor uploadFiles(String selector, List<Path> files) {
-        this.currentFrame().setInputFiles(selector, files.toArray(Path[]::new));
+        return this.uploadFiles(selector, false, files);
+    }
+
+    /**
+     * This method wait till upload file input visible, then scroll into view if needed and sets value.
+     *
+     * Sets the value of the file input to these file paths or files.
+     * If some of the filePaths are relative paths, then they are resolved relative to
+     * the current working directory. For empty array, clears the selected files.
+     *
+     * @param selector css or xpath
+     * @param hiddenInput if false wait till input visible and scroll if needed, true wait till input attached to the dom.
+     * @param files    to upload
+     * @return instance of Actor
+     */
+    public Actor uploadFiles(String selector, boolean hiddenInput, List<Path> files) {
+        Locator locator = this.currentFrame().locator(selector);
+        if(!hiddenInput) {
+            locator.scrollIntoViewIfNeeded();
+        }
+        locator.setInputFiles(files.toArray(Path[]::new));
+        return this;
+    }
+
+    /**
+     * This method wait till upload file input visible, then scroll into view if needed and sets value.
+     *
+     * Sets the value of the file input to these file paths or files.
+     * If some of the filePaths are relative paths, then they are resolved relative to
+     * the current working directory. For empty array, clears the selected files.
+     *
+     * @param selector css or xpath
+     * @param files    to upload
+     * @return instance of Actor
+     */
+    public Actor uploadFiles(String selector, Path... files) {
+        return this.uploadFiles(selector, false, files);
+    }
+
+    /**
+     * This method wait till upload file input visible, then scroll into view if needed and sets value.
+     *
+     * Sets the value of the file input to these file paths or files.
+     * If some of the filePaths are relative paths, then they are resolved relative to
+     * the current working directory. For empty array, clears the selected files.
+     *
+     * @param selector css or xpath
+     * @param hiddenInput if false wait till input visible and scroll if needed, true wait till input attached to the dom.
+     * @param files    to upload
+     * @return instance of Actor
+     */
+    public Actor uploadFiles(String selector, boolean hiddenInput, Path... files) {
+        Locator locator = this.currentFrame().locator(selector);
+        if(!hiddenInput) {
+            locator.scrollIntoViewIfNeeded();
+        }
+        locator.setInputFiles(files);
         return this;
     }
 
@@ -524,18 +599,6 @@ public final class Actor {
      */
     public Actor keyWithDelay(Key key, double milliseconds) {
         this.currentPage().keyboard().press(key.keyCode, new Keyboard.PressOptions().setDelay(milliseconds));
-        return this;
-    }
-
-    /**
-     * Shortcut for Keyboard.down(key) and Keyboard.up(key).
-     *
-     * @param selector css pr xpath
-     * @param key      Key enum
-     * @return instance of Actor
-     */
-    public Actor key(String selector, Key key) {
-        this.currentPage().press(selector, key.keyCode);
         return this;
     }
 

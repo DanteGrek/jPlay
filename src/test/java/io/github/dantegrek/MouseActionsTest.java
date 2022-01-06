@@ -1,82 +1,113 @@
 package io.github.dantegrek;
 
+import io.github.dantegrek.enums.BrowserName;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.nio.file.Paths;
 
 import static io.github.dantegrek.jplay.Jplay.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class MouseActionsTest {
 
     private final String pathToMouseActionsHtml = "file:" + Paths.get("src", "test", "resources", "playground/mouse_events.html").toFile().getAbsolutePath();
 
-
-    @BeforeAll
-    public void beforeAll() {
-        given()
-                .startPureBrowser();
-    }
-
-    @AfterAll
-    public void afterAll() {
-        then()
-                .closeBrowser();
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        given()
-                .createContextAndTab()
-                .navigateTo(pathToMouseActionsHtml);
-    }
-
     @AfterEach
     public void afterEach() {
-        given()
-                .closeCurrentContext();
+        then()
+                .closeBrowser()
+                .cleanConfig();
     }
 
-    @Test
-    public void clickTest() {
+    public static Object[][] browsers() {
+        return new Object[][]{
+                {BrowserName.CHROMIUM},
+                {BrowserName.WEBKIT},
+                {BrowserName.FIREFOX}
+        };
+    }
+
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void clickTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(pathToMouseActionsHtml);
         user()
-                .click("#click_area")
+                .click("#click_area");
+        then()
                 .expectThat()
                 .selector("#click_type")
                 .hasText("Click");
     }
 
-    @Test
-    public void doubleClickTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void doubleClickTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(pathToMouseActionsHtml);
         user()
-                .doubleClick("#click_area")
+                .doubleClick("#click_area");
+        then()
                 .expectThat()
                 .selector("#click_type")
                 .hasText("Double-Click");
     }
 
-    @Test
-    public void rightClickTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void rightClickTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(pathToMouseActionsHtml);
         user()
-                .rightClick("#click_area")
+                .rightClick("#click_area");
+        then()
                 .expectThat()
                 .selector("#click_type")
                 .hasText("Right-Click");
     }
 
-    @Test
-    public void hoverTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void hoverTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(pathToMouseActionsHtml);
         user()
-                .hover("button.dropbtn")
+                .hover("button.dropbtn");
+        then()
                 .expectThat()
                 .selector("#dd_java")
                 .isVisible();
     }
 
-    @Test
-    public void dragAndDropTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void dragAndDropTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(pathToMouseActionsHtml);
         user()
-                .dragAndDrop("#drag_source", "#drop_target")
+                .dragAndDrop("#drag_source", "#drop_target");
+        then()
                 .expectThat()
                 .selector("#drop_target")
                 .hasText("Drop is successful!");
