@@ -31,6 +31,7 @@ jobs:
         run: mvn test
       - name: Archive surfire-reports
         uses: actions/upload-artifact@v2
+        if: failure()
         with:
           name: surfire-reports
           path: target/surfire-reports
@@ -50,6 +51,7 @@ jobs:
       - name: Run Tests
         run: mvn test
       - name: Archive surfire-reports
+        if: failure()
         uses: actions/upload-artifact@v2
         with:
           name: surfire-reports
