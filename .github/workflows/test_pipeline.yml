@@ -29,12 +29,11 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
-      - name: Archive surfire-reports
-        uses: actions/upload-artifact@v2
+      - name: Publish jUnit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: failure()
         with:
-          name: surfire-reports
-          path: target/surefire-reports/*.xml
+          files: target/surefire-reports/*.xml
   windows-test:
     strategy:
       matrix:
@@ -50,9 +49,8 @@ jobs:
           java-version: ${{ matrix.Java }}
       - name: Run Tests
         run: mvn test
-      - name: Archive surfire-reports
+      - name: Publish jUnit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
         if: failure()
-        uses: actions/upload-artifact@v2
         with:
-          name: surfire-reports
-          path: target/surefire-reports/*.xml
+          files: target/surefire-reports/*.xml
