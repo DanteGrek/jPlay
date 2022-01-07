@@ -14,7 +14,7 @@ public class UploadFileTest {
 
     private final String uploadFileName = "fileToUpload.txt";
     private final String secondUploadFileName = "secondFileToUpload.txt";
-    private final String pathToFormHtml = "https://dantegrek.github.io/testautomation-playground/forms.html";//"file:" + Paths.get("src", "test", "resources", "playground/forms.html").toFile().getAbsolutePath();
+    private final String pathToFormHtml = "file:" + Paths.get("src", "test", "resources", "playground/forms.html").toFile().getAbsolutePath();
     private final Path uploadFilePath = Paths.get("src", "test", "resources", uploadFileName);
     private final Path uploadSecondFilePath = Paths.get("src", "test", "resources", secondUploadFileName);
 

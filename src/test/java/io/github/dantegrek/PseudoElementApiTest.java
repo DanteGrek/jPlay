@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PseudoElementApiTest {
 
-    private final String pathToAdvancedHtml = "https://dantegrek.github.io/testautomation-playground/advanced.html";//"file:" + Paths.get("src", "test", "resources", "playground/advanced.html").toFile().getAbsolutePath();
+    private final String pathToAdvancedHtml = "file:" + Paths.get("src", "test", "resources", "playground/advanced.html").toFile().getAbsolutePath();
 
     @AfterEach
     public void closeContext() {

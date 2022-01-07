@@ -10,11 +10,35 @@ concurrency:
   group: TestsPipeline
   cancel-in-progress: true
 jobs:
-  linux-macosx-test:
+  ubuntu-test:
     strategy:
       matrix:
-        platform: [ ubuntu-latest, macos-latest ]
-        java: [ '11', '17' ]
+        platform: [ ubuntu-latest ]
+        java: [ '11' ]
+    name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.Java }}
+      - name: Install Chrome and MSEdge
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install chrome msedge"
+      - name: Install deps
+        run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
+      - name: Run Tests
+        run: mvn test
+      - name: Publish jUnit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: failure()
+        with:
+          files: target/surefire-reports/*.xml
+  macosx-test:
+    strategy:
+      matrix:
+        platform: [ macos-latest ]
+        java: [ '11' ]
     name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
     runs-on: ${{ matrix.platform }}
     steps:
@@ -38,7 +62,7 @@ jobs:
     strategy:
       matrix:
         platform: [ windows-latest ]
-        java: [ '11', '17' ]
+        java: [ '11' ]
     name: ${{ matrix.platform }} - Java ${{ matrix.Java }}
     runs-on: ${{ matrix.platform }}
     steps:

@@ -71,7 +71,8 @@ class BrowserManager {
                         .launch(launchOptions);
             case FIREFOX:
                 return playwright.firefox()
-                        .launch(launchOptions);
+                        .launch(launchOptions
+                                .setArgs(List.of("--debug")));
             default:
                 return playwright.chromium()
                         .launch(launchOptions

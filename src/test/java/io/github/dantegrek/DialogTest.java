@@ -7,14 +7,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
-import java.nio.file.Paths;
-
 import static io.github.dantegrek.jplay.Jplay.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class DialogTest {
 
-    private final String pathToIndexHtml = "https://dantegrek.github.io/testautomation-playground/index.html";//"file:" + Paths.get("src", "test", "resources", "playground/index.html").toFile().getAbsolutePath();
+    private final String emptyHtml = "<html></html>";
 
     @AfterEach
     public void afterEach() {
@@ -39,7 +37,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
         when()
                 .dialog()
                 .expectThatMessageEqualAndDismiss("Are you here?")
@@ -58,7 +56,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
 
         AssertionFailedError assertionFailedError = assertThrows(AssertionFailedError.class, () ->
                 when()
@@ -79,7 +77,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
         when()
                 .dialog()
                 .expectThatMessageEqualAndAccept("Are you here?")
@@ -98,7 +96,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
         when()
                 .dialog()
                 .acceptConfirmOnce()
@@ -123,7 +121,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
         when()
                 .dialog()
                 .acceptAllConfirms()
@@ -148,7 +146,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
         when()
                 .dialog()
                 .acceptPromptOnce("Yes")
@@ -173,7 +171,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
         when()
                 .dialog()
                 .acceptAllPrompts("Yes")
@@ -198,7 +196,7 @@ public class DialogTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToIndexHtml);
+                .setContent(emptyHtml);
 
         PlaywrightException playwrightException = assertThrows(PlaywrightException.class, () ->
                 when()
