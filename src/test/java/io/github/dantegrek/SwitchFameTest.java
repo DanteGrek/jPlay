@@ -30,7 +30,7 @@ public class SwitchFameTest {
 
     @ParameterizedTest
     @MethodSource("browsers")
-    public void switchOnFrameTest(BrowserName browserName, String url) {
+    public void switchOnFrameTest(BrowserName browserName) {
         given()
                 .timeoutConfig()
                 .withExpectTimeout(1000)
@@ -50,7 +50,7 @@ public class SwitchFameTest {
 
     @ParameterizedTest
     @MethodSource("browsers")
-    public void switchOnMainFrame(BrowserName browserName, String url) {
+    public void switchOnMainFrame(BrowserName browserName) {
         given()
                 .timeoutConfig()
                 .withExpectTimeout(1000)

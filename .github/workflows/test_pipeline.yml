@@ -30,10 +30,11 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
-      - name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
+      - name: Publish jUnit Test Results
         uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
+          check_name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
           report_paths: target/surefire-reports/*.xml
 
   macosx-test:
@@ -55,10 +56,11 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
-      - name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
+      - name: Publis jUnit Test Results
         uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
+          check_name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
           report_paths: target/surefire-reports/*.xml
 
   windows-test:
@@ -76,8 +78,9 @@ jobs:
           java-version: ${{ matrix.Java }}
       - name: Run Tests
         run: mvn test
-      - name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
+      - name: Publish jUnit Test Results
         uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
+          check_name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
           report_paths: target/surefire-reports/*.xml
