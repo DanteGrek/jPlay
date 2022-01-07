@@ -56,8 +56,8 @@ abstract class AbstractActivity {
     protected String getPseudoElementContent(String cssSelector, String pseudoElement) {
         findBy(cssSelector).waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
         String content = actor.currentFrame().evaluate(String.format(JS_PSEUDO_ELEMENT_CONTENT, cssSelector, pseudoElement)).toString();
-        if(content.equals("none")){
-            throw new AssertionFailedError(String.format("Selector '%s' with pseudo-element '%s' did not found any content. JS returned 'none'.", cssSelector, pseudoElement));
+        if(content.equals("none") || content.isEmpty()){
+            return content;
         }
         // JS returns string as object and when Java do toString()
         // it wraps js string into java String that is why we need to rid off first and last characters in next line

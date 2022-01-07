@@ -1,11 +1,16 @@
 package io.github.dantegrek;
 
 import com.microsoft.playwright.TimeoutError;
+import io.github.dantegrek.enums.BrowserName;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import static io.github.dantegrek.jplay.Actor.actor;
+import static io.github.dantegrek.jplay.Jplay.given;
+import static io.github.dantegrek.jplay.Jplay.when;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class WaitTest {
@@ -17,6 +22,14 @@ public class WaitTest {
         actor()
                 .closeBrowser()
                 .cleanConfig();
+    }
+
+    public static Object[][] browsers() {
+        return new Object[][]{
+                {BrowserName.CHROMIUM},
+                {BrowserName.WEBKIT},
+                {BrowserName.FIREFOX}
+        };
     }
 
     @Test
@@ -32,8 +45,9 @@ public class WaitTest {
         assertTrue(error.getMessage().contains("message='Timeout 10ms exceeded."), UNEXPECTED_ERROR_MESSAGE);
     }
 
-    @Test
-    public void positiveWaitTimeoutTest() {
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void positiveWaitTimeoutTest(BrowserName browserName) {
         String html =
                 "<!DOCTYPE html>" +
                 "<html>" +
@@ -42,13 +56,16 @@ public class WaitTest {
                     "</head>" +
                 "</html>";
 
+        given()
+                .timeoutConfig()
+                .withDefaultTimeout(1000)
+                .browserConfig()
+                .withBrowser(browserName)
+                .andActor()
+                .startBrowser()
+                .setContent(html);
         Assertions.assertDoesNotThrow(() ->
-                actor()
-                        .timeoutConfig()
-                        .withDefaultTimeout(1000)
-                        .andActor()
-                        .startBrowser()
-                        .setContent(html)
+                when()
                         .click("button")
         );
     }

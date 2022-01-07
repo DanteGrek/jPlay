@@ -1,52 +1,50 @@
 package io.github.dantegrek;
 
+import io.github.dantegrek.enums.BrowserName;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
-import static io.github.dantegrek.jplay.Actor.actor;
+import static io.github.dantegrek.jplay.Jplay.*;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UploadFileTest {
 
     private final String uploadFileName = "fileToUpload.txt";
     private final String secondUploadFileName = "secondFileToUpload.txt";
-    private final String pathToFormHtml = "file:" + Paths.get("src", "test", "resources", "playground/forms.html").toFile().getAbsolutePath();
+    private final String formsUrl = "https://dantegrek.github.io/testautomation-playground/forms.html";
     private final Path uploadFilePath = Paths.get("src", "test", "resources", uploadFileName);
     private final Path uploadSecondFilePath = Paths.get("src", "test", "resources", secondUploadFileName);
 
-    @BeforeAll
-    public void startBrowser() {
-        actor()
-                .startPureBrowser();
-    }
-
-    @AfterAll
-    public void closeBrowser() {
-        actor()
+    @AfterEach
+    public void closeContext() {
+        then()
                 .closeBrowser()
                 .cleanConfig();
     }
 
-    @BeforeEach
-    public void openTab() {
-        actor()
-                .createContextAndTab();
+    public static Object[][] browsers() {
+        return new Object[][]{
+                {BrowserName.CHROMIUM},
+                {BrowserName.WEBKIT},
+                {BrowserName.FIREFOX}
+        };
     }
 
-    @AfterEach
-    public void closeContext() {
-        actor()
-                .closeCurrentContext();
-    }
-
-    @Test
-    public void uploadFileTest() {
-        actor()
-                .navigateTo(pathToFormHtml)
-                .uploadFile("#upload_cv", uploadFilePath)
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void uploadFileTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(formsUrl);
+        when()
+                .uploadFile("#upload_cv", uploadFilePath);
+        then()
                 .softExpectThat()
                 .selector("#validate_cv")
                 .isVisible()
@@ -55,11 +53,18 @@ public class UploadFileTest {
                 .checkAll();
     }
 
-    @Test
-    public void uploadMultipleFilesTest() {
-        actor()
-                .navigateTo(pathToFormHtml)
-                .uploadFiles("#upload_files", List.of(uploadFilePath, uploadSecondFilePath))
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void uploadMultipleFilesTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(formsUrl);
+        when()
+                .uploadFiles("#upload_files", uploadFilePath, uploadSecondFilePath);
+        then()
                 .softExpectThat()
                 .selector("#validate_files")
                 .isVisible()
