@@ -74,7 +74,7 @@ jobs:
       - name: Run Tests
         run: mvn test
       - name: Publish jUnit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+        uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
           files: target/surefire-reports/*.xml
