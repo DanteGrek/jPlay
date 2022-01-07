@@ -14,7 +14,7 @@ public class UploadFileTest {
 
     private final String uploadFileName = "fileToUpload.txt";
     private final String secondUploadFileName = "secondFileToUpload.txt";
-    private final String pathToFormHtml = "file:" + Paths.get("src", "test", "resources", "playground/forms.html").toFile().getAbsolutePath();
+    private final String formsUrl = "https://dantegrek.github.io/testautomation-playground/forms.html";
     private final Path uploadFilePath = Paths.get("src", "test", "resources", uploadFileName);
     private final Path uploadSecondFilePath = Paths.get("src", "test", "resources", secondUploadFileName);
 
@@ -41,7 +41,7 @@ public class UploadFileTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToFormHtml);
+                .navigateTo(formsUrl);
         when()
                 .uploadFile("#upload_cv", uploadFilePath);
         then()
@@ -61,7 +61,7 @@ public class UploadFileTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToFormHtml);
+                .navigateTo(formsUrl);
         when()
                 .uploadFiles("#upload_files", uploadFilePath, uploadSecondFilePath);
         then()

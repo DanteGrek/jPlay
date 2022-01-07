@@ -6,8 +6,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
-import java.nio.file.Paths;
-
 import static io.github.dantegrek.actions.TestAction.testAction;
 import static io.github.dantegrek.jplay.Actor.actor;
 import static io.github.dantegrek.jplay.Jplay.given;
@@ -16,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PseudoElementApiTest {
 
-    private final String pathToAdvancedHtml = "file:" + Paths.get("src", "test", "resources", "playground/advanced.html").toFile().getAbsolutePath();
+    private final String advancedUrl = "https://dantegrek.github.io/testautomation-playground/advanced.html";
 
     @AfterEach
     public void closeContext() {
@@ -43,7 +41,7 @@ public class PseudoElementApiTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToAdvancedHtml);
+                .navigateTo(advancedUrl);
         actor()
                 .softExpectThat()
                 .visiblePseudoElementHasPropertyWithValue(".star-rating", "::after", "display", "inline-block")
@@ -60,7 +58,7 @@ public class PseudoElementApiTest {
                 .withExpectTimeout(1000)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToAdvancedHtml);
+                .navigateTo(advancedUrl);
         AssertionFailedError assertionFailedError = assertThrows(AssertionFailedError.class, () ->
                 actor()
                         .softExpectThat()
@@ -90,7 +88,7 @@ public class PseudoElementApiTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToAdvancedHtml);
+                .navigateTo(advancedUrl);
         String rating = testAction()
                 .getRating();
         actor()
@@ -114,7 +112,7 @@ public class PseudoElementApiTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToAdvancedHtml);
+                .navigateTo(advancedUrl);
 
         String content = testAction()
                 .getNotExistingPseudoElement();

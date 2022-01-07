@@ -5,13 +5,11 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.nio.file.Paths;
-
 import static io.github.dantegrek.jplay.Jplay.*;
 
 public class SwitchFameTest {
 
-    private static final String pathToFramesHtml = "file:" + Paths.get("src", "test", "resources", "playground/frames.html").toFile().getAbsolutePath();
+    private static final String framesUrl = "https://dantegrek.github.io/testautomation-playground/frames.html";
 
     @AfterEach
     public void closeContext() {
@@ -22,9 +20,9 @@ public class SwitchFameTest {
 
     public static Object[][] browsers() {
         return new Object[][]{
-                {BrowserName.CHROMIUM/*, pathToFramesHtml*/},
-                {BrowserName.WEBKIT/*, pathToFramesHtml*/},
-                {BrowserName.FIREFOX/*, "https://dantegrek.github.io/testautomation-playground/frames.html"*/}
+                {BrowserName.CHROMIUM},
+                {BrowserName.WEBKIT},
+                {BrowserName.FIREFOX}
         };
     }
 
@@ -38,7 +36,7 @@ public class SwitchFameTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToFramesHtml);
+                .navigateTo(framesUrl);
         when()
                 .switchOnFrame("#frame1")
                 .click("#click_me_1");
@@ -58,7 +56,7 @@ public class SwitchFameTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToFramesHtml);
+                .navigateTo(framesUrl);
         when()
                 .switchOnFrame("#frame1")
                 .switchOnFrame("#frame2")

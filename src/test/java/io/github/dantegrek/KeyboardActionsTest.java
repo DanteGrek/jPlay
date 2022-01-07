@@ -5,14 +5,12 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.nio.file.Paths;
-
 import static io.github.dantegrek.enums.Key.*;
 import static io.github.dantegrek.jplay.Jplay.*;
 
 public class KeyboardActionsTest {
 
-    private final String pathToKeyboardActionsHtml = "file:" + Paths.get("src", "test", "resources", "playground/keyboard_events.html").toFile().getAbsolutePath();
+    private final String keyboardActionsUrl = "https://dantegrek.github.io/testautomation-playground/keyboard_events.html";
 
     @AfterEach
     public void afterEach() {
@@ -37,7 +35,7 @@ public class KeyboardActionsTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToKeyboardActionsHtml);
+                .navigateTo(keyboardActionsUrl);
         when()
                 .click("#area")
                 .key(DIGIT_0);
@@ -55,7 +53,7 @@ public class KeyboardActionsTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToKeyboardActionsHtml);
+                .navigateTo(keyboardActionsUrl);
         when()
                 .click("#area")
                 .keyDown(SHIFT);
@@ -84,7 +82,7 @@ public class KeyboardActionsTest {
                 .withBrowser(browserName);
         and()
                 .startBrowser()
-                .navigateTo(pathToKeyboardActionsHtml);
+                .navigateTo(keyboardActionsUrl);
         when()
                 .click("#area")
                 .insertText("嗨");

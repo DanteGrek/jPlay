@@ -5,13 +5,11 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.nio.file.Paths;
-
 import static io.github.dantegrek.jplay.Jplay.*;
 
 public class MouseActionsTest {
 
-    private final String pathToMouseActionsHtml = "file:" + Paths.get("src", "test", "resources", "playground/mouse_events.html").toFile().getAbsolutePath();
+    private final String mouseActionsUrl = "https://dantegrek.github.io/testautomation-playground/mouse_events.html";
 
     @AfterEach
     public void afterEach() {
@@ -36,7 +34,7 @@ public class MouseActionsTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToMouseActionsHtml);
+                .navigateTo(mouseActionsUrl);
         user()
                 .click("#click_area");
         then()
@@ -53,7 +51,7 @@ public class MouseActionsTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToMouseActionsHtml);
+                .navigateTo(mouseActionsUrl);
         user()
                 .doubleClick("#click_area");
         then()
@@ -70,7 +68,7 @@ public class MouseActionsTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToMouseActionsHtml);
+                .navigateTo(mouseActionsUrl);
         user()
                 .rightClick("#click_area");
         then()
@@ -87,7 +85,7 @@ public class MouseActionsTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToMouseActionsHtml);
+                .navigateTo(mouseActionsUrl);
         user()
                 .hover("button.dropbtn");
         then()
@@ -104,7 +102,7 @@ public class MouseActionsTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(pathToMouseActionsHtml);
+                .navigateTo(mouseActionsUrl);
         user()
                 .dragAndDrop("#drag_source", "#drop_target");
         then()
