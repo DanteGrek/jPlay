@@ -10,6 +10,7 @@ concurrency:
   group: TestsPipeline
   cancel-in-progress: true
 jobs:
+
   ubuntu-test:
     strategy:
       matrix:
@@ -29,11 +30,12 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
-      - name: Publish jUnit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+      - name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
+        uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
-          files: target/surefire-reports/*.xml
+          report_paths: target/surefire-reports/*.xml
+
   macosx-test:
     strategy:
       matrix:
@@ -53,11 +55,12 @@ jobs:
         run: mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install-deps"
       - name: Run Tests
         run: mvn test
-      - name: Publish jUnit Test Results
-        uses: EnricoMi/publish-unit-test-result-action@v1
+      - name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
+        uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
-          files: target/surefire-reports/*.xml
+          report_paths: target/surefire-reports/*.xml
+
   windows-test:
     strategy:
       matrix:
@@ -73,8 +76,8 @@ jobs:
           java-version: ${{ matrix.Java }}
       - name: Run Tests
         run: mvn test
-      - name: Publish jUnit Test Results
+      - name: jUnit Test Result for - ${{ matrix.platform }} - Java ${{ matrix.Java }}
         uses: mikepenz/action-junit-report@v2
         if: failure()
         with:
-          files: target/surefire-reports/*.xml
+          report_paths: target/surefire-reports/*.xml

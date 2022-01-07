@@ -22,9 +22,9 @@ public class SwitchFameTest {
 
     public static Object[][] browsers() {
         return new Object[][]{
-                {BrowserName.CHROMIUM, pathToFramesHtml},
-                {BrowserName.WEBKIT, pathToFramesHtml},
-                {BrowserName.FIREFOX, "https://dantegrek.github.io/testautomation-playground/frames.html"}
+                {BrowserName.CHROMIUM/*, pathToFramesHtml*/},
+                {BrowserName.WEBKIT/*, pathToFramesHtml*/},
+                {BrowserName.FIREFOX/*, "https://dantegrek.github.io/testautomation-playground/frames.html"*/}
         };
     }
 
@@ -38,7 +38,7 @@ public class SwitchFameTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(url);
+                .navigateTo(pathToFramesHtml);
         when()
                 .switchOnFrame("#frame1")
                 .click("#click_me_1");
@@ -58,7 +58,7 @@ public class SwitchFameTest {
                 .withBrowser(browserName)
                 .and()
                 .startBrowser()
-                .navigateTo(url);
+                .navigateTo(pathToFramesHtml);
         when()
                 .switchOnFrame("#frame1")
                 .switchOnFrame("#frame2")
