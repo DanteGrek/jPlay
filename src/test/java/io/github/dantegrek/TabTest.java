@@ -21,7 +21,7 @@ public class TabTest {
     public void closeBrowser() {
         actor()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {

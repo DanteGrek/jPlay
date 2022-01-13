@@ -18,7 +18,7 @@ public class DialogTest {
     public void afterEach() {
         then()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {

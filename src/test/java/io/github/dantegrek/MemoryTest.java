@@ -1,7 +1,6 @@
 package io.github.dantegrek;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -105,6 +104,18 @@ public class MemoryTest {
 
         assertEquals("Value by key: 'key' is not an implementation of 'interface java.lang.Runnable' " +
                 "but instance of 'class java.util.ArrayList'.", runtimeException.getMessage());
+    }
+
+    @Test
+    public void rememberOneKeyTwiceTest() {
+        when()
+                .remember("key", "Test value");
+
+        RuntimeException runtimeException = assertThrows(RuntimeException.class, () ->
+                then().remember("key", "new value")
+        );
+        assertEquals("Memory already remembers this key, please use another key or use function forgot(key) " +
+                "to remove previous key value pair.\nExisting value: Test value", runtimeException.getMessage());
     }
 
 }

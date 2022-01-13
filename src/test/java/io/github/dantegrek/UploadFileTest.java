@@ -22,7 +22,7 @@ public class UploadFileTest {
     public void closeContext() {
         then()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {

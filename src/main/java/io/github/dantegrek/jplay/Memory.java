@@ -22,6 +22,10 @@ final class Memory {
         if (value == null) {
             throw new RuntimeException("Argument 'value' can not be null.");
         }
+        if(this.memory.containsKey(key)) {
+            throw new RuntimeException(String.format("Memory already remembers this key, please use another key or use " +
+                    "function forgot(key) to remove previous key value pair.\nExisting value: %s", this.memory.get(key)));
+        }
         this.memory.put(key, value);
     }
 
