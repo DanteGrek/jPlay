@@ -3,7 +3,7 @@ package io.github.dantegrek.jplay;
 import java.util.regex.Pattern;
 
 /**
- *
+ * All page assert methods
  */
 public interface IPageExpect {
 

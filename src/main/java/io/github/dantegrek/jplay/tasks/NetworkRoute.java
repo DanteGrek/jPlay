@@ -13,27 +13,27 @@ import java.util.function.Predicate;
 abstract class NetworkRoute<T extends NetworkRoute<T>> extends Task {
 
     /**
-     *
+     * Instance of page to put route on.
      */
     protected Page page = null;
     /**
-     *
+     * Instance of context to put route on.
      */
     protected BrowserContext context = null;
     /**
-     *
+     * Url or glob pattern to put route on.
      */
     protected String url = null;
     /**
-     *
+     * String url predicate to put route on.
      */
     protected Predicate<String> urlPredicate = null;
     /**
-     *
+     * REST method to put route on.
      */
     protected RestMethod restMethod = null;
     /**
-     *
+     * HEADERS to use on Mock or in Request.
      */
     protected final Map<String, String> headers = new HashMap();
 
