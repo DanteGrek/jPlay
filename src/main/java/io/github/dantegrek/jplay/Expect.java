@@ -89,6 +89,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect is() {
         return this;
     }
@@ -98,6 +99,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect has() {
         return this;
     }
@@ -105,8 +107,9 @@ public final class Expect implements ILocatorExpect, IPageExpect {
     /**
      * Syntax sugar.
      *
-     * @return instance of ILocatorExpect
+     * @return instance of Expect
      */
+    @Override
     public Expect and() {
         return this;
     }
@@ -116,6 +119,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of Actor
      */
+    @Override
     public Actor andActor() {
         return this.actor;
     }
@@ -125,6 +129,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of Actor
      */
+    @Override
     public Actor actor() {
         return this.actor;
     }
@@ -132,8 +137,9 @@ public final class Expect implements ILocatorExpect, IPageExpect {
     /**
      * This method reverse next check in chain.
      *
-     * @return instance of Expect
+     * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect not() {
         if (this.locatorAssertions != null) {
             this.locatorAssertions = this.locatorAssertions.not();
@@ -146,6 +152,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of Actor
      */
+    @Override
     public Actor checkAll() {
         if (!failedAsserts.isEmpty()) {
             List<String> errorMessages = failedAsserts.stream()
@@ -160,6 +167,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of Actor
      */
+    @Override
     public Actor verifyAll() {
         this.checkAll();
         return this.actor;
@@ -226,6 +234,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of IPageExpect
      */
+    @Override
     public IPageExpect pageNot() {
         if (this.pageAssertions != null) {
             this.pageAssertions = this.pageAssertions.not();
@@ -249,6 +258,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isVisible() {
         this.executeLocatorAssert(() -> locatorAssertions.isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout)));
         return this;
@@ -259,6 +269,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect visible() {
         return this.isVisible();
     }
@@ -268,6 +279,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isHidden() {
         this.executeLocatorAssert(() -> locatorAssertions.isHidden(new LocatorAssertions.IsHiddenOptions().setTimeout(timeout)));
         return this;
@@ -278,6 +290,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hidden() {
         return isHidden();
     }
@@ -287,6 +300,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance if ILocatorExpect
      */
+    @Override
     public ILocatorExpect isChecked() {
         this.executeLocatorAssert(() -> locatorAssertions.isChecked(new LocatorAssertions.IsCheckedOptions().setTimeout(timeout)));
         return this;
@@ -297,6 +311,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance if ILocatorExpect
      */
+    @Override
     public ILocatorExpect checked() {
         return this.isChecked();
     }
@@ -306,6 +321,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isDisabled() {
         this.executeLocatorAssert(() -> locatorAssertions.isDisabled(new LocatorAssertions.IsDisabledOptions().setTimeout(timeout)));
         return this;
@@ -316,6 +332,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect disabled() {
         return this.isDisabled();
     }
@@ -325,6 +342,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isEnabled() {
         this.executeLocatorAssert(() -> locatorAssertions.isEnabled(new LocatorAssertions.IsEnabledOptions().setTimeout(timeout)));
         return this;
@@ -335,6 +353,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect enabled() {
         return this.isEnabled();
     }
@@ -344,6 +363,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isEditable() {
         this.executeLocatorAssert(() -> locatorAssertions.isEditable(new LocatorAssertions.IsEditableOptions().setTimeout(timeout)));
         return this;
@@ -354,6 +374,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect editable() {
         return this.isEditable();
     }
@@ -363,6 +384,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isFocused() {
         this.executeLocatorAssert(() -> locatorAssertions.isFocused(new LocatorAssertions.IsFocusedOptions().setTimeout(timeout)));
         return this;
@@ -373,6 +395,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect focused() {
         return isFocused();
     }
@@ -385,6 +408,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedText expected text.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasText(String expectedText) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedText, new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
@@ -396,6 +420,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedText expected text.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect text(String expectedText) {
         return this.hasText(expectedText);
     }
@@ -406,6 +431,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern you should use Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasTextPattern(Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(pattern, new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
@@ -417,6 +443,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern you should use Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect textPattern(Pattern pattern) {
         return this.hasTextPattern(pattern);
     }
@@ -427,6 +454,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedTexts array of expected text strings.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasTexts(String[] expectedTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedTexts, new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
@@ -438,6 +466,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedTexts array of expected text strings.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect texts(String[] expectedTexts) {
         return this.hasTexts(expectedTexts);
     }
@@ -448,6 +477,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedTexts List of expected text strings.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasTexts(List<String> expectedTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedTexts.toArray(String[]::new), new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
@@ -459,6 +489,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedTexts List of expected text strings.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect texts(List<String> expectedTexts) {
         return this.hasTexts(expectedTexts);
     }
@@ -469,6 +500,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns array of expected text patterns.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasTextPatterns(Pattern[] patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns, new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
@@ -480,6 +512,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns array of expected text patterns.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect textPatterns(Pattern[] patterns) {
         return this.hasTextPatterns(patterns);
     }
@@ -490,6 +523,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns List of expected text patterns.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasTextPatterns(List<Pattern> patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns.toArray(String[]::new), new LocatorAssertions.HasTextOptions().setTimeout(timeout)));
         return this;
@@ -501,6 +535,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns List of expected text patterns.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect textPatterns(List<Pattern> patterns) {
         return this.hasTextPatterns(patterns);
     }
@@ -511,6 +546,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerText expected inner text.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasInnerText(String expectedInnerText) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedInnerText,
                 new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -523,6 +559,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerText expected inner text.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect innerText(String expectedInnerText) {
         return this.hasInnerText(expectedInnerText);
     }
@@ -533,6 +570,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern you should use Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasInnerTextPattern(Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(pattern,
                 new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -545,6 +583,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern you should use Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect innerTextPattern(Pattern pattern) {
         return this.hasInnerTextPattern(pattern);
     }
@@ -555,6 +594,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerTexts array of expected inner texts.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasInnerTexts(String[] expectedInnerTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(expectedInnerTexts,
                 new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -567,6 +607,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerTexts array of expected inner texts.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect innerTexts(String[] expectedInnerTexts) {
         return this.hasInnerTexts(expectedInnerTexts);
     }
@@ -577,6 +618,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerTexts list of expected inner texts.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasInnerTexts(List<String> expectedInnerTexts) {
         this.executeLocatorAssert(new IExpect() {
             @Override
@@ -594,6 +636,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerTexts list of expected inner texts.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect innerTexts(List<String> expectedInnerTexts) {
         return this.hasInnerTexts(expectedInnerTexts);
     }
@@ -604,6 +647,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns array of expected inner texts. Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasInnerTextPatterns(Pattern[] patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns,
                 new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -616,6 +660,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns array of expected inner texts. Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect innerTextPatterns(Pattern[] patterns) {
         return this.hasInnerTextPatterns(patterns);
     }
@@ -626,6 +671,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns list of expected inner texts. Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasInnerTextPatterns(List<Pattern> patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.hasText(patterns.toArray(String[]::new),
                 new LocatorAssertions.HasTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -638,6 +684,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns list of expected inner texts. Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect innerTextPatterns(List<Pattern> patterns) {
         return this.hasInnerTextPatterns(patterns);
     }
@@ -649,6 +696,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedText expected text.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsText(String expectedText) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedText, new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
@@ -660,6 +708,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern you should use Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsTextPattern(Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(pattern, new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
@@ -671,6 +720,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedTexts array of expected text strings.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsTexts(String[] expectedTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedTexts, new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
@@ -682,6 +732,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedTexts List of expected text strings.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsTexts(List<String> expectedTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedTexts.toArray(String[]::new), new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
@@ -693,6 +744,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns array of expected text patterns.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsTextPatterns(Pattern[] patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns, new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
@@ -704,6 +756,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns List of expected text patterns.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsTextPatterns(List<Pattern> patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns.toArray(String[]::new), new LocatorAssertions.ContainsTextOptions().setTimeout(timeout)));
         return this;
@@ -715,6 +768,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerText expected inner text.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsInnerText(String expectedInnerText) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedInnerText,
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -727,6 +781,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern you should use Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsInnerTextPattern(Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(pattern,
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -739,6 +794,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerTexts array of expected inner texts.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsInnerTexts(String[] expectedInnerTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedInnerTexts,
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -751,6 +807,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedInnerTexts list of expected inner texts.
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsInnerTexts(List<String> expectedInnerTexts) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(expectedInnerTexts.toArray(String[]::new),
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -763,6 +820,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns array of expected inner texts. Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsInnerTextPatterns(Pattern[] patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns,
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -775,6 +833,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns list of expected inner texts. Pattern.compile("any regex")
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect containsInnerTextPatterns(List<Pattern> patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.containsText(patterns.toArray(String[]::new),
                 new LocatorAssertions.ContainsTextOptions().setUseInnerText(true).setTimeout(timeout)));
@@ -787,6 +846,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedValue expected result
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasValue(String expectedValue) {
         this.executeLocatorAssert(() -> locatorAssertions.hasValue(expectedValue, new LocatorAssertions.HasValueOptions().setTimeout(timeout)));
         return this;
@@ -798,6 +858,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param expectedValue expected result
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect value(String expectedValue) {
         return this.hasValue(expectedValue);
     }
@@ -808,6 +869,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern of expected result
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasValuePattern(Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasValue(pattern, new LocatorAssertions.HasValueOptions().setTimeout(timeout)));
         return this;
@@ -819,6 +881,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern of expected result
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect valuePattern(Pattern pattern) {
         return this.hasValuePattern(pattern);
     }
@@ -828,6 +891,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect isEmpty() {
         this.executeLocatorAssert(() -> locatorAssertions.isEmpty(new LocatorAssertions.IsEmptyOptions().setTimeout(timeout)));
         return this;
@@ -838,6 +902,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      *
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect empty() {
         return this.isEmpty();
     }
@@ -851,6 +916,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param value expected value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasAttribute(String name, String value) {
         this.executeLocatorAssert(() -> locatorAssertions.hasAttribute(name, value, new LocatorAssertions.HasAttributeOptions().setTimeout(timeout)));
         return this;
@@ -863,6 +929,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param value expected value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect attribute(String name, String value) {
         return this.hasAttribute(name, value);
     }
@@ -874,6 +941,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern of expected value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasAttributePattern(String name, Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasAttribute(name, pattern, new LocatorAssertions.HasAttributeOptions().setTimeout(timeout)));
         return this;
@@ -886,6 +954,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern of expected value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect attributePattern(String name, Pattern pattern) {
         return this.hasAttributePattern(name, pattern);
     }
@@ -896,6 +965,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param clazz css class name
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasClass(String clazz) {
         this.executeLocatorAssert(() -> locatorAssertions.hasClass(clazz, new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
@@ -907,6 +977,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param classes css class names
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasAllClasses(String[] classes) {
         this.executeLocatorAssert(() -> locatorAssertions.hasClass(classes, new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
@@ -918,6 +989,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param classes css class names
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasAllClasses(List<String> classes) {
         this.executeLocatorAssert(() -> locatorAssertions.hasClass(classes.toArray(String[]::new), new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
@@ -929,6 +1001,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern css class name pattern, use: Pattern.compile("any regex");
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasClassPatterns(Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasClass(pattern, new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
@@ -940,6 +1013,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns css class name patterns
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasAllClassPatterns(Pattern[] patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.hasClass(patterns, new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
@@ -951,6 +1025,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param patterns css class name patterns
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasAllClassPatterns(List<Pattern> patterns) {
         this.executeLocatorAssert(() -> locatorAssertions.hasClass(patterns.toArray(Pattern[]::new), new LocatorAssertions.HasClassOptions().setTimeout(timeout)));
         return this;
@@ -963,6 +1038,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param value CSS property value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasCss(String name, String value) {
         this.executeLocatorAssert(() -> locatorAssertions.hasCSS(name, value, new LocatorAssertions.HasCSSOptions().setTimeout(timeout)));
         return this;
@@ -975,6 +1051,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param value CSS property value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect css(String name, String value) {
         return this.hasCss(name, value);
     }
@@ -986,6 +1063,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern CSS property pattern to match
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasCss(String name, Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasCSS(name, pattern, new LocatorAssertions.HasCSSOptions().setTimeout(timeout)));
         return this;
@@ -998,6 +1076,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern CSS property pattern to match
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect css(String name, Pattern pattern) {
         return this.hasCss(name, pattern);
     }
@@ -1009,6 +1088,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param value JS property value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasJsProperty(String name, String value) {
         this.executeLocatorAssert(() -> locatorAssertions.hasJSProperty(name, value, new LocatorAssertions.HasJSPropertyOptions().setTimeout(timeout)));
         return this;
@@ -1021,6 +1101,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param value JS property value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect jsProperty(String name, String value) {
         return this.hasJsProperty(name, value);
     }
@@ -1032,6 +1113,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern JS property value pattern
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasJsProperty(String name, Pattern pattern) {
         this.executeLocatorAssert(() -> locatorAssertions.hasJSProperty(name, pattern, new LocatorAssertions.HasJSPropertyOptions().setTimeout(timeout)));
         return this;
@@ -1044,6 +1126,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern JS property value pattern
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect jsProperty(String name, Pattern pattern) {
         return this.hasJsProperty(name, pattern);
     }
@@ -1054,6 +1137,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param id String value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasId(String id) {
         this.executeLocatorAssert(() -> locatorAssertions.hasId(id, new LocatorAssertions.HasIdOptions().setTimeout(timeout)));
         return this;
@@ -1065,6 +1149,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param id String value
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect id(String id) {
         return this.hasId(id);
     }
@@ -1077,6 +1162,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param count of elements in list
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect hasCount(int count) {
         this.executeLocatorAssert(() -> locatorAssertions.hasCount(count, new LocatorAssertions.HasCountOptions().setTimeout(timeout)));
         return this;
@@ -1088,6 +1174,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param count of elements in list
      * @return instance of ILocatorExpect
      */
+    @Override
     public ILocatorExpect count(int count) {
         return this.hasCount(count);
     }
@@ -1197,6 +1284,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param url string or regex
      * @return instance of Expect
      */
+    @Override
     public Expect url(String url) {
         this.executePageAssert(() -> pageAssertions.hasURL(url, new PageAssertions.HasURLOptions().setTimeout(timeout)));
         return this;
@@ -1208,6 +1296,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern use as Pattern.compile(...);
      * @return instance of Expect
      */
+    @Override
     public Expect url(Pattern pattern) {
         this.executePageAssert(() -> pageAssertions.hasURL(pattern, new PageAssertions.HasURLOptions().setTimeout(timeout)));
         return this;
@@ -1219,6 +1308,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param title string
      * @return instance of Expect
      */
+    @Override
     public Expect title(String title) {
         this.executePageAssert(() -> pageAssertions.hasTitle(title, new PageAssertions.HasTitleOptions().setTimeout(timeout)));
         return this;
@@ -1230,6 +1320,7 @@ public final class Expect implements ILocatorExpect, IPageExpect {
      * @param pattern Pattern.compile(...);
      * @return instance of Expect
      */
+    @Override
     public Expect title(Pattern pattern) {
         this.executePageAssert(() -> pageAssertions.hasTitle(pattern, new PageAssertions.HasTitleOptions().setTimeout(timeout)));
         return this;

@@ -12,11 +12,29 @@ import java.util.function.Predicate;
 
 abstract class NetworkRoute<T extends NetworkRoute<T>> extends Task {
 
+    /**
+     *
+     */
     protected Page page = null;
+    /**
+     *
+     */
     protected BrowserContext context = null;
+    /**
+     *
+     */
     protected String url = null;
+    /**
+     *
+     */
     protected Predicate<String> urlPredicate = null;
+    /**
+     *
+     */
     protected RestMethod restMethod = null;
+    /**
+     *
+     */
     protected final Map<String, String> headers = new HashMap();
 
     private void checkIfPageOrContextStarted() {
@@ -25,18 +43,34 @@ abstract class NetworkRoute<T extends NetworkRoute<T>> extends Task {
         }
     }
 
+    /**
+     * Throw Runtime exception with on current page on context message.
+     */
     protected void throwRuntimeExceptionFromRoute() {
         throw new RuntimeException("You have to specify 'onCurrentPage()' or 'onCurrentContext()'.");
     }
 
+    /**
+     * Checks if REST method was set
+     * @param route instance of Route
+     * @return boolean
+     */
     protected boolean isRestMethodMatch(Route route) {
         return this.restMethod == null || route.request().method().equals(this.restMethod.name());
     }
 
+    /**
+     * Checks if set page
+     * @return boolean
+     */
     protected boolean isPageNotNull() {
         return this.page != null;
     }
 
+    /**
+     * Checks if set context
+     * @return boolean
+     */
     protected boolean isContextNotNull() {
         return this.context != null;
     }
@@ -73,7 +107,7 @@ abstract class NetworkRoute<T extends NetworkRoute<T>> extends Task {
 
     /**
      * Set url predicate, but you will not be able to remove Mock or Request based on this predicate.
-     * To have ability remove Mock or request use 'forUrl(String predicateName, Predicate<String> urlPredicate)'.
+     * To have ability remove Mock or request use 'forUrl(String predicateName, Predicate urlPredicate)'.
      * Because remove methods works based on predicateName.
      *
      * @param urlPredicate string predicate which returns true or false
@@ -103,6 +137,11 @@ abstract class NetworkRoute<T extends NetworkRoute<T>> extends Task {
         return (T) this;
     }
 
+    /**
+     * Points Mock or Request on to REST method
+     * @param restMethod of Mock or Request
+     * @return instance of Mock or Request
+     */
     public T forMethod(RestMethod restMethod) {
         this.restMethod = restMethod;
         return (T) this;

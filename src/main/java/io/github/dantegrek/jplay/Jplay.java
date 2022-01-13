@@ -14,6 +14,7 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
      * @return instance of Actor
      */
     public static Actor given() {
@@ -22,6 +23,8 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
+     * @param task to perform
      * @return instance of Actor
      */
     public static Actor given(Task task) {
@@ -30,6 +33,7 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
      * @return instance of Actor
      */
     public static Actor when() {
@@ -38,6 +42,8 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
+     * @param task to perform
      * @return instance of Actor
      */
     public static Actor when(Task task) {
@@ -46,6 +52,7 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
      * @return instance of Actor
      */
     public static Actor then() {
@@ -54,6 +61,8 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
+     * @param task to perform
      * @return instance of Actor
      */
     public static Actor then(Task task) {
@@ -62,6 +71,7 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
      * @return instance of Actor
      */
     public static Actor and() {
@@ -70,6 +80,8 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
+     * @param task to perform
      * @return instance of Actor
      */
     public static Actor and(Task task) {
@@ -78,6 +90,7 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
      * @return instance of Actor
      */
     public static Actor user() {
@@ -86,6 +99,8 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
+     * @param task to perform
      * @return instance of Actor
      */
     public static Actor user(Task task) {
@@ -94,6 +109,7 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
      * @return instance of Actor
      */
     public static Actor jPlay() {
@@ -102,6 +118,8 @@ public final class Jplay {
 
     /**
      * BDD syntax sugar
+     *
+     * @param task to perform
      * @return instance of Actor
      */
     public static Actor jPlay(Task task) {

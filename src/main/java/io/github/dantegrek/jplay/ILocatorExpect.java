@@ -1,11 +1,7 @@
 package io.github.dantegrek.jplay;
 
-import com.microsoft.playwright.assertions.LocatorAssertions;
-import org.opentest4j.AssertionFailedError;
-
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * Represents all expects for locator

@@ -62,6 +62,9 @@ public enum NetworkErrorCode {
      */
     FAILED("failed");
 
+    /**
+     * value Playwright understands.
+     */
     public final String code;
 
     NetworkErrorCode(String code) {

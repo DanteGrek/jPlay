@@ -8,15 +8,27 @@ import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.Predicate;
 
+/**
+ * Helps mock responses to browser.
+ */
 public final class Mock extends NetworkRoute<Mock> {
 
     private final Route.FulfillOptions routeFullFillOptions = new Route.FulfillOptions();
     private int times;
 
+    /**
+     * Syntax sugar, creates instance of Mock
+     * @return instance of Mock
+     */
     public static Mock mock() {
         return new Mock();
     }
 
+    /**
+     * Set Mock to work particular amount of times.
+     * @param times to be executed.
+     * @return instance of Mock
+     */
     public Mock useTimes(int times) {
         if (times < 1) {
             throw new RuntimeException("Minimum 1 time is allowed.");
@@ -60,6 +72,12 @@ public final class Mock extends NetworkRoute<Mock> {
         return this;
     }
 
+    /**
+     * Adds header to Mock
+     * @param headerName key
+     * @param headerValue value
+     * @return instance of Mock
+     */
     public Mock withHeader(String headerName, String headerValue) {
         this.headers.put(headerName, headerValue);
         return this;
@@ -91,6 +109,7 @@ public final class Mock extends NetworkRoute<Mock> {
      * File path to respond with. The content type will be inferred from file extension.
      * If path is a relative path, then it is resolved relative to the current working directory.
      *
+     * @param path to file with payload
      * @return instance of Mock.
      */
     public Mock withPathToPayload(Path path) {
