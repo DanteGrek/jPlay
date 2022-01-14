@@ -15,7 +15,7 @@ public class MouseActionsTest {
     public void afterEach() {
         then()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {

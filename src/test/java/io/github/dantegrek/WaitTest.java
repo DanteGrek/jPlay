@@ -21,7 +21,7 @@ public class WaitTest {
     public void clearActor() {
         actor()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {

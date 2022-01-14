@@ -3,8 +3,6 @@ package io.github.dantegrek.jplay;
 import com.microsoft.playwright.*;
 import io.github.dantegrek.enums.BrowserName;
 
-import java.util.List;
-
 /**
  * This class is browser, context and page keeper.
  */
@@ -54,18 +52,15 @@ class BrowserManager {
     // Start browser methods
     private Browser startBrowserOnly(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
         Playwright playwright = Playwright.create();
-        final String chromiumDisableDevShm = "--disable-dev-shm-usage";
         switch (browserName) {
             case CHROME:
                 return playwright.chromium()
                         .launch(launchOptions
-                                .setChannel(BrowserName.CHROME.name)
-                                .setArgs(List.of(chromiumDisableDevShm)));
+                                .setChannel(BrowserName.CHROME.name));
             case MSEDGE:
                 return playwright.chromium()
                         .launch(launchOptions
-                                .setChannel(BrowserName.MSEDGE.name)
-                                .setArgs(List.of(chromiumDisableDevShm)));
+                                .setChannel(BrowserName.MSEDGE.name));
             case WEBKIT:
                 return playwright.webkit()
                         .launch(launchOptions);
@@ -74,8 +69,7 @@ class BrowserManager {
                         .launch(launchOptions);
             default:
                 return playwright.chromium()
-                        .launch(launchOptions
-                                .setArgs(List.of(chromiumDisableDevShm)));
+                        .launch(launchOptions);
         }
     }
 

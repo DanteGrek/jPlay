@@ -3,12 +3,12 @@ package io.github.dantegrek.jplay;
 import com.microsoft.playwright.*;
 import com.microsoft.playwright.options.LoadState;
 import com.microsoft.playwright.options.MouseButton;
-import com.microsoft.playwright.options.WaitForSelectorState;
 import com.microsoft.playwright.options.WaitUntilState;
 import io.github.dantegrek.enums.Key;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -18,6 +18,7 @@ public final class Actor {
 
     private Configuration configuration = new Configuration(this);
     private BrowserManager browserManager = new BrowserManager();
+    private Memory memory = new Memory();
     private static ThreadLocal<Actor> actor = ThreadLocal.withInitial(() -> new Actor());
 
     private Actor() {
@@ -33,9 +34,77 @@ public final class Actor {
         return actor.get();
     }
 
+    // Memory
+
+    /**
+     * Access memory object, Map which allows you to store test data for current instance of Actor.
+     *
+     * @return instance of Memory
+     */
+    public Memory memory() {
+        return this.memory;
+    }
+
+    /**
+     * Remembers value by key you can recall later in thread.
+     *
+     * @param key   to value
+     * @param value you want to remember.
+     * @return instance of Actor
+     */
+    public Actor remember(Object key, Object value) {
+        this.memory.remember(key, value);
+        return this;
+    }
+
+    /**
+     * Recalls value by key and cast it to V.
+     *
+     * @param key to value.
+     * @param <T> type of value method should return.
+     * @return value after cast to valueType
+     */
+    public <T> T recall(Object key) {
+        return this.memory.recall(key);
+    }
+
+    /**
+     * Recalls value by key.
+     * Checks if value is an instance of valueType or interface implementation and then cast to value type.
+     *
+     * @param key       to value.
+     * @param valueType expected value class or implemented interface.
+     * @param <T>       not required for this implementation.
+     * @return value after cast to valueType
+     */
+    public <T> T recall(Object key, Class<T> valueType) {
+        return this.memory.recallInstanceOf(key, valueType);
+    }
+
+    /**
+     * Removes key and value from memory.
+     *
+     * @param key to value
+     * @return instance of Actor
+     */
+    public Actor forget(Object key) {
+        this.memory.forget(key);
+        return this;
+    }
+
+    /**
+     * Removes all key value pairs from memory.
+     *
+     * @return instance of Actor
+     */
+    public Actor clearMemory() {
+        this.memory.clear();
+        return this;
+    }
+
     // Browser manager methods
 
-    BrowserManager getBrowserManager() {
+    private BrowserManager getBrowserManager() {
         return browserManager;
     }
 
@@ -73,8 +142,9 @@ public final class Actor {
      *
      * @return instance of Configuration
      */
-    public Configuration cleanConfig() {
-        return configuration = new Configuration(this);
+    public Actor clearConfig() {
+        this.configuration = new Configuration(this);
+        return this;
     }
 
     //Browser methods
@@ -471,7 +541,7 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     *
+     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -486,19 +556,19 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     *
+     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
-     * @param selector css or xpath
+     * @param selector    css or xpath
      * @param hiddenInput if false wait till input visible and scroll if needed, true wait till input attached to the dom.
-     * @param file     to upload
+     * @param file        to upload
      * @return instance of Actor
      */
     public Actor uploadFile(String selector, boolean hiddenInput, Path file) {
         Locator locator = this.currentFrame().locator(selector);
-        if(!hiddenInput) {
+        if (!hiddenInput) {
             locator.scrollIntoViewIfNeeded();
         }
         locator.setInputFiles(file);
@@ -507,7 +577,7 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     *
+     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -522,19 +592,19 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     *
+     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
-     * @param selector css or xpath
+     * @param selector    css or xpath
      * @param hiddenInput if false wait till input visible and scroll if needed, true wait till input attached to the dom.
-     * @param files    to upload
+     * @param files       to upload
      * @return instance of Actor
      */
     public Actor uploadFiles(String selector, boolean hiddenInput, List<Path> files) {
         Locator locator = this.currentFrame().locator(selector);
-        if(!hiddenInput) {
+        if (!hiddenInput) {
             locator.scrollIntoViewIfNeeded();
         }
         locator.setInputFiles(files.toArray(Path[]::new));
@@ -543,7 +613,7 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     *
+     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -558,19 +628,19 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     *
+     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
-     * @param selector css or xpath
+     * @param selector    css or xpath
      * @param hiddenInput if false wait till input visible and scroll if needed, true wait till input attached to the dom.
-     * @param files    to upload
+     * @param files       to upload
      * @return instance of Actor
      */
     public Actor uploadFiles(String selector, boolean hiddenInput, Path... files) {
         Locator locator = this.currentFrame().locator(selector);
-        if(!hiddenInput) {
+        if (!hiddenInput) {
             locator.scrollIntoViewIfNeeded();
         }
         locator.setInputFiles(files);
@@ -690,6 +760,75 @@ public final class Actor {
         return this;
     }
 
+    /**
+     * Evaluate
+     *
+     * @param jsScript java script injection
+     * @param object   argument will be passed to JS
+     * @return instance of Actor
+     */
+    public Actor evaluate(String jsScript, Object object) {
+        this.currentFrame().evaluate(jsScript, object);
+        return this;
+    }
+
+    // Mock
+
+    private void checkPageNotNullBeforeRemoveMock() {
+        if (this.currentPage() == null) {
+            throw new RuntimeException("You are trying to remove mock but page and context were closed. " +
+                    "If you closed them or browser you do not need to remove mock.");
+        }
+    }
+
+    /**
+     * Removes Mock or Request from page by url
+     *
+     * @param url which was mocked or overridden.
+     * @return instance of Actor.
+     */
+    public Actor removeMockFromPageForUrl(String url) {
+        checkPageNotNullBeforeRemoveMock();
+        this.currentPage().unroute(url);
+        return this;
+    }
+
+    /**
+     * Removes Mock or Request from context by url
+     *
+     * @param url which was mocked or overridden.
+     * @return instance of Actor.
+     */
+    public Actor removeMockFromContextForUrl(String url) {
+        checkPageNotNullBeforeRemoveMock();
+        this.currentPage().context().unroute(url);
+        return this;
+    }
+
+    /**
+     * Removes Mock or Request from context by predicate or url name
+     *
+     * @param name which was mocked or overridden.
+     * @return instance of Actor.
+     */
+    public Actor removeRoutFromPageForUrlByName(String name) {
+        checkPageNotNullBeforeRemoveMock();
+        this.currentPage().unroute(this.<Predicate<String>>recall(name));
+        return this;
+    }
+
+    /**
+     * Removes Mock or Request from context by predicate name
+     *
+     * @param name which was mocked or overridden.
+     * @return instance of Actor.
+     */
+    public Actor removeRoutFromContextForUrlByName(String name) {
+        checkPageNotNullBeforeRemoveMock();
+        this.currentPage().context().unroute(this.<Predicate<String>>recall(name));
+        return this;
+    }
+
     // Execute actions and tasks methods
 
     private <T extends Action> T executeAction(T action) {
@@ -763,6 +902,16 @@ public final class Actor {
      * @return instance of Action
      */
     public Actor expectThat(Task task) {
+        return this.executeTask(task);
+    }
+
+    /**
+     * This method perform users task.
+     *
+     * @param task instance of class which is child of Task class.
+     * @return instance of Action
+     */
+    public Actor set(Task task) {
         return this.executeTask(task);
     }
 }

@@ -20,7 +20,7 @@ public class PseudoElementApiTest {
     public void closeContext() {
         actor()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {

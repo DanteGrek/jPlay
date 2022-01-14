@@ -15,7 +15,7 @@ public class SwitchFameTest {
     public void closeContext() {
         then()
                 .closeBrowser()
-                .cleanConfig();
+                .clearConfig();
     }
 
     public static Object[][] browsers() {
@@ -70,7 +70,8 @@ public class SwitchFameTest {
                 .expectThat()
                 .selector("#frame2")
                 .is().count(0)
-                .and().selector("#frame1")
+                .and()
+                .selector("#frame1")
                 .isVisible();
     }
 }
