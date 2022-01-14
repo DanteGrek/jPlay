@@ -7,6 +7,7 @@ import io.github.dantegrek.enums.RestMethod;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -26,6 +27,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Syntax sugar creates instance of Request
+     *
      * @return instance of Request
      */
     public static Request request() {
@@ -34,6 +36,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Redirects request to different url
+     *
      * @param url to point request to.
      * @return instance of Request
      */
@@ -44,6 +47,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Change REST method.
+     *
      * @param method of REST protocol
      * @return instance of Request
      */
@@ -54,8 +58,9 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Add additional header to request.
+     *
      * @param header name
-     * @param value of header
+     * @param value  of header
      * @return instance of Request
      */
     public Request addHeader(String header, String value) {
@@ -65,6 +70,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Removes header from request
+     *
      * @param header to remove
      * @return instance of Request
      */
@@ -75,6 +81,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Change request body.
+     *
      * @param payload in request
      * @return instance of Request
      */
@@ -85,6 +92,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Change request body.
+     *
      * @param payload in request
      * @return instance of Request
      */
@@ -95,6 +103,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Fails request.
+     *
      * @return instance of Request
      */
     public Request abort() {
@@ -104,6 +113,7 @@ public final class Request extends NetworkRoute<Request> {
 
     /**
      * Brake request with specific error.
+     *
      * @param code of specific error
      * @return instance of Request
      */
@@ -112,23 +122,21 @@ public final class Request extends NetworkRoute<Request> {
         return this;
     }
 
+    private Consumer<Route> abortConsumer(NetworkErrorCode abort) {
+        return route -> {
+            if (isRestMethodMatch(route)) {
+                route.abort(abort.code);
+            } else {
+                route.resume();
+            }
+        };
+    }
+
     private void abortRoute(String url, NetworkErrorCode abort) {
         if (isPageNotNull()) {
-            this.page.route(url, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.abort(abort.code);
-                } else {
-                    route.resume();
-                }
-            });
+            this.page.route(url, abortConsumer(abort));
         } else if (isContextNotNull()) {
-            this.context.route(url, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.abort(abort.code);
-                } else {
-                    route.resume();
-                }
-            });
+            this.context.route(url, abortConsumer(abort));
         } else {
             throwRuntimeExceptionFromRoute();
         }
@@ -136,44 +144,29 @@ public final class Request extends NetworkRoute<Request> {
 
     private void abortRoute(Predicate<String> urlPredicate, NetworkErrorCode abort) {
         if (isPageNotNull()) {
-            this.page.route(urlPredicate, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.abort(abort.code);
-                } else {
-                    route.resume();
-                }
-            });
+            this.page.route(urlPredicate, abortConsumer(abort));
         } else if (isContextNotNull()) {
-            this.context.route(urlPredicate, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.abort(abort.code);
-                } else {
-                    route.resume();
-                }
-            });
+            this.context.route(urlPredicate, abortConsumer(abort));
         } else {
             throwRuntimeExceptionFromRoute();
         }
     }
 
+    private Consumer<Route> routeConsumer(Route.ResumeOptions options) {
+        return route -> {
+            if (isRestMethodMatch(route)) {
+                route.resume(options.setHeaders(processHeaders(route.request().headers())));
+            } else {
+                route.resume();
+            }
+        };
+    }
+
     private void route(String url, Route.ResumeOptions options) {
         if (isPageNotNull()) {
-            this.page.route(url, route -> {
-                if (isRestMethodMatch(route)) {
-
-                    route.resume(options.setHeaders(processHeaders(route.request().headers())));
-                } else {
-                    route.resume();
-                }
-            });
+            this.page.route(url, routeConsumer(options));
         } else if (isContextNotNull()) {
-            this.context.route(url, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.resume(options.setHeaders(processHeaders(route.request().headers())));
-                } else {
-                    route.resume();
-                }
-            });
+            this.context.route(url, routeConsumer(options));
         } else {
             throwRuntimeExceptionFromRoute();
         }
@@ -181,40 +174,36 @@ public final class Request extends NetworkRoute<Request> {
 
     private void route(Predicate<String> urlPredicate, Route.ResumeOptions options) {
         if (isPageNotNull()) {
-            this.page.route(urlPredicate, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.resume(options.setHeaders(processHeaders(route.request().headers())));
-                } else {
-                    route.resume();
-                }
-            });
+            this.page.route(urlPredicate, routeConsumer(options));
         } else if (isContextNotNull()) {
-            this.context.route(urlPredicate, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.resume(options.setHeaders(processHeaders(route.request().headers())));
-                } else {
-                    route.resume();
-                }
-            });
+            this.context.route(urlPredicate, routeConsumer(options));
         } else {
             throwRuntimeExceptionFromRoute();
+        }
+    }
+
+    private void urlCase(String url) {
+        if (abortCode != null) {
+            abortRoute(url, this.abortCode);
+        } else {
+            route(url, this.options);
+        }
+    }
+
+    private void predicateCase(Predicate<String> predicate) {
+        if (abortCode != null) {
+            abortRoute(predicate, this.abortCode);
+        } else {
+            route(predicate, this.options);
         }
     }
 
     @Override
     public void perform() {
         if (url != null) {
-            if (abortCode != null) {
-                abortRoute(url, this.abortCode);
-                return;
-            }
-            route(url, this.options);
+            urlCase(url);
         } else if (urlPredicate != null) {
-            if (abortCode != null) {
-                abortRoute(urlPredicate, this.abortCode);
-                return;
-            }
-            route(urlPredicate, this.options);
+            predicateCase(urlPredicate);
         } else {
             throw new RuntimeException("You have to specify for which url this mock is, use 'forUrl()'.");
         }

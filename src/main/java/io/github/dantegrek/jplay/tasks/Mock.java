@@ -6,6 +6,7 @@ import com.microsoft.playwright.Route;
 
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 /**
@@ -135,23 +136,21 @@ public final class Mock extends NetworkRoute<Mock> {
         return options;
     }
 
+    private Consumer<Route> routeConsumer(Route.FulfillOptions fulfillOptions) {
+        return route -> {
+            if (isRestMethodMatch(route)) {
+                route.fulfill(fulfillOptions);
+            } else {
+                route.resume();
+            }
+        };
+    }
+
     private void route(String url, Route.FulfillOptions fulfillOptions) {
         if (isPageNotNull()) {
-            this.page.route(url, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.fulfill(fulfillOptions);
-                } else {
-                    route.resume();
-                }
-            }, timesForPageRoute());
+            this.page.route(url, routeConsumer(fulfillOptions), timesForPageRoute());
         } else if (isContextNotNull()) {
-            this.context.route(url, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.fulfill(fulfillOptions);
-                } else {
-                    route.resume();
-                }
-            }, timesForContextRoute());
+            this.context.route(url, routeConsumer(fulfillOptions), timesForContextRoute());
         } else {
             throwRuntimeExceptionFromRoute();
         }
@@ -159,21 +158,9 @@ public final class Mock extends NetworkRoute<Mock> {
 
     private void route(Predicate<String> urlPredicate, Route.FulfillOptions fulfillOptions) {
         if (isPageNotNull()) {
-            this.page.route(urlPredicate, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.fulfill(fulfillOptions);
-                } else {
-                    route.resume();
-                }
-            }, timesForPageRoute());
+            this.page.route(urlPredicate, routeConsumer(fulfillOptions), timesForPageRoute());
         } else if (isContextNotNull()) {
-            this.context.route(urlPredicate, route -> {
-                if (isRestMethodMatch(route)) {
-                    route.fulfill(fulfillOptions);
-                } else {
-                    route.resume();
-                }
-            }, timesForContextRoute());
+            this.context.route(urlPredicate, routeConsumer(fulfillOptions), timesForContextRoute());
         } else {
             throwRuntimeExceptionFromRoute();
         }
