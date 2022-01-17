@@ -1,11 +1,9 @@
 package io.github.dantegrek.enums;
 
-import io.github.dantegrek.interfaces.Device;
-
 /**
  * This enum contains presets of mobile devices.
  */
-public enum Devices implements Device {
+public enum Device implements io.github.dantegrek.interfaces.Device {
     /**
      *
      */
@@ -280,13 +278,13 @@ public enum Devices implements Device {
     private boolean hasTouch;
     private String deviceName;
 
-    Devices(String userAgent,
-            int viewportWidth,
-            int viewportHeight,
-            int deviceScaleFactor,
-            boolean isMobile,
-            boolean hasTouch,
-            String deviceName) {
+    Device(String userAgent,
+           int viewportWidth,
+           int viewportHeight,
+           int deviceScaleFactor,
+           boolean isMobile,
+           boolean hasTouch,
+           String deviceName) {
         this.userAgent = userAgent;
         this.viewportHeight = viewportHeight;
         this.viewportWidth = viewportWidth;

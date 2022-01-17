@@ -1208,17 +1208,18 @@ public final class Expect implements ILocatorExpect, IPageExpect {
     /**
      * Ensures the cssSelector is visible and pseudo-element has property with value.
      *
-     * @param cssSelector   css selector which points on element with ::after or ::before
+     * @param selector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
      * @param property      property name
      * @param value         expected property value
      * @return instance of Expect
      */
-    public Expect visiblePseudoElementHasPropertyWithValue(String cssSelector, String pseudoElement, String property, String value) {
+    public Expect visiblePseudoElementHasPropertyWithValue(String selector, String pseudoElement, String property, String value) {
         this.executePseudoElementAssert(() -> {
-            assertThat(actor.currentFrame().locator(cssSelector)).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
-            assertThatPropertyValueEqual(property, value, (String) actor.currentFrame().evaluate(
-                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, cssSelector, pseudoElement, property)));
+            Locator locator = actor.currentFrame().locator(selector);
+            assertThat(locator).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
+            assertThatPropertyValueEqual(property, value, (String) locator.evaluate(
+                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, pseudoElement, property)));
         });
         return this;
     }
@@ -1226,16 +1227,17 @@ public final class Expect implements ILocatorExpect, IPageExpect {
     /**
      * Ensures the cssSelector is visible and pseudo-element do not have property.
      *
-     * @param cssSelector   css selector which points on element with ::after or ::before
+     * @param selector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
      * @param property      property name
      * @return instance of Expect
      */
-    public Expect visiblePseudoElementHasNotProperty(String cssSelector, String pseudoElement, String property) {
+    public Expect visiblePseudoElementHasNotProperty(String selector, String pseudoElement, String property) {
         this.executePseudoElementAssert(() -> {
-            assertThat(actor.currentFrame().locator(cssSelector)).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
-            assertThatPropertyIsEmpty((String) actor.currentFrame().evaluate(
-                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, cssSelector, pseudoElement, property)), property);
+            Locator locator = actor.currentFrame().locator(selector);
+            assertThat(locator).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
+            assertThatPropertyIsEmpty((String) locator.evaluate(
+                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, pseudoElement, property)), property);
         });
         return this;
     }
@@ -1243,17 +1245,18 @@ public final class Expect implements ILocatorExpect, IPageExpect {
     /**
      * Ensures the cssSelector is visible and pseudo-element has property which contains value.
      *
-     * @param cssSelector   css selector which points on element with ::after or ::before
+     * @param selector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
      * @param property      property name
      * @param value         expected property value
      * @return instance of Expect
      */
-    public Expect visiblePseudoElementPropertyContains(String cssSelector, String pseudoElement, String property, String value) {
+    public Expect visiblePseudoElementPropertyContains(String selector, String pseudoElement, String property, String value) {
         this.executePseudoElementAssert(() -> {
-            assertThat(actor.currentFrame().locator(cssSelector)).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
-            assertThatPropertyContains(property, value, (String) actor.currentFrame().evaluate(
-                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, cssSelector, pseudoElement, property)));
+            Locator locator = actor.currentFrame().locator(selector);
+            assertThat(locator).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
+            assertThatPropertyContains(property, value, (String) locator.evaluate(
+                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, pseudoElement, property)));
         });
         return this;
     }
@@ -1261,17 +1264,18 @@ public final class Expect implements ILocatorExpect, IPageExpect {
     /**
      * Ensures the cssSelector is visible and pseudo-element has property which not contains value.
      *
-     * @param cssSelector   css selector which points on element with ::after or ::before
+     * @param selector   css selector which points on element with ::after or ::before
      * @param pseudoElement after, before or any another pseudo-element.
      * @param property      property name
      * @param value         expected property value
      * @return instance of Expect
      */
-    public Expect visiblePseudoElementPropertyNotContains(String cssSelector, String pseudoElement, String property, String value) {
+    public Expect visiblePseudoElementPropertyNotContains(String selector, String pseudoElement, String property, String value) {
         this.executePseudoElementAssert(() -> {
-            assertThat(actor.currentFrame().locator(cssSelector)).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
-            assertThatPropertyNotContains(property, value, (String) actor.currentFrame().evaluate(
-                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, cssSelector, pseudoElement, property)));
+            Locator locator = actor.currentFrame().locator(selector);
+            assertThat(locator).isVisible(new LocatorAssertions.IsVisibleOptions().setTimeout(timeout));
+            assertThatPropertyNotContains(property, value, (String) locator.evaluate(
+                    String.format(JS_PSEUDO_ELEMENT_PROPERTY, pseudoElement, property)));
         });
         return this;
     }

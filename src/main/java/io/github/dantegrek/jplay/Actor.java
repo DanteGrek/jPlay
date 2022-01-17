@@ -1,15 +1,15 @@
 package io.github.dantegrek.jplay;
 
 import com.microsoft.playwright.*;
-import com.microsoft.playwright.options.LoadState;
-import com.microsoft.playwright.options.MouseButton;
-import com.microsoft.playwright.options.WaitUntilState;
+import com.microsoft.playwright.options.*;
 import io.github.dantegrek.enums.Key;
 
 import java.nio.file.Path;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static io.github.dantegrek.jplay.JsStrings.JS_PSEUDO_ELEMENT_CONTENT;
 
 /**
  * This is main class in project. Ir represents actor which act with system under test.
@@ -144,6 +144,72 @@ public final class Actor {
      */
     public Actor clearConfig() {
         this.configuration = new Configuration(this);
+        this.isStrict = false;
+        return this;
+    }
+
+    private void startTraceIfSpecified() {
+        if (this.configuration.getWithTrace()) {
+            this.getBrowserManager()
+                    .getBrowserContext()
+                    .tracing()
+                    .start(new Tracing.StartOptions()
+                            .setScreenshots(true)
+                            .setSnapshots(true));
+        }
+    }
+
+    private void stopAndSaveTrace() {
+        if (this.configuration.getWithTrace()) {
+            this.getBrowserManager()
+                    .getBrowserContext()
+                    .tracing()
+                    .stop(new Tracing.StopOptions().setPath(
+                            this.configuration.getTraceDir().resolve(this.configuration.getTraceName())));
+        }
+    }
+
+    /**
+     * Start tracing chunk
+     *
+     * @return instance of Actor
+     */
+    public Actor startTraceChunk() {
+        contextConfig().withTrace(true);
+        startTraceIfSpecified();
+        this.getBrowserManager()
+                .getBrowserContext().tracing().startChunk();
+        return this;
+    }
+
+    /**
+     * Start tracing chunk
+     *
+     * @param title of trace.
+     * @return instance of Actor
+     */
+    public Actor startTracingChunk(String title) {
+        contextConfig().withTrace(true);
+        startTraceIfSpecified();
+        this.getBrowserManager()
+                .getBrowserContext().tracing().startChunk(new Tracing.StartChunkOptions().setTitle(title));
+        return this;
+    }
+
+    /**
+     * Stop tracing chunk
+     *
+     * @param prefix of trace name, ${prefix}-chunk-of-chromium-trace.zip
+     * @return instance of Actor
+     */
+    public Actor stopTracingChunk(String prefix) {
+        this.getBrowserManager()
+                .getBrowserContext()
+                .tracing()
+                .stop(new Tracing.StopOptions().setPath(
+                        this.configuration.getTraceDir()
+                                .resolve(prefix + "-chunk-of-" + this.configuration.getTraceNameSuffix())));
+        contextConfig().withTrace(false);
         return this;
     }
 
@@ -156,6 +222,7 @@ public final class Actor {
      */
     public Actor startBrowser() {
         this.getBrowserManager().startBrowserContextAndTab(this.configuration);
+        this.startTraceIfSpecified();
         return actor.get();
     }
 
@@ -175,6 +242,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor closeBrowser() {
+        this.stopAndSaveTrace();
         this.getBrowserManager().closeBrowser();
         this.getBrowserManager().setBrowser(null);
         this.getBrowserManager().setBrowserContext(null);
@@ -193,6 +261,7 @@ public final class Actor {
      */
     public Actor createContextAndTab() {
         this.getBrowserManager().createContextWithTab(this.configuration);
+        this.startTraceIfSpecified();
         return actor.get();
     }
 
@@ -202,6 +271,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor closeCurrentContext() {
+        this.stopAndSaveTrace();
         this.getBrowserManager().getBrowserContext().close();
         this.getBrowserManager().setFrame(null);
         return this;
@@ -359,7 +429,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor waitTillNetworkIdle() {
-        this.currentPage().waitForLoadState(LoadState.NETWORKIDLE);
+        this.currentFrame().waitForLoadState(LoadState.NETWORKIDLE);
         return this;
     }
 
@@ -369,7 +439,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor waitTillDocumentLoaded() {
-        this.currentPage().waitForLoadState(LoadState.DOMCONTENTLOADED);
+        this.currentFrame().waitForLoadState(LoadState.DOMCONTENTLOADED);
         return this;
     }
 
@@ -421,6 +491,31 @@ public final class Actor {
 
     // Actions
 
+    private boolean isStrict = false;
+
+    /**
+     * Use strict make all user actions like clicks, hover... expects that selector resolves to single element otherwise
+     * it will fail.
+     *
+     * @param isStrict boolean
+     * @return instance of Actor
+     */
+    public Actor useStrict(boolean isStrict) {
+        this.isStrict = isStrict;
+        return this;
+    }
+
+    /**
+     * Focus on web element.
+     *
+     * @param selector css of xpath
+     * @return instance of Actor
+     */
+    public Actor focus(String selector) {
+        this.currentFrame().focus(selector, new Frame.FocusOptions().setStrict(isStrict));
+        return this;
+    }
+
     /**
      * Click on element.
      *
@@ -428,7 +523,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor click(String selector) {
-        this.currentFrame().click(selector);
+        this.currentFrame().click(selector, new Frame.ClickOptions().setStrict(isStrict));
         return this;
     }
 
@@ -439,7 +534,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor rightClick(String selector) {
-        this.currentFrame().click(selector, new Frame.ClickOptions().setButton(MouseButton.RIGHT));
+        this.currentFrame().click(selector, new Frame.ClickOptions().setButton(MouseButton.RIGHT).setStrict(isStrict));
         return this;
     }
 
@@ -450,7 +545,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor doubleClick(String selector) {
-        this.currentFrame().dblclick(selector);
+        this.currentFrame().dblclick(selector, new Frame.DblclickOptions().setStrict(isStrict));
         return this;
     }
 
@@ -462,7 +557,8 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor dragAndDrop(String sourceSelector, String targetSelector) {
-        this.currentFrame().dragAndDrop(sourceSelector, targetSelector);
+        this.currentFrame().dragAndDrop(sourceSelector, targetSelector,
+                new Frame.DragAndDropOptions().setStrict(isStrict));
         return this;
     }
 
@@ -473,7 +569,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor check(String selector) {
-        this.currentFrame().check(selector);
+        this.currentFrame().check(selector, new Frame.CheckOptions().setStrict(isStrict));
         return this;
     }
 
@@ -484,7 +580,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor uncheck(String selector) {
-        this.currentFrame().uncheck(selector);
+        this.currentFrame().uncheck(selector, new Frame.UncheckOptions().setStrict(isStrict));
         return this;
     }
 
@@ -496,7 +592,20 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor typeText(String selector, String text) {
-        this.currentFrame().type(selector, text);
+        this.currentFrame().type(selector, text, new Frame.TypeOptions().setStrict(isStrict));
+        return this;
+    }
+
+    /**
+     * This method type chars one by one with delay.
+     *
+     * @param selector     css or xpath
+     * @param text         value
+     * @param delayTimeout between each char
+     * @return instance of Actor
+     */
+    public Actor typeTextWithDelay(String selector, String text, double delayTimeout) {
+        this.currentFrame().type(selector, text, new Frame.TypeOptions().setDelay(delayTimeout).setStrict(isStrict));
         return this;
     }
 
@@ -508,7 +617,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor fillText(String selector, String text) {
-        this.currentFrame().fill(selector, text);
+        this.currentFrame().fill(selector, text, new Frame.FillOptions().setStrict(isStrict));
         return this;
     }
 
@@ -524,7 +633,7 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor tap(String selector) {
-        this.currentFrame().tap(selector);
+        this.currentFrame().tap(selector, new Frame.TapOptions().setStrict(isStrict));
         return this;
     }
 
@@ -535,7 +644,59 @@ public final class Actor {
      * @return instance of Actor
      */
     public Actor hover(String selector) {
-        this.currentFrame().hover(selector);
+        this.currentFrame().hover(selector, new Frame.HoverOptions().setStrict(isStrict));
+        return this;
+    }
+
+    /**
+     * Single selection matching the value attribute.
+     *
+     * @param selector css or xpath
+     * @param value    to be selected
+     * @return instance of Actor
+     */
+    public Actor selectByValue(String selector, String value) {
+        this.currentFrame().selectOption(selector, value, new Frame.SelectOptionOptions().setStrict(isStrict));
+        return this;
+    }
+
+    /**
+     * Multiple selected items
+     *
+     * @param selector css or xpath
+     * @param values   to be selected
+     * @return instance of Actor
+     */
+    public Actor selectByValue(String selector, String... values) {
+        this.currentFrame().selectOption(selector, values, new Frame.SelectOptionOptions().setStrict(isStrict));
+        return this;
+    }
+
+    /**
+     * Single selection matching the label
+     *
+     * @param selector css or xpath
+     * @param label    to be selected
+     * @return instance of Actor
+     */
+    public Actor selectByText(String selector, String label) {
+        this.currentFrame().selectOption(selector,
+                new SelectOption().setLabel(label),
+                new Frame.SelectOptionOptions().setStrict(isStrict));
+        return this;
+    }
+
+    /**
+     * Multiple selection matching the labels
+     *
+     * @param selector css or xpath
+     * @param labels   to be selected
+     * @return instance of Actor
+     */
+    public Actor selectByText(String selector, String... labels) {
+        this.currentFrame().selectOption(selector,
+                List.of(labels).stream().map(label -> new SelectOption().setLabel(label)).toArray(SelectOption[]::new),
+                new Frame.SelectOptionOptions().setStrict(isStrict));
         return this;
     }
 
@@ -645,6 +806,49 @@ public final class Actor {
         }
         locator.setInputFiles(files);
         return this;
+    }
+
+    /**
+     * Click on button and wait till file will be downloaded.
+     *
+     * @param selector to element which triggers download file.
+     * @return instance of Download.
+     */
+    public Download clickAndWaitTillDownload(String selector) {
+        return this.currentPage().waitForDownload(
+                () -> currentFrame().click(selector, new Frame.ClickOptions().setStrict(isStrict)));
+    }
+
+    /**
+     * Click on button and wait till file will be downloaded.
+     *
+     * @param selector to element which triggers download file.
+     * @param timeout  to wait on downloaded file.
+     * @return instance of Download.
+     */
+    public Download clickAndWaitTillDownload(String selector, double timeout) {
+        return this.currentPage().waitForDownload(new Page.WaitForDownloadOptions().setTimeout(timeout),
+                () -> currentFrame().click(selector, new Frame.ClickOptions().setStrict(isStrict)));
+    }
+
+    /**
+     * This method helps extract content from pseudo-element
+     *
+     * @param selector      css selector which points on element with ::after or ::before
+     * @param pseudoElement after, before or any another pseudo-element.
+     * @return value of attribute content as String.
+     */
+    public String getPseudoElementContent(String selector, String pseudoElement) {
+        Locator locator = this.currentFrame().locator(selector);
+        locator.waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
+        String content = locator.evaluate(String.format(JS_PSEUDO_ELEMENT_CONTENT, pseudoElement)).toString();
+        if (content.equals("none") || content.isEmpty()) {
+            return content;
+        }
+        // JS returns string as object and when Java do toString()
+        // it wraps js string into java String that is why we need to rid off first and last characters in next line
+        // they always will be "..."
+        return content.substring(1, content.length() - 1);
     }
 
     // Keyboard

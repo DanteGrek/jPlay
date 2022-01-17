@@ -2,9 +2,8 @@ package io.github.dantegrek;
 
 import com.microsoft.playwright.options.ViewportSize;
 import io.github.dantegrek.enums.BrowserName;
-import io.github.dantegrek.interfaces.Device;
 import io.github.dantegrek.actions.TestAction;
-import io.github.dantegrek.enums.Devices;
+import io.github.dantegrek.enums.Device;
 import io.github.dantegrek.jplay.Actor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,11 +33,11 @@ public class StartBrowserTest {
 
     public static Object[][] devices() {
         return new Object[][]{
-                {BrowserName.CHROMIUM, Devices.IPHONE_12},
-                {BrowserName.CHROME, Devices.IPHONE_12},
-                {BrowserName.MSEDGE, Devices.IPHONE_12},
-                {BrowserName.WEBKIT, Devices.IPHONE_12},
-                {BrowserName.FIREFOX, Devices.IPHONE_12}
+                {BrowserName.CHROMIUM, Device.IPHONE_12},
+                {BrowserName.CHROME, Device.IPHONE_12},
+                {BrowserName.MSEDGE, Device.IPHONE_12},
+                {BrowserName.WEBKIT, Device.IPHONE_12},
+                {BrowserName.FIREFOX, Device.IPHONE_12}
         };
     }
 
@@ -58,7 +57,7 @@ public class StartBrowserTest {
 
     @ParameterizedTest
     @MethodSource("devices")
-    public void startDeviceTest(BrowserName browserName, Device device) {
+    public void startDeviceTest(BrowserName browserName, io.github.dantegrek.interfaces.Device device) {
         String userAgent = Actor.actor()
                 .browserConfig()
                 .withBrowser(browserName)

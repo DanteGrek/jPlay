@@ -6,6 +6,7 @@ import io.github.dantegrek.enums.BrowserName;
 import io.github.dantegrek.interfaces.Device;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +22,9 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     private double defaultNavigationTimeout = 20000;
     private double defaultWaitTimeout = 20000;
     private double exceptTimeout = 5000;
+    private boolean withTrace;
+    private Path traceDir = Paths.get("target", "traces");
+    private String traceNamePrefix;
 
     Configuration(Actor actor) {
         this.actor = actor;
@@ -137,7 +141,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
     /**
      * @param device Emulate device user agent, view port, device scale factor, sets is touch to true if browser support
      *               such argument, and sets is mobile to true.
-     *               Predefined devices: {@link io.github.dantegrek.enums.Devices}
+     *               Predefined devices: {@link io.github.dantegrek.enums.Device}
      * @return instance of Configuration
      */
     public IContextConfiguration withDevice(Device device) {
@@ -231,6 +235,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param path you can use Paths.get("path/to/your/browser/executable/file.exe");
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withExecutablePath(Path path) {
         this.launchOptions.setExecutablePath(path);
         return this;
@@ -242,6 +247,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param prefs Learn more about the Firefox user preferences at "https://support.mozilla.org/en-US/kb/about-config-editor-firefox"
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withFirefoxUserPrefs(Map<String, Object> prefs) {
         this.launchOptions.setFirefoxUserPrefs(prefs);
         return this;
@@ -253,6 +259,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param isIgnoreAllDefaultArgs Dangerous option; use with care. Defaults to false.
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withIgnoreAllDefaultArgs(boolean isIgnoreAllDefaultArgs) {
         this.launchOptions.setIgnoreAllDefaultArgs(isIgnoreAllDefaultArgs);
         return this;
@@ -264,6 +271,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param args Dangerous option; use with care.
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withIgnoreDefaultArgs(List<String> args) {
         this.launchOptions.setIgnoreDefaultArgs(args);
         return this;
@@ -275,6 +283,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param proxy {@link com.microsoft.playwright.options.Proxy}
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withProxy(Proxy proxy) {
         this.launchOptions.setProxy(proxy);
         return this;
@@ -287,6 +296,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param milliseconds to wait between all playwright actions
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withSlowMo(double milliseconds) {
         this.launchOptions.setSlowMo(milliseconds);
         return this;
@@ -298,8 +308,17 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param milliseconds Defaults to 30000 (30 seconds). Pass 0 to disable timeout.
      * @return instance of Configuration
      */
+    @Override
     public IBrowserConfiguration withTimeoutWaitOnBrowserToStart(double milliseconds) {
         this.launchOptions.setTimeout(milliseconds);
+        return this;
+    }
+
+    // Context options
+
+    @Override
+    public IContextConfiguration withTrace(boolean withTrace) {
+        this.withTrace = withTrace;
         return this;
     }
 
@@ -309,12 +328,48 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param path you can use Paths.get("path/to/your/trace.zip");
      * @return instance of Configuration
      */
-    public IBrowserConfiguration withTrace(Path path) {
-        this.launchOptions.setTracesDir(path);
+    @Override
+    public IContextConfiguration withTraceDir(Path path) {
+        this.traceDir = path;
         return this;
     }
 
-    // Context options
+    @Override
+    public IContextConfiguration withTraceNamePrefix(String name) {
+        this.traceNamePrefix = name;
+        return this;
+    }
+
+    /**
+     * Returns true if trace should be recorded.
+     *
+     * @return boolean
+     */
+    boolean getWithTrace() {
+        return this.withTrace;
+    }
+
+    /**
+     * Returns path to trace dir or null if path was not specified.
+     *
+     * @return Path to trace dir.
+     */
+    Path getTraceDir() {
+        return this.traceDir;
+    }
+
+    /**
+     * Get name of trace form config.
+     *
+     * @return trace name as String.
+     */
+    String getTraceName() {
+        return this.traceNamePrefix != null ? this.traceNamePrefix + "-" + getTraceNameSuffix() : getTraceNameSuffix();
+    }
+
+    String getTraceNameSuffix() {
+        return String.format("%s-trace.zip", browserName.name().toLowerCase());
+    }
 
     /**
      * Whether to automatically download all the attachments.
@@ -322,6 +377,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
      * @param acceptDownloads Defaults to false where all the downloads are canceled.
      * @return instance of Configuration
      */
+    @Override
     public IContextConfiguration withAcceptDownloads(boolean acceptDownloads) {
         this.contextOptions.setAcceptDownloads(acceptDownloads);
         return this;
@@ -706,6 +762,7 @@ public final class Configuration implements IBrowserConfiguration, IContextConfi
 
     /**
      * Return you to ITimeoutConfig
+     *
      * @return instance of ITimeoutConfig
      */
     public ITimeoutConfig timeoutConfig() {

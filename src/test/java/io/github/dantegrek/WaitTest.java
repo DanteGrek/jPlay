@@ -91,4 +91,5 @@ public class WaitTest {
         );
         assertTrue(error.getMessage().contains("message='Timeout 2ms exceeded."), UNEXPECTED_ERROR_MESSAGE);
     }
+
 }
