@@ -11,16 +11,16 @@ Add dependency to pom.xml
 <dependency>
     <groupId>io.github.dantegrek</groupId>
     <artifactId>jplay</artifactId>
-    <version>0.2.0-alpha</version>
+    <version>0.3.0-beta</version>
 </dependency>
 ```
 Add dependency to gradle.build
 ```
-implementation group: 'io.github.dantegrek', name: 'jplay', version: '0.2.0-alpha'
+implementation group: 'io.github.dantegrek', name: 'jplay', version: '0.3.0-beta'
 ```
 or
 ```
-implementation 'io.github.dantegrek:jplay:0.2.0-alpha'
+implementation 'io.github.dantegrek:jplay:0.3.0-beta'
 ```
 jPlay already has playwright inside so you do not need it explicitly.
 ### BDD syntax sugar example:
