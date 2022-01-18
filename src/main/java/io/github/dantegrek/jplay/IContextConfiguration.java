@@ -213,7 +213,7 @@ public interface IContextConfiguration extends IConfigSwitcher {
      *              setPassword String Optional password to use if HTTP proxy requires authentication.
      * @return instance of IContextConfiguration
      */
-    IContextConfiguration setContextProxy(Proxy proxy);
+    IContextConfiguration withContextProxy(Proxy proxy);
 
     /**
      * Proxy url for browser.
@@ -223,7 +223,7 @@ public interface IContextConfiguration extends IConfigSwitcher {
      *               for example http://myproxy.com:3128 or socks5://myproxy.com:3128. Short form myproxy.com:3128 is considered an HTTP proxy.
      * @return instance of IContextConfiguration
      */
-    IContextConfiguration setContextProxy(String server);
+    IContextConfiguration withContextProxy(String server);
 
     /**
      * Records har file when specified.
