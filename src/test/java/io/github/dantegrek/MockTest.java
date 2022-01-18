@@ -230,6 +230,8 @@ public class MockTest {
     @MethodSource("browsers")
     public void addOneTimeMockTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -245,9 +247,8 @@ public class MockTest {
                 .navigateTo(playgroundUrl);
         then()
                 .expectThat()
-                .selector("h1")
-                .isVisible()
-                .hasText("HELLO FROM MOCK!");
+                .selector("*:text('HELLO FROM MOCK!')")
+                .isVisible();
         and()
                 .navigateTo(playgroundUrl)
                 .expectThat()
