@@ -32,6 +32,8 @@ public class SelectTest {
     @MethodSource("browsers")
     public void selectSingleValueAttributeTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -52,6 +54,8 @@ public class SelectTest {
     @MethodSource("browsers")
     public void selectMultipleValueAttributeTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -72,6 +76,8 @@ public class SelectTest {
     @MethodSource("browsers")
     public void selectByLabelTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -92,6 +98,8 @@ public class SelectTest {
     @MethodSource("browsers")
     public void selectByLabelsTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()

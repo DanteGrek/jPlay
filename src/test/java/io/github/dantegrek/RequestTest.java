@@ -30,6 +30,8 @@ public class RequestTest {
     @MethodSource("browsers")
     public void overrideRequestUrlTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and().startBrowser();
@@ -54,6 +56,8 @@ public class RequestTest {
     @MethodSource("browsers")
     public void abortRequestByUrlPredicateTest(BrowserName browserName) {
         given()
+                .contextConfig()
+                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and().startBrowser();
