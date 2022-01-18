@@ -79,7 +79,7 @@ jobs:
       - name: Run basic tests
         run: mvn test "-Dtest=StartBrowserTest,ContextTest,MemoryTest,MockTest,RequestTest,TabTest,WaitTest,TraceTest,SwitchFrameTest,WaitTest"
       - name: Run actions tests
-        run: mvn test "-Dtest=DialogTest,DownloadTest,FocusTest,KeyboardActionsTest,MouseActionsTest,PseudoElementApiTestSelectTest,StrictModeTest,UploadFileTest"
+        run: mvn test "-Dtest=DialogTest,DownloadTest,FocusTest,KeyboardActionsTest,MouseActionsTest,PseudoElementApiTest,SelectTest,StrictModeTest,UploadFileTest"
       - name: Publish jUnit Test Results
         uses: mikepenz/action-junit-report@v2
         if: failure()
