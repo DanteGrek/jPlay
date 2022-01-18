@@ -270,13 +270,13 @@ public enum Device implements io.github.dantegrek.interfaces.Device {
     ),
     ;
 
-    private String userAgent;
-    private int viewportHeight;
-    private int viewportWidth;
-    private int deviceScaleFactor;
-    private boolean isMobile;
-    private boolean hasTouch;
-    private String deviceName;
+    private final String userAgent;
+    private final int viewportHeight;
+    private final int viewportWidth;
+    private final int deviceScaleFactor;
+    private final boolean isMobile;
+    private final boolean hasTouch;
+    private final String deviceName;
 
     Device(String userAgent,
            int viewportWidth,
