@@ -251,8 +251,8 @@ public class MockTest {
         and()
                 .navigateTo(playgroundUrl)
                 .expectThat()
-                .selector("h1")
-                .hasText("The Playground");
+                .page()
+                .title("The Test Automation Playground");
     }
 
     @ParameterizedTest
