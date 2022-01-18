@@ -30,8 +30,6 @@ public class SwitchFrameTest {
     @MethodSource("browsers")
     public void switchOnFrameTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .timeoutConfig()
                 .withExpectTimeout(1000)
                 .browserConfig()
@@ -52,8 +50,6 @@ public class SwitchFrameTest {
     @MethodSource("browsers")
     public void switchOnMainFrame(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .timeoutConfig()
                 .withExpectTimeout(1000)
                 .browserConfig()

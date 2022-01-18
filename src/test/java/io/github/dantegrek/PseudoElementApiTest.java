@@ -35,8 +35,6 @@ public class PseudoElementApiTest {
     @MethodSource("browsers")
     public void expectVisiblePseudoElementTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .timeoutConfig()
                 .withExpectTimeout(1000)
                 .browserConfig()
@@ -56,8 +54,6 @@ public class PseudoElementApiTest {
     @Test
     public void negativeExpectVisiblePseudoElementTest() {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .timeoutConfig()
                 .withExpectTimeout(1000)
                 .and()
@@ -86,8 +82,6 @@ public class PseudoElementApiTest {
     @MethodSource("browsers")
     public void getContentFromPseudoElementTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .timeoutConfig()
                 .withExpectTimeout(1000)
                 .browserConfig()
@@ -112,8 +106,6 @@ public class PseudoElementApiTest {
     @MethodSource("browsers")
     public void negativeGetContentFromPseudoElementTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .timeoutConfig()
                 .withExpectTimeout(1000)
                 .browserConfig()

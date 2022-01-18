@@ -31,8 +31,6 @@ public class KeyboardActionsTest {
     @MethodSource("browsers")
     public void keyTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName);
         and()
@@ -51,8 +49,6 @@ public class KeyboardActionsTest {
     @MethodSource("browsers")
     public void keyDownKeyUpTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName);
         and()
@@ -82,8 +78,6 @@ public class KeyboardActionsTest {
     @MethodSource("browsers")
     public void insertTextTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName);
         and()

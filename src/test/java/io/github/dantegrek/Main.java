@@ -4,12 +4,13 @@ import io.github.dantegrek.enums.BrowserName;
 import io.github.dantegrek.enums.Device;
 import io.github.dantegrek.enums.Key;
 
+import static io.github.dantegrek.jplay.Actor.actor;
 import static io.github.dantegrek.jplay.Jplay.*;
 
 public class Main {
 
     public static void main(String[] args) {
-        given()
+        jPlay()
                 .browserConfig()
                 .withBrowser(BrowserName.CHROME)
                 .withHeadless(false)
@@ -19,11 +20,11 @@ public class Main {
                 .startBrowser()
                 .navigateTo("https://google.com");
 
-        when()
+        user()
                 .fillText("input:visible", "maven jplay")
                 .key(Key.ENTER);
 
-        then()
+        actor()
                 .expectThat()
                 .selector("text=jplay")
                 .isVisible();

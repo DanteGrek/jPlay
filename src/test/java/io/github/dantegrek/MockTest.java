@@ -40,8 +40,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addRemoveMockOnPageTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -71,8 +69,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addMockForRestMethodTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -96,8 +92,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addRemoveMockWithPredicateOnPageTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -127,8 +121,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addRemoveMockOnContextTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -158,8 +150,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addMockOnPageRemoveMockOnContextDoesNoHasEffectTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -189,8 +179,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addMockOnContextRemoveMockOnPageDoesNoHasEffectTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -220,8 +208,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addMockWithPayloadAsFileEffectTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -244,8 +230,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addOneTimeMockTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
@@ -274,8 +258,6 @@ public class MockTest {
     @MethodSource("browsers")
     public void addTwoTimeMockTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withIgnoreHTTPSErrors(true)
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()

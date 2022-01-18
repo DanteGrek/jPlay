@@ -32,9 +32,6 @@ public class DownloadTest {
     @MethodSource("browsers")
     public void downloadFileTest(BrowserName browserName) {
         given()
-                .contextConfig()
-                .withAcceptDownloads(true)
-                .and()
                 .browserConfig()
                 .withBrowser(browserName)
                 .and()
