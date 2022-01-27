@@ -245,14 +245,13 @@ public class MockTest {
                 .navigateTo(playgroundUrl);
         then()
                 .expectThat()
-                .selector("h1")
-                .isVisible()
-                .hasText("HELLO FROM MOCK!");
+                .selector("*:text('HELLO FROM MOCK!')")
+                .isVisible();
         and()
                 .navigateTo(playgroundUrl)
                 .expectThat()
-                .selector("h1")
-                .hasText("The Playground");
+                .page()
+                .title("The Test Automation Playground");
     }
 
     @ParameterizedTest
@@ -292,8 +291,6 @@ public class MockTest {
     @Test
     public void zeroTimeMockTest() {
         given()
-                .browserConfig()
-                .and()
                 .startBrowser();
 
         RuntimeException runtimeException = assertThrows(RuntimeException.class, () ->

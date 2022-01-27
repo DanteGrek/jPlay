@@ -21,6 +21,7 @@ public interface IBrowserConfiguration extends IConfigSwitcher {
 
     /**
      * Return you to ITimeoutConfig
+     *
      * @return instance of ITimeoutConfig
      */
     ITimeoutConfig timeoutConfig();
@@ -143,12 +144,4 @@ public interface IBrowserConfiguration extends IConfigSwitcher {
      * @return instance of Configuration
      */
     IBrowserConfiguration withTimeoutWaitOnBrowserToStart(double milliseconds);
-
-    /**
-     * If specified, traces are saved into this directory.
-     *
-     * @param path you can use Paths.get("path/to/your/trace.zip");
-     * @return instance of Configuration
-     */
-    IBrowserConfiguration withTrace(Path path);
 }

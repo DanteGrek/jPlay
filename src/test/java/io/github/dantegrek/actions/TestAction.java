@@ -5,10 +5,6 @@ import io.github.dantegrek.jplay.Action;
 
 public class TestAction extends Action {
 
-    public Page getPage() {
-        return this.actor.currentPage();
-    }
-
     public String getUserAgent() {
         return (String) this.actor.currentPage().evaluate("window.navigator.userAgent");
     }
@@ -26,10 +22,10 @@ public class TestAction extends Action {
     }
 
     public String getRating() {
-       return this.getPseudoElementContent(".star-rating", "::after");
+       return this.actor.getPseudoElementContent(":light(.star-rating)", "::after");
     }
 
     public String getNotExistingPseudoElement() {
-        return this.getPseudoElementContent("#check_rating", "::before");
+        return this.actor.getPseudoElementContent(":light(#check_rating)", "::before");
     }
 }

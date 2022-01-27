@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import static io.github.dantegrek.jplay.Jplay.*;
 
-public class SwitchFameTest {
+public class SwitchFrameTest {
 
     private static final String framesUrl = "https://dantegrek.github.io/testautomation-playground/frames.html";
 
