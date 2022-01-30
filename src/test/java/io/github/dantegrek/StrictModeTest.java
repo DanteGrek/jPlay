@@ -32,6 +32,46 @@ public class StrictModeTest {
 
     @ParameterizedTest
     @MethodSource("browsers")
+    public void focusStrictModeSingleElementTest(BrowserName browserName) {
+        given()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(formsUrl);
+
+        when()
+                .useStrict(true)
+                .focus("#notes");
+
+        then()
+                .expectThat()
+                .selector("#notes")
+                .count(1);
+    }
+
+    @ParameterizedTest
+    @MethodSource("browsers")
+    public void focusStrictModeMultipleElementsTest(BrowserName browserName) {
+        given()
+                .timeoutConfig()
+                .browserConfig()
+                .withBrowser(browserName)
+                .and()
+                .startBrowser()
+                .navigateTo(formsUrl)
+                .useStrict(true);
+
+        PlaywrightException playwrightException = assertThrows(PlaywrightException.class, () ->
+                when()
+                        .focus(".form-check-input")
+        );
+
+        assertTrue(playwrightException.getMessage().contains("strict mode violation"));
+    }
+
+    @ParameterizedTest
+    @MethodSource("browsers")
     public void clickStrictModeSingleElementTest(BrowserName browserName) {
         given()
                 .browserConfig()

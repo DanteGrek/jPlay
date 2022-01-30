@@ -5,6 +5,7 @@ jPlay is [Playwright](https://playwright.dev/java/) based ready to use framework
 syntax sugar and screen play pattern on board. It also has ready to use methods to check css pseudo-elements.
 _____________
 ### Installation:
+Java 11 or higher is required.
 
 Maven central: https://mvnrepository.com/artifact/io.github.dantegrek/jplay
 

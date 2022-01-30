@@ -702,9 +702,8 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
-     * If some of the filePaths are relative paths, then they are resolved relative to
+     * If some filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
      * @param selector css or xpath
@@ -717,9 +716,8 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
-     * If some of the filePaths are relative paths, then they are resolved relative to
+     * If some filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
      * @param selector    css or xpath
@@ -738,9 +736,8 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
-     * If some of the filePaths are relative paths, then they are resolved relative to
+     * If some filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
      * @param selector css or xpath
@@ -753,7 +750,6 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -774,7 +770,6 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -789,7 +784,6 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
