@@ -394,7 +394,7 @@ ___
     key(Key key)
 </h2>
 
-Performs key down and key up. All predefined keyboard you can find in [Key](../src/main/java/io/github/dantegrek/enums/Key.class) enum
+Performs key down and key up. All predefined keyboard you can find in [Key](/src/main/java/io/github/dantegrek/enums/Key.java) enum
 
 ```
   when()
