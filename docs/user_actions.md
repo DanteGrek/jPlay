@@ -35,7 +35,23 @@ ____
     - [clickAndWaitTillDownload(String selector, double timeout)](#clickAndWaitTillDownloadTimeout)
     - [getPseudoElementContent(String selector, String pseudoElement)](#getPseudoElementContent)
   - [Keyboard](#Keyboard)
-    - [key(Key key)](#key)
+    - [press(Key key) & pressKey(Key key)](#key)
+    - [keyDown(Key key)](#keyDown)
+    - [keyUp(Key key)](#keyUp)
+    - [insertText(String text)](#insertText)
+  - [Dialogs](#Dialogs)
+    - [dialog()](#dialog)
+    - [acceptAll()](#acceptAll)
+    - [acceptOnce()](#acceptOnce)
+    - [acceptConfirmOnce()](#acceptConfirmOnce)
+    - [acceptAllConfirms()](#acceptAllConfirms)
+    - [acceptPromptOnce()](#acceptPromptOnce)
+    - [acceptPromptOnce(String text)](#acceptPromptOnceWithText)
+    - [acceptAllPrompts()](#acceptAllPrompts)
+    - [acceptAllPrompts(String text)](#acceptAllPromptsWithText)
+  - [Helpers](#helpers)
+    - [setContent(String html)](#setContent)
+    - [evaluate(String jsScript)](#evaluate)
 
 ___
 <h2 id="ActionsWithBrowser">
@@ -390,14 +406,183 @@ ___
     Keyboard
 </h2>
 
-<h2 id="key">
-    key(Key key)
-</h2>
+<h3 id="key">
+    press(Key key) & pressKey(Key key)
+</h3>
 
 Performs key down and key up. All predefined keyboard you can find in [Key](/src/main/java/io/github/dantegrek/enums/Key.java) enum
 
 ```
   when()
       .click("#area")
-      .key(DIGIT_0);
+      .press(DIGIT_0);
+```
+or 
+```
+  when()
+      .click("#area")
+      .pressKey(DIGIT_0);
+```
+or with dilay between press and release:
+```
+when()
+      .click("#area")
+      .pressKeyWithDelay(DIGIT_0, 1000); //one second delay.
+```
+
+<h3 id="keyDown">
+    keyDown(Key key)
+</h3>
+
+Dispatches a keydown event.
+After the key is pressed once, subsequent calls to keyDown(key) will have repeat set to true. 
+To release the key, use .
+
+```
+  when()
+      .click("#area")
+      .keyDown(SHIFT);
+```
+
+<h3 id="keyUp">
+    keyUp(Key key)
+</h3>
+
+Dispatches a keyup event.
+
+To simulate typing with holding shift button.
+```
+  when()
+      .click("#area")
+      .keyDown(SHIFT);
+  and()
+     .key(KEY_A)
+     .keyUp(SHIFT);
+```
+
+<h3 id="insertText">
+    insertText(String text)
+</h3>
+
+Dispatches only input event, does not emit the keydown, keyup or keypress events.
+Emulate exotic characters from keyboard like "嗨"
+
+```
+  when()
+      .click("#area")
+      .insertText("嗨");
+```
+___
+<h2 id="Dialogs">
+    Dialogs
+</h2>
+
+This dialog invocation chain represents wrapped [playwright Dialog class](https://playwright.dev/java/docs/api/class-dialog)
+
+*Dialogs are dismissed automatically, unless there is a Page.onDialog(handler) listener. When listener is present, 
+it must either Dialog.accept([promptText]) or Dialog.dismiss() the dialog - otherwise the page will freeze waiting for 
+the dialog, and actions like click will never finish.*
+
+<h3 id="dialog">
+    dialog()
+</h3>
+
+Opens chain to handle dialogs like: alert, beforeunload, confirm or prompt.
+
+```
+  when()
+      .dialog()
+      .acceptAll();
+```
+
+<h3 id="acceptAll">
+    acceptAll()
+</h3>
+
+Accept all dialogs in current page/tab. By default all dialogs dismiss automatically.
+
+
+<h3 id="acceptOnce">
+    acceptOnce()
+</h3>
+
+Accept any Dialog once in current page/tab, and rest of dialogs will be dismissed.
+
+<h3 id="acceptConfirmOnce">
+    acceptConfirmOnce()
+</h3>
+
+Accept Confirm dialog once.
+
+<h3 id="acceptAllConfirms">
+    acceptAllConfirms()
+</h3>
+
+Accept all Confirm dialogs in current page/tab.
+
+<h3 id="acceptPromptOnce">
+    acceptPromptOnce()
+</h3>
+
+Accept Prompt dialog once.
+
+<h3 id="acceptPromptOnceWithText">
+    acceptPromptOnce(String text)
+</h3>
+
+Put answer and accept Prompt dialog once.
+
+<h3 id="acceptAllPrompts">
+    acceptAllPrompts()
+</h3>
+
+Accept all prompts with default value or without any value.
+
+<h3 id="acceptAllPromptsWithText">
+    acceptAllPrompts(String text)
+</h3>
+
+Accept all prompts with text
+___
+
+<h2 id="helpers">
+    Helpers
+</h2>
+
+<h3 id="setContent">
+    setContent(String html)
+</h3>
+
+Set content in tab. 
+
+```
+  String html =
+                "<!DOCTYPE html>" +
+                "<html>" +
+                    "<head>" +
+                        "<button>jPlay</button>" +
+                    "</head>" +
+                "</html>";
+
+  given()
+      .startBrowser()
+      .setContent(html);
+```
+
+<h3 id="evaluate">
+    evaluate(String jsScript)
+</h3>
+
+Evaluate performs js in browser.
+
+```
+  when()
+      .evaluate("confirm('Are you here?');");
+```
+
+or
+
+```
+  when()
+      .evaluate("([text]) => console.log(text)", List.of("Are you here?"))
 ```

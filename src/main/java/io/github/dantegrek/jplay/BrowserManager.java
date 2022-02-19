@@ -8,6 +8,7 @@ import io.github.dantegrek.enums.BrowserName;
  */
 class BrowserManager {
 
+    private Playwright playwright;
     private Browser browser;
     private BrowserContext browserContext;
     private Page page;
@@ -47,11 +48,12 @@ class BrowserManager {
 
     void closeBrowser() {
         browser.close();
+        playwright.close();
     }
 
     // Start browser methods
     private Browser startBrowserOnly(BrowserName browserName, BrowserType.LaunchOptions launchOptions) {
-        Playwright playwright = Playwright.create();
+        playwright = Playwright.create();
         switch (browserName) {
             case CHROME:
                 return playwright.chromium()

@@ -443,6 +443,16 @@ public final class Actor {
         return this;
     }
 
+    /**
+     * Waits till HTML document will be loaded.
+     *
+     * @return instance of Actor
+     */
+    public Actor waitTillNavigationFinished(Runnable navigationTrigger) {
+        this.currentFrame().waitForNavigation(new Frame.WaitForNavigationOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED), navigationTrigger);
+        return this;
+    }
+
     // Navigations
 
     /**
@@ -853,8 +863,19 @@ public final class Actor {
      * @param key Key enum
      * @return instance of Actor
      */
-    public Actor key(Key key) {
+    public Actor press(Key key) {
         this.currentPage().keyboard().press(key.keyCode);
+        return this;
+    }
+
+    /**
+     * Shortcut for Keyboard.down(key) and Keyboard.up(key).
+     *
+     * @param key Key enum
+     * @return instance of Actor
+     */
+    public Actor pressKey(Key key) {
+        this.press(key);
         return this;
     }
 
@@ -865,7 +886,7 @@ public final class Actor {
      * @param milliseconds dilay between down and up.
      * @return instance of Actor
      */
-    public Actor keyWithDelay(Key key, double milliseconds) {
+    public Actor pressKeyWithDelay(Key key, double milliseconds) {
         this.currentPage().keyboard().press(key.keyCode, new Keyboard.PressOptions().setDelay(milliseconds));
         return this;
     }

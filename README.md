@@ -71,6 +71,8 @@ given(), when(), then(), user(), actor(), jPlay()
 
 All of them return instance of Actor and this Actor is the main object which can navigate user to all framework features
 via invocation chain. So you can start wright test, or hooks just to call any of those methods.
+___
+### Screen play example:
 __________
 ### Parallel execution:
 jPlay is already built with parallel execution in mind that is why you should not be afraid about static methods in
