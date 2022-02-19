@@ -1,24 +1,25 @@
 # Configuration
 
 - Chainable Methods
-
-    - [timeoutConfig()](###timeoutConfig())
-        - [withDefaultNavigationTimeout(double)](###withDefaultNavigationTimeout(double))
-        - [withDefaultTimeout(double)](###withDefaultTimeout(double))
-        - [withExpectTimeout(double)](###withExpectTimeout(double))
-    - [browserConfig()](###browserConfig())
-        - [withBrowser(BrowserName)](###withBrowser(BrowserName browserName))
-    - [contextConfig()](###contextConfig())
-        - [withDevice(Device)](###withDevice(Device))
-        - [withTrace(boolean)](###withTrace(boolean))
-        - [withTraceNamePrefix(String)](###withTraceNamePrefix(String))
-        - [withTraceDir(Path)](###withTraceDir(Path))
+    - [timeoutConfig()](#timeout-config)
+        - [withDefaultNavigationTimeout(double)](#withDefaultNavigationTimeout)
+        - [withDefaultTimeout(double)](#withDefaultTimeout(double))
+        - [withExpectTimeout(double)](#withExpectTimeout(double))
+    - [browserConfig()](#browserConfig())
+        - [withBrowser(BrowserName)](#withBrowser(BrowserName browserName))
+    - [contextConfig()](#contextConfig())
+        - [withDevice(Device)](#withDevice(Device))
+        - [withTrace(boolean)](#withTrace(boolean))
+        - [withTraceNamePrefix(String)](#withTraceNamePrefix(String))
+        - [withTraceDir(Path)](#withTraceDir(Path))
+    - [clearConfig()](#clearConfig())
+    - [and() & andActor()](#and()&andActor())
 
 ________
 
 ## Chainable Methods
 
-[timeoutConfig()](###timeoutConfig), [browserConfig()](###browserConfig()) and [contextConfig()](###contextConfig())
+[timeoutConfig()](#timeout-config), [browserConfig()](###browserConfig()) and [contextConfig()](###contextConfig())
 can be navigated to from each other.
 
 ```
@@ -31,7 +32,9 @@ actor()
 
 ______
 
-### timeoutConfig()
+<h3 id="timeout-config">
+    timeoutConfig()
+</h3>
 
 Timeout config method opens you chain to set navigation, expect and wait on element timeouts
 
@@ -43,7 +46,9 @@ Timeout config method opens you chain to set navigation, expect and wait on elem
         .withExpectTimeout(1000); // here you can continue with browser config
 ```
 
-### withDefaultNavigationTimeout(double)
+<h3 id="withDefaultNavigationTimeout">
+    withDefaultNavigationTimeout(double)
+</h3>
 
 Maximum navigation time in milliseconds This setting will change the default maximum navigation time for the following
 methods and related shortcuts:
@@ -69,7 +74,9 @@ methods and related shortcuts:
         .withDefaultNavigationTimeout(2000);
 ```
 
-### withDefaultTimeout(double)
+<h3 id="withDefaultTimeout(double)">
+    withDefaultTimeout(double)
+</h3>
 
 Maximum time in milliseconds This setting will change the default maximum time for all the methods accepting timeout
 option.
@@ -80,7 +87,9 @@ option.
         .withDefaultTimeout(1000);
 ```
 
-### withExpectTimeout(double)
+<h3 id="withExpectTimeout(double)">
+    withExpectTimeout(double)
+</h3>
 
 Maximum time in milliseconds This setting will change the default maximum time for all asserts in thread.
 
@@ -91,8 +100,9 @@ Maximum time in milliseconds This setting will change the default maximum time f
 ```
 
 ____
-
-### browserConfig()
+<h3 id="browserConfig()">
+    browserConfig()
+</h3>
 
 Represents
 all [playwright browser launch](https://playwright.dev/java/docs/next/api/class-browsertype#browser-type-launch)
@@ -105,8 +115,9 @@ options.
                 .withHeadless(false)
                 .withSlowMo(1000); // and you can continue set lauch options in chain.
 ```
-
-### withBrowser(BrowserName)
+<h3 id="withBrowser(BrowserName)">
+    withBrowser(BrowserName)
+</h3>
 
 Accepts build in enum with preset of supported browsers. All available options:
 
@@ -129,12 +140,18 @@ mvn exec:java -e -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="inst
 
 More information: https://playwright.dev/java/docs/cli#install-browsers
 _____
-
-### contextConfig()
+<h3 id="contextConfig()">
+    contextConfig()
+</h3>
 
 Represents all [new context](https://playwright.dev/java/docs/api/class-browser#browser-new-context) options.
 
-### withDevice(Device)
+Context config will be applied to all new contexts. 
+In case you want to avoid use the same config for all new contexts use [clearConfig()](#clearConfig()).
+
+<h3 id="withDevice(Device)">
+    withDevice(Device)
+</h3>
 
 Device presets:
 
@@ -143,15 +160,23 @@ Device presets:
         .contextConfig()
         .withDevice(Device.IPHONE_12);
 ```
-### withTrace(boolean)
+
+<h3 id="withTrace(boolean)">
+    withTrace(boolean)
+</h3>
+
 All started contexts will record trace.
+
 ```
     actor()
         .contextConfig()
         .withTrace(true);
 ```
 
-### withTraceNamePrefix(String)
+<h3 id="withTraceNamePrefix(String)">
+    withTraceNamePrefix(String)
+</h3>
+
 Trace recording:
 By default trace name is '<browser_name>-trace.zip' so you can add a suffix to this default name.
 
@@ -161,18 +186,25 @@ By default trace name is '<browser_name>-trace.zip' so you can add a suffix to t
         .withTrace(true)
         .withTraceNamePrefix("TestName");
 ```
-### withTraceDir(Path)
+
+<h3 id="withTraceDir(Path)">
+    withTraceDir(Path)
+</h3>
+
 By default, traces save in target/traces buy you can override default path:
+
 ```
     actor()
         .contextConfig()
         .withTrace(true)
         .withTraceDir(Paths.get("report"));
 ```
+
 _____
-Trace will be saved when you close browser or context. In case when you have more than one context in browser
-trace will be saver only for active context. To save trace for all contexts close all context explicitly.
-Next code snippet saves two traces:
+Trace will be saved when you close browser or context. In case when you have more than one context in browser trace will
+be saver only for active context. To save trace for all contexts close all context explicitly. Next code snippet saves
+two traces:
+
 ```
     given()
         .contextConfig()
@@ -200,8 +232,28 @@ Next code snippet saves two traces:
          .switchContextByIndex(0)
          .closeBrowser();
 ```
+
+____
+<h3 id="clearConfig()">
+    clearConfig()
+</h3>
+
+Clear config function will clear all configurations: browser, context, timeouts.
+
+```
+    actor()
+        .timeoutConfig()
+        .withDefaultNavigationTimeout(2000)
+        ...
+        .clearConfig()
+```
+You can use this method in the middle of scenario to start new context with different configuration or 
+between tests in the same thread or class to avoid sharing config from previous tests.
 _________
-### and() & andActor()
+
+<h3 id="and()&andActor()">
+    and() & andActor()
+</h3>
 
 and() or andActor() will returns chain to Actor.
 

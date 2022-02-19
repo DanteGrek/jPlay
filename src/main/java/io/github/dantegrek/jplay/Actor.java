@@ -443,6 +443,16 @@ public final class Actor {
         return this;
     }
 
+    /**
+     * Waits till HTML document will be loaded.
+     *
+     * @return instance of Actor
+     */
+    public Actor waitTillNavigationFinished(Runnable navigationTrigger) {
+        this.currentFrame().waitForNavigation(new Frame.WaitForNavigationOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED), navigationTrigger);
+        return this;
+    }
+
     // Navigations
 
     /**
@@ -702,9 +712,8 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
-     * If some of the filePaths are relative paths, then they are resolved relative to
+     * If some filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
      * @param selector css or xpath
@@ -717,9 +726,8 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
-     * If some of the filePaths are relative paths, then they are resolved relative to
+     * If some filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
      * @param selector    css or xpath
@@ -738,9 +746,8 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
-     * If some of the filePaths are relative paths, then they are resolved relative to
+     * If some filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
      *
      * @param selector css or xpath
@@ -753,7 +760,6 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -774,7 +780,6 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -789,7 +794,6 @@ public final class Actor {
 
     /**
      * This method wait till upload file input visible, then scroll into view if needed and sets value.
-     * <p>
      * Sets the value of the file input to these file paths or files.
      * If some of the filePaths are relative paths, then they are resolved relative to
      * the current working directory. For empty array, clears the selected files.
@@ -859,8 +863,19 @@ public final class Actor {
      * @param key Key enum
      * @return instance of Actor
      */
-    public Actor key(Key key) {
+    public Actor press(Key key) {
         this.currentPage().keyboard().press(key.keyCode);
+        return this;
+    }
+
+    /**
+     * Shortcut for Keyboard.down(key) and Keyboard.up(key).
+     *
+     * @param key Key enum
+     * @return instance of Actor
+     */
+    public Actor pressKey(Key key) {
+        this.press(key);
         return this;
     }
 
@@ -871,7 +886,7 @@ public final class Actor {
      * @param milliseconds dilay between down and up.
      * @return instance of Actor
      */
-    public Actor keyWithDelay(Key key, double milliseconds) {
+    public Actor pressKeyWithDelay(Key key, double milliseconds) {
         this.currentPage().keyboard().press(key.keyCode, new Keyboard.PressOptions().setDelay(milliseconds));
         return this;
     }

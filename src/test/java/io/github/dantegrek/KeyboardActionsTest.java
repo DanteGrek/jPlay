@@ -38,7 +38,7 @@ public class KeyboardActionsTest {
                 .navigateTo(keyboardActionsUrl);
         when()
                 .click("#area")
-                .key(DIGIT_0);
+                .press(DIGIT_0);
         then()
                 .expectThat()
                 .selector("#key")
@@ -62,13 +62,13 @@ public class KeyboardActionsTest {
                 .selector("#key")
                 .hasText("Shift");
         and()
-                .key(KEY_A)
+                .press(KEY_A)
                 .keyUp(SHIFT)
                 .expectThat()
                 .selector("#key")
                 .hasText("A");
         then()
-                .key(KEY_A)
+                .press(KEY_A)
                 .expectThat()
                 .selector("#key")
                 .hasText("a");
